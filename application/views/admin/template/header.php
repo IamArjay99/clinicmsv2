@@ -173,7 +173,8 @@
                         </a>
                         <div class="collapse" id="dental-menu">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/checkup_form') ?>">Check-up</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/checkup_form') ?>">Check-up Form</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/referral_form') ?>">Referral Form</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/dental_certificate') ?>">Dental Certificate</a></li>
                         </ul>
                         </div>
@@ -181,13 +182,17 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#equipment-menu" aria-expanded="false" aria-controls="equipment-menu">
                             <i class="fas fa-toolbox"></i>
-                            <span class="menu-title ml-3"> Equipment</span>
+                            <span class="menu-title ml-3"> Inventory</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="equipment-menu">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/first_aid_kit') ?>">First-aid Kit</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/care_equipment') ?>">Care Equipment</a></li>
+                            <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/first_aid_kit') ?>">First-aid Kit</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/care_equipment') ?>">Care Equipment</a></li> -->
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/inventory_supply') ?>">Supply</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/purchase_request') ?>">Purchase Request</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/stock_in') ?>">Stock In</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/stock_out') ?>">Stock Out</a></li>
                         </ul>
                         </div>
                     </li>

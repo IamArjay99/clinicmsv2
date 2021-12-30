@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: clinicmsdb
+-- Host: 127.0.0.1    Database: clinicmsdbv2
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.14-MariaDB
 
@@ -213,7 +213,7 @@ CREATE TABLE `courses` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +222,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` VALUES (1,'BSIT','Bachelor of Science Major in Information Technology',0,'2021-12-03 00:13:03','2021-12-03 00:13:03'),(2,'BSCpE','Bachelor of Science Major in Computer Engineering',0,'2021-12-03 00:13:03','2021-12-03 00:13:03'),(3,'BSECE','Bachelor of Science Major in Electronics',0,'2021-12-03 00:13:03','2021-12-03 00:13:03');
+INSERT INTO `courses` VALUES (1,'BSIT','Bachelor of Science Major in Information Technology',0,'2021-12-03 00:13:03','2021-12-03 00:13:03'),(2,'BSCpE','Bachelor of Science Major in Computer Engineering',0,'2021-12-03 00:13:03','2021-12-03 00:13:03'),(3,'BSECE','Bachelor of Science Major in Electronics',0,'2021-12-03 00:13:03','2021-12-03 00:13:03'),(4,'BSCS','Bachelor of Science Major in Computer Science',1,'2021-12-30 07:20:02','2021-12-30 07:20:57');
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +304,7 @@ CREATE TABLE `measurements` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`measurement_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +313,7 @@ CREATE TABLE `measurements` (
 
 LOCK TABLES `measurements` WRITE;
 /*!40000 ALTER TABLE `measurements` DISABLE KEYS */;
-INSERT INTO `measurements` VALUES (1,'Kg','Kilogram',0,'2021-12-03 05:28:29','2021-12-03 05:28:29'),(2,'Mg','Miligram',0,'2021-12-03 05:28:29','2021-12-03 05:28:29');
+INSERT INTO `measurements` VALUES (1,'Kg','Kilogram',1,'2021-12-03 05:28:29','2021-12-30 07:15:16'),(2,'Mg','Miligram',1,'2021-12-03 05:28:29','2021-12-30 07:15:20'),(3,'Kg','Kilogram',0,'2021-12-30 07:15:32','2021-12-30 07:15:32'),(4,'mg','Milligram',0,'2021-12-30 07:15:43','2021-12-30 07:15:43'),(5,'inch','Inches',0,'2021-12-30 07:15:53','2021-12-30 07:16:06');
 /*!40000 ALTER TABLE `measurements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -471,6 +471,35 @@ INSERT INTO `roles` VALUES (1,'Nurse',0,'2021-12-04 11:13:57','2021-12-04 11:13:
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sections`
+--
+
+DROP TABLE IF EXISTS `sections`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sections` (
+  `section_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `course_id` bigint(20) DEFAULT NULL,
+  `year_id` bigint(20) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`section_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sections`
+--
+
+LOCK TABLES `sections` WRITE;
+/*!40000 ALTER TABLE `sections` DISABLE KEYS */;
+INSERT INTO `sections` VALUES (1,1,2,'Ha?',1,'2021-12-30 07:43:17','2021-12-30 07:47:15'),(2,1,3,'2g',0,'2021-12-30 07:45:51','2021-12-30 07:45:51');
+/*!40000 ALTER TABLE `sections` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `services`
 --
 
@@ -562,6 +591,34 @@ INSERT INTO `system_setup` VALUES (1,'arjaydiangzon@gmail.com');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `units`
+--
+
+DROP TABLE IF EXISTS `units`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `units` (
+  `unit_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `abbreviation` varchar(45) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`unit_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `units`
+--
+
+LOCK TABLES `units` WRITE;
+/*!40000 ALTER TABLE `units` DISABLE KEYS */;
+INSERT INTO `units` VALUES (1,'box','Boxes',0,'2021-12-30 06:56:30','2021-12-30 07:11:57'),(2,'gal','Gallons',0,'2021-12-30 07:09:55','2021-12-30 07:13:04'),(3,'321','Boxes',1,'2021-12-30 07:12:31','2021-12-30 07:12:57');
+/*!40000 ALTER TABLE `units` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -596,6 +653,42 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'US-000001',1,'Akosin','','Admin','','Female','20','admin@gmail.com','admin',0,'2021-12-02 06:18:25','2021-12-04 15:32:32'),(2,NULL,NULL,'TEST','','Admin','','Male','18','test@gmail.com','test',1,'2021-12-04 11:33:02','2021-12-04 11:34:21');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `years`
+--
+
+DROP TABLE IF EXISTS `years`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `years` (
+  `year_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `course_id` bigint(20) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`year_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `years`
+--
+
+LOCK TABLES `years` WRITE;
+/*!40000 ALTER TABLE `years` DISABLE KEYS */;
+INSERT INTO `years` VALUES (1,1,'101G',1,'2021-12-30 07:30:45','2021-12-30 07:31:07'),(2,1,'First Year',0,'2021-12-30 07:30:58','2021-12-30 07:44:00'),(3,1,'Second Year',0,'2021-12-30 07:31:17','2021-12-30 07:44:14');
+/*!40000 ALTER TABLE `years` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'clinicmsdbv2'
+--
+
+--
+-- Dumping routines for database 'clinicmsdbv2'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -606,4 +699,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-05 20:54:04
+-- Dump completed on 2021-12-30 20:35:38

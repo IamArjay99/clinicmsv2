@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-dark text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Check-up Form</h4>
-                        <div><?= date("M d, Y") ?></div>
+                        <div><?= date("F d, Y") ?></div>
                     </div>
                 </div>
                 <div class="card-body" id="pageContent">
