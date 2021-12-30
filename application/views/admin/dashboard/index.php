@@ -605,7 +605,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Legend</h4>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-hover table-bordered table-striped">
                                 <tr>
                                     <th>5</th>
                                     <td>Absolutely Satisfied</td>
@@ -650,7 +650,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Rater</h4>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-hover table-bordered table-striped">
                                 ${raterHTML}
                             </table>
                         </div>

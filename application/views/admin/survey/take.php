@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-hover table-bordered">
                     <tr>
                         <th colspan="12">PLEASE CHECK APPROPRIATE BOX</th>
                     </tr>
@@ -113,7 +113,7 @@
                 <div class="mt-4"><b>Dear Respondent:</b></div>
                 <div style="text-indent: 50px">Please take a moment to provide us your assessment and suggestions as we would like to give our clients the best services. Using the code below please encircle the number opposite each item that corresponds to your assessment.</div>
 
-                <table class="table table-bordered mt-4 text-center">
+                <table class="table table-hover table-bordered mt-4 text-center">
                     <tr>
                         <th>5</th>
                         <th>4</th>
@@ -137,7 +137,7 @@
                     </tr>
                 </table>
 
-                <table class="table table-bordered mt-4">
+                <table class="table table-hover table-bordered mt-4">
                     <tr>
                         <td colspan="7">
                             <b>1. Served with a smile and appropriately dressed.</b>

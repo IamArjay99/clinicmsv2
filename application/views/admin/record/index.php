@@ -119,7 +119,7 @@
                     })
 
                     html = `
-                    <table class="table table-bordered" id="tableMedical">
+                    <table class="table table-hover table-bordered" id="tableMedical">
                         <thead>
                             <tr class="text-center">
                                 <th class="thSm">Date</th>
@@ -173,7 +173,7 @@
                     })
 
                     html = `
-                    <table class="table table-bordered" id="tableMedical">
+                    <table class="table table-hover table-bordered" id="tableMedical">
                         <thead>
                             <tr class="text-center">
                                 <th class="thSm">Date</th>

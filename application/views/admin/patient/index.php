@@ -144,7 +144,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tablePatient">
+            <table class="table table-hover table-bordered" id="tablePatient">
                 <thead>
                     <tr class="text-center">
                         <th class="thSm">Patient ID</th>

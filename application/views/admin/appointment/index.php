@@ -112,7 +112,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableClinicAppointment">
+            <table class="table table-hover table-bordered" id="tableClinicAppointment">
                 <thead>
                     <tr class="text-center">
                         <th class="thXs">#</th>

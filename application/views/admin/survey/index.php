@@ -103,7 +103,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableSurvey">
+            <table class="table table-hover table-bordered" id="tableSurvey">
                 <thead>
                     <tr class="text-center">
                         <th>Check-up Date</th>

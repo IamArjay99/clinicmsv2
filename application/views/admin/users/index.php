@@ -87,7 +87,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableUsers">
+            <table class="table table-hover table-bordered" id="tableUsers">
                 <thead>
                     <tr class="text-center">
                         <th class="thSm">Full Name</th>

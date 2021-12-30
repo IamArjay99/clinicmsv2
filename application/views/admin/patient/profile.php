@@ -193,7 +193,7 @@
                     <h4>Treatment</h4>
                 </div>
                 <div class="col-12">
-                    <table class="table table-bordered mt-3">
+                    <table class="table table-hover table-bordered mt-3">
                         <thead>
                             <tr>
                                 <th>Tooth No.</th>
@@ -231,7 +231,7 @@
                     <h4>Medicine</h4>
                 </div>
                 <div class="col-12">
-                    <table class="table table-bordered mt-3">
+                    <table class="table table-hover table-bordered mt-3">
                         <thead>
                             <tr>
                                 <th>Medicine Name</th>

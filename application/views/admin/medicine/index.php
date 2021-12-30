@@ -2,10 +2,10 @@
 
     <div class="row">
         <div class="col-12 grid-margin">
-            <div class="card-header">
-                <h4 class="mb-0">Medicine</h4>
-            </div>
             <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Medicine</h4>
+                </div>
                 <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
                         <span></span>
@@ -138,7 +138,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableMedicine">
+            <table class="table table-hover table-bordered" id="tableMedicine">
                 <thead>
                     <tr class="text-center">
                         <th>Percentage</th>

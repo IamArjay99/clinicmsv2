@@ -221,20 +221,40 @@
                         <span class="menu-title ml-3"> Survey</span>
                         </a>
                     </li>
-                    <!-- 
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/users') ?>">
-                        <i class="fas fa-user-cog"></i>
-                        <span class="menu-title ml-3"> Users</span>
+                        <a class="nav-link" data-toggle="collapse" href="#masterlist-menu" aria-expanded="false" aria-controls="masterlist-menu">
+                            <i class="fas fa-file"></i>
+                            <span class="menu-title ml-3"> Master List</span>
+                            <i class="menu-arrow"></i>
                         </a>
-                    </li> 
+                        <div class="collapse" id="masterlist-menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/courses') ?>">Courses</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/year') ?>">Year</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/section') ?>">Section</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/unit') ?>">Unit</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/measurement') ?>">Measurement</a></li>
+                        </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#settings-menu" aria-expanded="false" aria-controls="settings-menu">
+                            <i class="fas fa-cogs"></i>
+                            <span class="menu-title ml-3"> Settings</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="settings-menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/system_setup') ?>">System Setup</a></li>
+                        </ul>
+                        </div>
+                    </li>
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('admin/settings') ?>">
                         <i class="fas fa-cogs"></i>
                         <span class="menu-title ml-3"> Settings</span>
                         </a>
-                    </li>
-                    -->
+                    </li> -->
                 </ul>
             </nav>
             <!-- ----- END SIDE MENU ----- -->

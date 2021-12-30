@@ -94,7 +94,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableFirstAidKit">
+            <table class="table table-hover table-bordered" id="tableFirstAidKit">
                 <thead>
                     <tr class="text-center">
                         <th class="thMd">Percentage</th>

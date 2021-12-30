@@ -4,14 +4,14 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Announcement</h4>
+                    <h4 class="mb-0">Unit</h4>
                 </div>
-                <div class="card-body" id="pageContent">  
+                <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
                         <span></span>
                         <span></span>
                         <span></span>
-                    </div>          
+                    </div>     
                 </div>
             </div>
         </div>
@@ -28,11 +28,11 @@
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableAnnouncement")) {
-                $("#tableAnnouncement").DataTable().destroy();
+            if ($.fn.DataTable.isDataTable("#tableUnit")) {
+                $("#tableUnit").DataTable().destroy();
             }
             
-            var table = $("#tableAnnouncement")
+            var table = $("#tableUnit")
                 .css({ "min-width": "100%" })
                 .removeAttr("width")
                 .DataTable({
@@ -41,12 +41,11 @@
                     scrollX:        true,
                     sorting:        [],
                     scrollCollapse: true,
-                    columnDefs: [	
-                        { targets: "thXs", width: 50  },	
-                        { targets: "thSm", width: 150 },	
-                        { targets: "thMd", width: 250 },	
-                        { targets: "thLg", width: 350 },	
-                        { targets: "thXl", width: 450 },	
+                    columnDefs: [
+                        { targets: 0, width: '50px'  },
+                        { targets: 1, width: '100px' },
+                        { targets: 2, width: '250px' },
+                        { targets: 3, width: '100px' },
                     ],
                 });
         }
@@ -57,42 +56,41 @@
         function tableContent() {
 
             let tbodyHTML = '';
-            let data = getTableData(`announcements WHERE is_deleted = 0`);
+            let data = getTableData(`units WHERE is_deleted = 0`);
             data.map((item, index) => {
                 let {
-                    announcement_id = "",
-                    title           = "",
-                    description     = "",
-                    date            = "",
+                    unit_id      = "",
+                    abbreviation = "",
+                    name         = "",
                 } = item;
 
                 tbodyHTML += `
                 <tr>
-                    <td>${title}</td>
-                    <td>${description}</td>
-                    <td>${date ? moment(date).format("MMMM DD, YYYY") : "-"}</td>
+                    <td class="text-center">${index+1}</td>
+                    <td>${name}</td>
+                    <td>${abbreviation || "-"}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
-                                announcementID="${announcement_id}"><i class="fas fa-pencil-alt"></i></button>
+                                unitID="${unit_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"
-                                announcementID="${announcement_id}"><i class="fas fa-trash-alt"></i></button>
+                                unitID="${unit_id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
-                    </td>   
+                    </td>
                 </tr>`;
             });
 
             let html = `
-            <table class="table table-hover table-bordered" id="tableAnnouncement">
+            <table class="table table-hover table-bordered" id="tableUnit">
                 <thead>
                     <tr class="text-center">
-                        <th class="thSm">Title</th>
-                        <th class="thLg">Description</th>
-                        <th class="thXs">Date</th>
-                        <th class="thSm">Action</th>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Abbreviation</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableAnnouncementTbody">
+                <tbody id="tableUnitTbody">
                     ${tbodyHTML}
                 </tbody>
             </table>`;
@@ -104,7 +102,7 @@
 
         // ----- REFRESH TABLE CONTENT -----
         function refreshTableContent() {
-            $("#tableContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
             
             setTimeout(() => {
                 let content = tableContent();
@@ -117,7 +115,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row">
@@ -126,7 +124,7 @@
                         <div class="col-md-4 col-sm-12"></div>
                         <div class="col-md-8 col-sm-12 text-right">
                             <button class="btn btn-primary"
-                                id="btnAdd"><i class="fas fa-plus"></i> Add Announcement</button>
+                                id="btnAdd"><i class="fas fa-plus"></i> Add Unit</button>
                         </div>
                     </div>
                 </div>
@@ -145,56 +143,43 @@
         // ----- FORM CONTENT -----
         function formContent(data = false, isUpdate = false) {
             let {
-                announcement_id = "",
-                title           = "",
-                description     = "",
-                date            = "",
+                unit_id      = "",
+                abbreviation = "",
+                name         = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
             <button class="btn btn-primary" 
                 id="btnSave"
-                announcementID="${announcement_id}">Save</button>` : `
+                unitID="${unit_id}">Save</button>` : `
             <button class="btn btn-primary" 
                 id="btnUpdate"
-                announcementID="${announcement_id}">Update</button>`;
+                unitID="${unit_id}">Update</button>`;
 
             let html = `
             <div class="row p-3">
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Title <code>*</code></label>
+                        <label>Name <code>*</code></label>
                         <input type="text" 
                             class="form-control validate"
-                            name="title"
-                            minlength="2"
+                            name="name"
+                            minlength="1"
                             maxlength="50"
-                            value="${title}"
+                            value="${name}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Description <code>*</code></label>
-                        <textarea class="form-control validate"
-                            name="description"
-                            minlength="2"
-                            maxlength="200"
-                            rows="3"
-                            style="resize: none;"
-                            required>${description}</textarea>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Date <code>*</code></label>
-                        <input type="date"
+                        <label>Abbreviation</label>
+                        <input type="text" 
                             class="form-control validate"
-                            name="date"
-                            value="${date}"
-                            required>
+                            name="abbreviation"
+                            minlength="2"
+                            maxlength="20"
+                            value="${abbreviation}">
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
@@ -214,29 +199,27 @@
             let html = formContent();
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(html);
-            $("#modal .page-title").text("ADD ANNOUNCEMENT");
+            $("#modal .page-title").text("ADD UNIT");
             $("#modal").modal('show');
             generateInputsID("#modal");
-            initDateRangePicker();
         });
         // ----- END BUTTON ADD -----
 
 
         // ----- BUTTON EDIT -----
         $(document).on("click", ".btnEdit", function() {
-            let announcementID = $(this).attr("announcementID");
-            let data = getTableData(`announcements WHERE announcement_id = ${announcementID}`);
+            let unitID = $(this).attr("unitID");
+            let data = getTableData(`units WHERE unit_id = ${unitID}`);
 
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
-            $("#modal .page-title").text("EDIT ANNOUNCEMENT");
+            $("#modal .page-title").text("EDIT UNIT");
             $("#modal").modal('show');
 
             setTimeout(() => {
                 let html = formContent(data, true);
                 $("#modal_content").html(html);
                 generateInputsID("#modal");
-                initDateRangePicker();
             }, 100);
         });
         // ----- END BUTTON EDIT -----
@@ -244,18 +227,18 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let unitID = $(this).attr("unitID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"] = "announcements";
-                    data["feedback"]  = "Announcement";
+                    data["tableName"] = "units";
+                    data["feedback"]  = $(`[name="name"]`).val();
                     data["method"]    = "add";
     
-                sweetAlertConfirmation("add", "Announcement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("add", "Unit", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -263,19 +246,19 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnUpdate`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let unitID = $(this).attr("unitID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"]   = "announcements";
-                    data["feedback"]    = "Announcement";
+                    data["tableName"]   = "units";
+                    data["feedback"]    = $(`[name="name"]`).val();
                     data["method"]      = "update";
-                    data["whereFilter"] = `announcement_id=${announcementID}`;
+                    data["whereFilter"] = `unit_id=${unitID}`;
     
-                sweetAlertConfirmation("update", "Announcement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("update", "Unit", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -283,18 +266,18 @@
 
         // ----- BUTTON DELETE -----
         $(document).on("click", `.btnDelete`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let unitID = $(this).attr("unitID");
 
             let data = {
-                tableName: 'announcements',
+                tableName: 'units',
                 tableData: {
                     is_deleted: 1
                 },
-                whereFilter: `announcement_id=${announcementID}`,
-                feedback:    "Announcement",
+                whereFilter: `unit_id=${unitID}`,
+                feedback:    $(`[name="name"]`).val(),
                 method:      "update"
             }
-            sweetAlertConfirmation("delete", "Announcement", "modal", null, data, true, refreshTableContent);
+            sweetAlertConfirmation("delete", "Unit", "modal", null, data, true, refreshTableContent);
         })
         // ----- END BUTTON DELETE -----
 

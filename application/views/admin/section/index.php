@@ -4,14 +4,14 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Announcement</h4>
+                    <h4 class="mb-0">Section</h4>
                 </div>
-                <div class="card-body" id="pageContent">  
+                <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
                         <span></span>
                         <span></span>
                         <span></span>
-                    </div>          
+                    </div>     
                 </div>
             </div>
         </div>
@@ -25,14 +25,19 @@
 
     $(document).ready(function() {
 
+        // ----- GLOBAL VARIABLES -----
+        let courseList = getTableData(`courses WHERE is_deleted = 0`);
+        let yearList   = getTableData(`years WHERE is_deleted = 0`);
+        // ----- END GLOBAL VARIABLES -----
+
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableAnnouncement")) {
-                $("#tableAnnouncement").DataTable().destroy();
+            if ($.fn.DataTable.isDataTable("#tableSection")) {
+                $("#tableSection").DataTable().destroy();
             }
             
-            var table = $("#tableAnnouncement")
+            var table = $("#tableSection")
                 .css({ "min-width": "100%" })
                 .removeAttr("width")
                 .DataTable({
@@ -41,58 +46,106 @@
                     scrollX:        true,
                     sorting:        [],
                     scrollCollapse: true,
-                    columnDefs: [	
-                        { targets: "thXs", width: 50  },	
-                        { targets: "thSm", width: 150 },	
-                        { targets: "thMd", width: 250 },	
-                        { targets: "thLg", width: 350 },	
-                        { targets: "thXl", width: 450 },	
+                    columnDefs: [
+                        { targets: 0, width: '50px'  },
+                        { targets: 1, width: '250px' },
+                        { targets: 2, width: '100px' },
+                        { targets: 3, width: '100px' },
+                        { targets: 4, width: '100px' },
                     ],
                 });
         }
         // ----- END DATATABLES -----
 
 
+        // ----- COURSE OPTIONS DISPLAY -----
+        function getCourseOptionDisplay(courseID = 0) {
+            let html = `<option value="" selected>Select course</option>`;
+            courseList.map(course => {
+                let {
+                    course_id,
+                    name
+                } = course;
+
+                html += `
+                <option value="${course_id}"
+                    ${course_id == courseID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+        // ----- END COURSE OPTIONS DISPLAY -----
+
+
+        // ----- YEAR OPTIONS DISPLAY -----
+        function getYearOptionDisplay(courseID = 0, yearID = 0) {
+            let html = `<option value="" selected>Select year</option>`;
+            yearList
+                .filter(year => year.course_id == courseID)
+                .map(year => {
+                
+                let {
+                    year_id,
+                    name
+                } = year;
+
+                html += `
+                <option value="${year_id}"
+                    ${year_id == yearID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+        // ----- END YEAR OPTIONS DISPLAY -----
+
+
         // ----- TABLE CONTENT -----
         function tableContent() {
 
             let tbodyHTML = '';
-            let data = getTableData(`announcements WHERE is_deleted = 0`);
+            let data = getTableData(
+                `sections AS s
+                    LEFT JOIN years AS y ON s.year_id = y.year_id
+                    LEFT JOIN courses AS c ON s.course_id = c.course_id
+                WHERE s.is_deleted = 0`,
+                `s.*, y.name AS year_name, c.name AS course_name`);
             data.map((item, index) => {
                 let {
-                    announcement_id = "",
-                    title           = "",
-                    description     = "",
-                    date            = "",
+                    section_id  = "",
+                    year_id     = "",
+                    course_id   = "",
+                    year_name   = "",
+                    course_name = "",
+                    name        = "",
                 } = item;
 
                 tbodyHTML += `
                 <tr>
-                    <td>${title}</td>
-                    <td>${description}</td>
-                    <td>${date ? moment(date).format("MMMM DD, YYYY") : "-"}</td>
+                    <td class="text-center">${index+1}</td>
+                    <td>${course_name || "-"}</td>
+                    <td>${year_name || "-"}</td>
+                    <td>${name}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
-                                announcementID="${announcement_id}"><i class="fas fa-pencil-alt"></i></button>
+                                sectionID="${section_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"
-                                announcementID="${announcement_id}"><i class="fas fa-trash-alt"></i></button>
+                                sectionID="${section_id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
-                    </td>   
+                    </td>
                 </tr>`;
             });
 
             let html = `
-            <table class="table table-hover table-bordered" id="tableAnnouncement">
+            <table class="table table-hover table-bordered" id="tableSection">
                 <thead>
                     <tr class="text-center">
-                        <th class="thSm">Title</th>
-                        <th class="thLg">Description</th>
-                        <th class="thXs">Date</th>
-                        <th class="thSm">Action</th>
+                        <th>No.</th>
+                        <th>Course</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableAnnouncementTbody">
+                <tbody id="tableSectionTbody">
                     ${tbodyHTML}
                 </tbody>
             </table>`;
@@ -104,7 +157,7 @@
 
         // ----- REFRESH TABLE CONTENT -----
         function refreshTableContent() {
-            $("#tableContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
             
             setTimeout(() => {
                 let content = tableContent();
@@ -117,7 +170,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row">
@@ -126,7 +179,7 @@
                         <div class="col-md-4 col-sm-12"></div>
                         <div class="col-md-8 col-sm-12 text-right">
                             <button class="btn btn-primary"
-                                id="btnAdd"><i class="fas fa-plus"></i> Add Announcement</button>
+                                id="btnAdd"><i class="fas fa-plus"></i> Add Section</button>
                         </div>
                     </div>
                 </div>
@@ -145,55 +198,53 @@
         // ----- FORM CONTENT -----
         function formContent(data = false, isUpdate = false) {
             let {
-                announcement_id = "",
-                title           = "",
-                description     = "",
-                date            = "",
+                section_id  = "",
+                year_id     = "",
+                course_id   = "",
+                name        = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
             <button class="btn btn-primary" 
                 id="btnSave"
-                announcementID="${announcement_id}">Save</button>` : `
+                sectionID="${section_id}">Save</button>` : `
             <button class="btn btn-primary" 
                 id="btnUpdate"
-                announcementID="${announcement_id}">Update</button>`;
+                sectionID="${section_id}">Update</button>`;
 
             let html = `
             <div class="row p-3">
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Title <code>*</code></label>
+                        <label>Course <code>*</code></label>
+                        <select class="form-control validate"
+                            name="course_id"
+                            required>
+                            ${getCourseOptionDisplay(course_id)}    
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label>Year <code>*</code></label>
+                        <select class="form-control validate"
+                            name="year_id"
+                            required>
+                            ${getYearOptionDisplay(course_id, year_id)}    
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label>Name <code>*</code></label>
                         <input type="text" 
                             class="form-control validate"
-                            name="title"
-                            minlength="2"
+                            name="name"
+                            minlength="1"
                             maxlength="50"
-                            value="${title}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Description <code>*</code></label>
-                        <textarea class="form-control validate"
-                            name="description"
-                            minlength="2"
-                            maxlength="200"
-                            rows="3"
-                            style="resize: none;"
-                            required>${description}</textarea>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Date <code>*</code></label>
-                        <input type="date"
-                            class="form-control validate"
-                            name="date"
-                            value="${date}"
+                            value="${name}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -209,34 +260,41 @@
         // ----- END FORM CONTENT -----
 
 
+        // ----- SELECT COURSE -----
+        $(document).on("change", `[name="course_id"]`, function() {
+            let courseID = $(this).val();
+            let optionHTML = getYearOptionDisplay(courseID);
+            $(`[name="year_id"]`).html(optionHTML);
+        })
+        // ----- END SELECT COURSE -----
+
+
         // ----- BUTTON ADD -----
         $(document).on("click", "#btnAdd", function() {
             let html = formContent();
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(html);
-            $("#modal .page-title").text("ADD ANNOUNCEMENT");
+            $("#modal .page-title").text("ADD SECTION");
             $("#modal").modal('show');
             generateInputsID("#modal");
-            initDateRangePicker();
         });
         // ----- END BUTTON ADD -----
 
 
         // ----- BUTTON EDIT -----
         $(document).on("click", ".btnEdit", function() {
-            let announcementID = $(this).attr("announcementID");
-            let data = getTableData(`announcements WHERE announcement_id = ${announcementID}`);
+            let sectionID = $(this).attr("sectionID");
+            let data = getTableData(`sections WHERE section_id = ${sectionID}`);
 
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
-            $("#modal .page-title").text("EDIT ANNOUNCEMENT");
+            $("#modal .page-title").text("EDIT SECTION");
             $("#modal").modal('show');
 
             setTimeout(() => {
                 let html = formContent(data, true);
                 $("#modal_content").html(html);
                 generateInputsID("#modal");
-                initDateRangePicker();
             }, 100);
         });
         // ----- END BUTTON EDIT -----
@@ -244,18 +302,18 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let sectionID = $(this).attr("sectionID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"] = "announcements";
-                    data["feedback"]  = "Announcement";
+                    data["tableName"] = "sections";
+                    data["feedback"]  = $(`[name="name"]`).val();
                     data["method"]    = "add";
     
-                sweetAlertConfirmation("add", "Announcement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("add", "Section", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -263,19 +321,19 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnUpdate`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let sectionID = $(this).attr("sectionID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"]   = "announcements";
-                    data["feedback"]    = "Announcement";
+                    data["tableName"]   = "sections";
+                    data["feedback"]    = $(`[name="name"]`).val();
                     data["method"]      = "update";
-                    data["whereFilter"] = `announcement_id=${announcementID}`;
+                    data["whereFilter"] = `section_id=${sectionID}`;
     
-                sweetAlertConfirmation("update", "Announcement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("update", "Section", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -283,18 +341,18 @@
 
         // ----- BUTTON DELETE -----
         $(document).on("click", `.btnDelete`, function() {
-            let announcementID = $(this).attr("announcementID");
+            let sectionID = $(this).attr("sectionID");
 
             let data = {
-                tableName: 'announcements',
+                tableName: 'sections',
                 tableData: {
                     is_deleted: 1
                 },
-                whereFilter: `announcement_id=${announcementID}`,
-                feedback:    "Announcement",
+                whereFilter: `section_id=${sectionID}`,
+                feedback:    $(`[name="name"]`).val(),
                 method:      "update"
             }
-            sweetAlertConfirmation("delete", "Announcement", "modal", null, data, true, refreshTableContent);
+            sweetAlertConfirmation("delete", "Section", "modal", null, data, true, refreshTableContent);
         })
         // ----- END BUTTON DELETE -----
 

@@ -110,7 +110,7 @@
             });
 
             let html = `
-            <table class="table table-bordered" id="tableDentalCertificate">
+            <table class="table table-hover table-bordered" id="tableDentalCertificate">
                 <thead>
                     <tr class="text-center">
                         <th class="thSm">Full Name</th>
