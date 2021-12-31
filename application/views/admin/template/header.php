@@ -160,12 +160,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/medicine') ?>">
-                        <i class="fas fa-capsules"></i>
-                        <span class="menu-title ml-3"> Medicine</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#dental-menu" aria-expanded="false" aria-controls="dental-menu">
                             <i class="fas fa-book-open"></i>
                             <span class="menu-title ml-3"> Forms</span>
@@ -236,9 +230,12 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/courses') ?>">Courses</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/year') ?>">Year</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/section') ?>">Section</a></li>
+                            <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/section') ?>">Section</a></li> -->
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/unit') ?>">Unit</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/measurement') ?>">Measurement</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/medicine') ?>">Medicine</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/care_equipment') ?>">Care Equipment</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/office_supply') ?>">Office Supply</a></li>
                         </ul>
                         </div>
                     </li>

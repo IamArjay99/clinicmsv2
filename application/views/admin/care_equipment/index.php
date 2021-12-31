@@ -3,12 +3,15 @@
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
-                <div class="card-body" id="pageContent">   
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Care Equipment</h4>
+                </div>
+                <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
                         <span></span>
                         <span></span>
                         <span></span>
-                    </div>       
+                    </div>     
                 </div>
             </div>
         </div>
@@ -23,7 +26,7 @@
     $(document).ready(function() {
 
         // ----- GLOBAL VARIABLES -----
-        let measurementList = getTableData(`measurements WHERE is_deleted = 0`);
+        let unitList = getTableData(`units WHERE is_deleted = 0`);
         // ----- END GLOBAL VARIABLES -----
 
 
@@ -43,47 +46,56 @@
                     sorting:        [],
                     scrollCollapse: true,
                     columnDefs: [
-                        { targets: "thXs", width: 50  },	
-                        { targets: "thSm", width: 150 },	
-                        { targets: "thMd", width: 250 },	
-                        { targets: "thLg", width: 350 },	
-                        { targets: "thXl", width: 450 },	
+                        { targets: 0, width: '50px'  },
+                        { targets: 1, width: '250px' },
+                        { targets: 2, width: '150px' },
+                        { targets: 3, width: '100px' },
                     ],
                 });
         }
         // ----- END DATATABLES -----
 
 
+        // ----- UNIT OPTIONS DISPLAY -----
+        function getUnitOptionDisplay(unitID = 0) {
+            let html = `<option value="" selected>Select unit</option>`;
+            unitList.map(unit => {
+                let {
+                    unit_id,
+                    name
+                } = unit;
+
+                html += `
+                <option value="${unit_id}"
+                    ${unit_id == unitID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+        // ----- END UNIT OPTIONS DISPLAY -----
+
+
         // ----- TABLE CONTENT -----
         function tableContent() {
 
             let tbodyHTML = '';
-            let data = getTableData(`care_equipments WHERE is_deleted = 0`);
-            data.map(item => {
+            let data = getTableData(
+                `care_equipments AS m
+                    LEFT JOIN units AS u USING(unit_id)
+                WHERE m.is_deleted = 0`,
+                `m.*, u.name AS unit_name`);
+            data.map((item, index) => {
                 let {
                     care_equipment_id = "",
+                    brand             = "",
                     name              = "",
-                    quantity          = "",
-                    condition         = "",
-                    measurement       = "",
+                    unit_name         = "",
                 } = item;
-
-                let maximumValue = 500;
-                let ariaValue  = quantity > maximumValue ? maximumValue : quantity;
-                let percentage = ariaValue / maximumValue * 100;
-                    percentage = percentage.toFixed(1);
 
                 tbodyHTML += `
                 <tr>
-                    <td>
-                        <div class="progress progress-lg mt-2">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: ${percentage}%" aria-valuenow="${ariaValue}" aria-valuemin="0" aria-valuemax="${maximumValue}">${percentage}%</div>
-                        </div>
-                    </td>
-                    <td>${name}</td>
-                    <td>${measurement}</td>
-                    <td>${quantity}</td>
-                    <td>${condition}</td>
+                    <td class="text-center">${index+1}</td>
+                    <td>${name || "-"}</td>
+                    <td>${unit_name || "-"}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
@@ -99,12 +111,10 @@
             <table class="table table-hover table-bordered" id="tableCareEquipment">
                 <thead>
                     <tr class="text-center">
-                        <th class="thMd">Percentage</th>
-                        <th class="thSm">Equipment Name</th>
-                        <th class="thSm">Measurement</th>
-                        <th class="thXs">Quantity</th>
-                        <th class="thMd">Condition</th>
-                        <th class="thSm">Action</th>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="tableCareEquipmentTbody">
@@ -119,7 +129,7 @@
 
         // ----- REFRESH TABLE CONTENT -----
         function refreshTableContent() {
-            $("#tableContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
             
             setTimeout(() => {
                 let content = tableContent();
@@ -132,7 +142,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row">
@@ -161,10 +171,9 @@
         function formContent(data = false, isUpdate = false) {
             let {
                 care_equipment_id = "",
-                measurement       = "",
+                brand             = "",
                 name              = "",
-                quantity          = "",
-                condition         = "",
+                unit_id           = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
@@ -179,12 +188,12 @@
             <div class="row p-3">
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Equipment Name <code>*</code></label>
+                        <label>Name <code>*</code></label>
                         <input type="text" 
                             class="form-control validate"
                             name="name"
-                            minlength="2"
-                            maxlength="20"
+                            minlength="1"
+                            maxlength="100"
                             value="${name}"
                             required>
                         <div class="d-block invalid-feedback"></div>
@@ -192,38 +201,12 @@
                 </div>
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Measurement <code>*</code></label>
-                        <input type="text"
-                            class="form-control validate"
-                            name="measurement"
-                            value="${measurement}"
+                        <label>Unit <code>*</code></label>
+                        <select class="form-control validate"
+                            name="unit_id"
                             required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Quantity <code>*</code></label>
-                        <input type="number" 
-                            class="form-control validate"
-                            name="quantity"
-                            minlength="2"
-                            maxlength="20"
-                            value="${quantity}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Condition <code>*</code></label>
-                        <textarea class="form-control validate"
-                            name="condition"
-                            minlength="2"
-                            maxlength="200"
-                            rows="3"
-                            style="resize: none;"
-                            required>${condition}</textarea>
+                            ${getUnitOptionDisplay(unit_id)}    
+                        </select>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>

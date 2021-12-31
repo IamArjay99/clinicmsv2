@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Medicine</h4>
+                    <h4 class="mb-0">Office Supply</h4>
                 </div>
                 <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
@@ -26,18 +26,17 @@
     $(document).ready(function() {
 
         // ----- GLOBAL VARIABLES -----
-        let unitList        = getTableData(`units WHERE is_deleted = 0`);
-        let measurementList = getTableData(`measurements WHERE is_deleted = 0`);
+        let unitList = getTableData(`units WHERE is_deleted = 0`);
         // ----- END GLOBAL VARIABLES -----
 
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableMedicine")) {
-                $("#tableMedicine").DataTable().destroy();
+            if ($.fn.DataTable.isDataTable("#tableOfficeSupply")) {
+                $("#tableOfficeSupply").DataTable().destroy();
             }
             
-            var table = $("#tableMedicine")
+            var table = $("#tableOfficeSupply")
                 .css({ "min-width": "100%" })
                 .removeAttr("width")
                 .DataTable({
@@ -49,10 +48,8 @@
                     columnDefs: [
                         { targets: 0, width: '50px'  },
                         { targets: 1, width: '250px' },
-                        { targets: 2, width: '250px' },
-                        { targets: 3, width: '150px' },
-                        { targets: 4, width: '150px' },
-                        { targets: 5, width: '100px' },
+                        { targets: 2, width: '150px' },
+                        { targets: 3, width: '100px' },
                     ],
                 });
         }
@@ -77,74 +74,50 @@
         // ----- END UNIT OPTIONS DISPLAY -----
 
 
-        // ----- MEASUREMENT OPTIONS DISPLAY -----
-        function getMeasurementOptionDisplay(measurementID = 0) {
-            let html = `<option value="" selected>Select measurement</option>`;
-            measurementList.map(measurement => {
-                let {
-                    measurement_id,
-                    name
-                } = measurement;
-
-                html += `
-                <option value="${measurement_id}"
-                    ${measurement_id == measurementID ? "selected" : ""}>${name}</option>`;
-            })
-            return html;
-        }
-        // ----- END MEASUREMENT OPTIONS DISPLAY -----
-
-
         // ----- TABLE CONTENT -----
         function tableContent() {
 
             let tbodyHTML = '';
             let data = getTableData(
-                `medicines AS m
+                `office_supply AS os
                     LEFT JOIN units AS u USING(unit_id)
-                    LEFT JOIN measurements AS m2 USING(measurement_id) 
-                WHERE m.is_deleted = 0`,
-                `m.*, u.name AS unit_name, m2.name AS measurement_name`);
+                WHERE os.is_deleted = 0`,
+                `os.*, u.name AS unit_name`);
             data.map((item, index) => {
                 let {
-                    medicine_id      = "",
+                    office_supply_id = "",
                     brand            = "",
                     name             = "",
                     unit_name        = "",
-                    measurement_name = "",
                 } = item;
 
                 tbodyHTML += `
                 <tr>
                     <td class="text-center">${index+1}</td>
-                    <td>${brand || "-"}</td>
                     <td>${name || "-"}</td>
                     <td>${unit_name || "-"}</td>
-                    <td>${measurement_name || "-"}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
-                                medicineID="${medicine_id}"><i class="fas fa-pencil-alt"></i></button>
+                                officeSupplyID="${office_supply_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"
-                                medicineID="${medicine_id}"><i class="fas fa-trash-alt"></i></button>
+                                officeSupplyID="${office_supply_id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </td>
                 </tr>`;
             });
 
             let html = `
-            <table class="table table-hover table-bordered" id="tableMedicine">
+            <table class="table table-hover table-bordered" id="tableOfficeSupply">
                 <thead>
                     <tr class="text-center">
                         <th>No.</th>
-                        <th>Brand</th>
                         <th>Name</th>
                         <th>Unit</th>
-                        <th>Measurement</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableMedicineTbody">
+                <tbody id="tableOfficeSupplyTbody">
                     ${tbodyHTML}
                 </tbody>
             </table>`;
@@ -178,7 +151,7 @@
                         <div class="col-md-4 col-sm-12"></div>
                         <div class="col-md-8 col-sm-12 text-right">
                             <button class="btn btn-primary"
-                                id="btnAdd"><i class="fas fa-plus"></i> Add Medicine</button>
+                                id="btnAdd"><i class="fas fa-plus"></i> Add Office Supply</button>
                         </div>
                     </div>
                 </div>
@@ -197,20 +170,19 @@
         // ----- FORM CONTENT -----
         function formContent(data = false, isUpdate = false) {
             let {
-                medicine_id    = "",
-                brand          = "",
-                name           = "",
-                unit_id        = "",
-                measurement_id = "",
+                office_supply_id = "",
+                brand            = "",
+                name             = "",
+                unit_id          = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
             <button class="btn btn-primary" 
                 id="btnSave"
-                medicineID="${medicine_id}">Save</button>` : `
+                officeSupplyID="${office_supply_id}">Save</button>` : `
             <button class="btn btn-primary" 
                 id="btnUpdate"
-                medicineID="${medicine_id}">Update</button>`;
+                officeSupplyID="${office_supply_id}">Update</button>`;
 
             let html = `
             <div class="row p-3">
@@ -229,34 +201,11 @@
                 </div>
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Brand</label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="brand"
-                            minlength="1"
-                            maxlength="100"
-                            value="${brand}">
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
                         <label>Unit <code>*</code></label>
                         <select class="form-control validate"
                             name="unit_id"
                             required>
                             ${getUnitOptionDisplay(unit_id)}    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Measurement <code>*</code></label>
-                        <select class="form-control validate"
-                            name="measurement_id"
-                            required>
-                            ${getMeasurementOptionDisplay(measurement_id)}    
                         </select>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -277,7 +226,7 @@
             let html = formContent();
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(html);
-            $("#modal .page-title").text("ADD MEDICINE");
+            $("#modal .page-title").text("ADD OFFICE SUPPLY");
             $("#modal").modal('show');
             generateInputsID("#modal");
         });
@@ -286,12 +235,12 @@
 
         // ----- BUTTON EDIT -----
         $(document).on("click", ".btnEdit", function() {
-            let medicineID = $(this).attr("medicineID");
-            let data = getTableData(`medicines WHERE medicine_id = ${medicineID}`);
+            let officeSupplyID = $(this).attr("officeSupplyID");
+            let data = getTableData(`office_supply WHERE office_supply_id = ${officeSupplyID}`);
 
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
-            $("#modal .page-title").text("EDIT MEDICINE");
+            $("#modal .page-title").text("EDIT OFFICE SUPPLY");
             $("#modal").modal('show');
 
             setTimeout(() => {
@@ -305,18 +254,18 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
-            let medicineID = $(this).attr("medicineID");
+            let officeSupplyID = $(this).attr("officeSupplyID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"] = "medicines";
+                    data["tableName"] = "office_supply";
                     data["feedback"]  = $(`[name="name"]`).val();
                     data["method"]    = "add";
     
-                sweetAlertConfirmation("add", "Medicine", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("add", "Office Supply", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -324,19 +273,19 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnUpdate`, function() {
-            let medicineID = $(this).attr("medicineID");
+            let officeSupplyID = $(this).attr("officeSupplyID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"]   = "medicines";
+                    data["tableName"]   = "office_supply";
                     data["feedback"]    = $(`[name="name"]`).val();
                     data["method"]      = "update";
-                    data["whereFilter"] = `medicine_id=${medicineID}`;
+                    data["whereFilter"] = `office_supply_id=${officeSupplyID}`;
     
-                sweetAlertConfirmation("update", "Medicine", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("update", "Office Supply", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -344,18 +293,18 @@
 
         // ----- BUTTON DELETE -----
         $(document).on("click", `.btnDelete`, function() {
-            let medicineID = $(this).attr("medicineID");
+            let officeSupplyID = $(this).attr("officeSupplyID");
 
             let data = {
-                tableName: 'medicines',
+                tableName: 'office_supply',
                 tableData: {
                     is_deleted: 1
                 },
-                whereFilter: `medicine_id=${medicineID}`,
+                whereFilter: `office_supply_id=${officeSupplyID}`,
                 feedback:    $(`[name="name"]`).val(),
                 method:      "update"
             }
-            sweetAlertConfirmation("delete", "Medicine", "modal", null, data, true, refreshTableContent);
+            sweetAlertConfirmation("delete", "Office Supply", "modal", null, data, true, refreshTableContent);
         })
         // ----- END BUTTON DELETE -----
 

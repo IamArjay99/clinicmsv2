@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Supply</h4>
+                    <h4 class="mb-0">Stock In</h4>
                 </div>
                 <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
@@ -28,11 +28,11 @@
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableMedicine")) {
-                $("#tableMedicine").DataTable().destroy();
+            if ($.fn.DataTable.isDataTable("#tableStockIn")) {
+                $("#tableStockIn").DataTable().destroy();
             }
             
-            var table = $("#tableMedicine")
+            var table = $("#tableStockIn")
                 .css({ "min-width": "100%" })
                 .removeAttr("width")
                 .DataTable({
@@ -43,19 +43,61 @@
                     scrollCollapse: true,
                     columnDefs: [
                         { targets: 0, width: '50px'  },
-                        { targets: 1, width: '250px' },
-                        { targets: 2, width: '120px' },
-                        { targets: 3, width: '120px' },
-                        { targets: 4, width: '100px' },
-                        { targets: 5, width: '100px' },
-                        { targets: 6, width: '100px' },
-                        { targets: 7, width: '100px' },
-                        { targets: 8, width: '100px' },
-                        { targets: 9, width: '100px' },
+                        { targets: 1, width: '100px' },
+                        { targets: 2, width: '250px' },
+                        { targets: 3, width: '100px' },
                     ],
                 });
         }
         // ----- END DATATABLES -----
+
+
+        // ----- TABLE CONTENT -----
+        function tableContent() {
+
+            let tbodyHTML = '';
+            let data = getTableData(`measurements WHERE is_deleted = 0`);
+            data.map((item, index) => {
+                let {
+                    measurement_id = "",
+                    abbreviation   = "",
+                    name           = "",
+                } = item;
+
+                tbodyHTML += `
+                <tr>
+                    <td class="text-center">${index+1}</td>
+                    <td>${name}</td>
+                    <td>${abbreviation || "-"}</td>
+                    <td>
+                        <div class="text-center">
+                            <button class="btn btn-outline-info btnEdit"
+                                measurementID="${measurement_id}"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn btn-outline-danger btnDelete"
+                                measurementID="${measurement_id}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+
+            let html = `
+            <table class="table table-hover table-bordered" id="tableStockIn">
+                <thead>
+                    <tr class="text-center">
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Abbreviation</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableStockInTbody">
+                    ${tbodyHTML}
+                </tbody>
+            </table>`;
+
+            return html;
+        }
+        // ----- END TABLE CONTENT -----
 
 
         // ----- REFRESH TABLE CONTENT -----
@@ -71,96 +113,23 @@
         // ----- END REFRESH TABLE CONTENT -----
 
 
-        // ----- MEDICINE CONTENT -----
-        function medicineContent() {
-
-            let tbodyHTML = '';
-            let data = getTableData(`medicines WHERE is_deleted = 0`);
-            data.map((item, index) => {
-                let {
-                    medicine_id = "",
-                    name        = "",
-                    brand       = "",
-                    quantity    = "",
-                } = item;
-
-                let maximumValue = 500;
-                let ariaValue  = quantity > maximumValue ? maximumValue : quantity;
-                let percentage = ariaValue / maximumValue * 100;
-                    percentage = percentage.toFixed(1);
-
-                tbodyHTML += `
-                <tr>
-                    <td class="text-center">${index + 1}</td>
-                    <td>
-                        <div class="progress progress-lg mt-2">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: ${percentage}%" aria-valuenow="${ariaValue}" aria-valuemin="0" aria-valuemax="${maximumValue}">${percentage}%</div>
-                        </div>
-                    </td>
-                    <td>${name}</td>
-                    <td>${brand}</td>
-                    <td>${quantity}</td>
-                    <td>
-                        <div class="text-center">
-                            <button class="btn btn-outline-info btnEdit"
-                                medicineID="${medicine_id}"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn btn-outline-danger btnDelete"
-                                medicineID="${medicine_id}"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </td>
-                </tr>`;
-            });
-
-            let html = `
-            <div class="row">
-                <div class="col-12" id="filterMedicine">
-                    <div class="row mb-4">
-                        <div class="col-md-4 col-sm-12">
-                            <h4>Medicine</h4>
-                        </div>
-                        <div class="col-md-8 col-sm-12 text-right">
-                            <button class="btn btn-primary btnAdd"
-                                id="btnAdd"><i class="fas fa-plus"></i> Add Medicine</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12" id="tableMedicineParent">
-                    <table class="table table-hover table-bordered" id="tableMedicine">
-                        <thead>
-                            <tr class="text-center">
-                                <th>No.</th>
-                                <th>Percentage</th>
-                                <th>Brand</th>
-                                <th>Name</th>
-                                <th>Unit</th>
-                                <th>Measurement</th>
-                                <th>Quantity</th>
-                                <th>Batch No.</th>
-                                <th>Expiration Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableMedicineTbody">
-                        </tbody>
-                    </table>
-                </div>
-            </div>`;
-
-            return html;
-        }
-        // ----- END MEDICINE CONTENT -----
-
-
         // ----- PAGE CONTENT -----
         function pageContent() {
             !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
-            <div class="card">
-                <div class="card-body" id="medicineContent">${medicineContent()}</div>
-            </div>
-            <div class="card my-5">
-                <div class="card-body" id="careEquipmentContent">TEST</div>
+            <div class="row">
+                <div class="col-12" id="filterContent">
+                    <div class="row mb-4">
+                        <div class="col-md-4 col-sm-12"></div>
+                        <div class="col-md-8 col-sm-12 text-right">
+                            <a class="btn btn-primary"
+                                id="btnAdd"
+                                href="${base_url}admin/stock_in/add"><i class="fas fa-plus"></i> Add Stock In</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12" id="tableContent">${tableContent()}</div>
             </div>`;
 
             setTimeout(() => {
@@ -270,7 +239,7 @@
                     data["feedback"]  = $(`[name="name"]`).val();
                     data["method"]    = "add";
     
-                sweetAlertConfirmation("add", "Measurement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("add", "StockIn", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -290,7 +259,7 @@
                     data["method"]      = "update";
                     data["whereFilter"] = `measurement_id=${measurementID}`;
     
-                sweetAlertConfirmation("update", "Measurement", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("update", "StockIn", "modal", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -309,7 +278,7 @@
                 feedback:    $(`[name="name"]`).val(),
                 method:      "update"
             }
-            sweetAlertConfirmation("delete", "Measurement", "modal", null, data, true, refreshTableContent);
+            sweetAlertConfirmation("delete", "StockIn", "modal", null, data, true, refreshTableContent);
         })
         // ----- END BUTTON DELETE -----
 
