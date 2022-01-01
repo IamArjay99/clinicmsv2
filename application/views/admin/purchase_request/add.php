@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Add Stock In</h4>
+                    <h4 class="mb-0">Add Purchase Request</h4>
                 </div>
                 <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
@@ -836,7 +836,7 @@
                                         let result = data?.split("|") || false;
                                         if (result && result[0]) {
                                             Swal.fire({
-                                                title: "Stock In saved successfully!",
+                                                title: "Purchase Request saved successfully!",
                                                 icon: "success",
                                                 showConfirmButton: false,
                                                 timer: 2000

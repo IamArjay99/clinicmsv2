@@ -1,27 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Stock_in extends CI_Controller {
+class Purchase_request extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("admin/StockIn_model", "stockin");
+        $this->load->model("admin/PurchaseRequest_model", "purchaserequest");
     }
 
     public function index()
     {
-        $data['title'] = "Stock In";
+        $data['title'] = "Purchase Request";
         $this->load->view("admin/template/header", $data);
-        $this->load->view("admin/stock_in/index");
+        $this->load->view("admin/purchase_request/index");
         $this->load->view("admin/template/footer");
     }
 
     public function add() 
     {
-        $data['title'] = "Add Stock In";
+        $data['title'] = "Add Purchase Request";
         $this->load->view("admin/template/header", $data);
-        $this->load->view("admin/stock_in/add");
+        $this->load->view("admin/purchase_request/add");
         $this->load->view("admin/template/footer");
     }
 
@@ -29,15 +29,15 @@ class Stock_in extends CI_Controller {
     {
         $stockInID = $this->input->get("id");
         $data = [
-            "title" => "View Stock In",
-            "data"  => $this->stockin->getStockIn($stockInID),
+            "title" => "View Purchase Request",
+            "data"  => $this->purchaserequest->getPurchaseRequest($stockInID),
         ];
         $this->load->view("admin/template/header", $data);
-        $this->load->view("admin/stock_in/view", $data);
+        $this->load->view("admin/purchase_request/view", $data);
         $this->load->view("admin/template/footer");
     }
 
-    public function saveStockIn()
+    public function savePurchaseRequest()
     {
         $purchase_request_id = $this->input->post("purchase_request_id");
         $reason              = $this->input->post("reason");
@@ -50,8 +50,8 @@ class Stock_in extends CI_Controller {
             "reason"              => $reason,
         ];
 
-        $saveStockIn = $this->stockin->saveStockIn($data, $medicine, $careEquipment, $officeSupply);
-        echo json_encode($saveStockIn);
+        $savePurchaseRequest = $this->purchaserequest->savePurchaseRequest($data, $medicine, $careEquipment, $officeSupply);
+        echo json_encode($savePurchaseRequest);
     }
 
 }
