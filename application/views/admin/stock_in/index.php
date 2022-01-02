@@ -57,20 +57,24 @@
         function tableContent() {
 
             let tbodyHTML = '';
-            let data = getTableData(`stock_in WHERE is_deleted = 0`);
+            let data = getTableData(
+                `stock_in AS si
+                    LEFT JOIN purchase_request AS pr USING(purchase_request_id) 
+                WHERE si.is_deleted = 0`,
+                `si.*, pr.code AS purchase_request_code`);
             data.map((item, index) => {
                 let {
-                    stock_in_id         = "",
-                    purchase_request_id = "",
-                    code                = "",
-                    reason              = "",
+                    stock_in_id           = "",
+                    purchase_request_code = "",
+                    code                  = "",
+                    reason                = "",
                 } = item;
 
                 tbodyHTML += `
                 <tr>
                     <td class="text-center">${index+1}</td>
                     <td class="text-center">${code || "-"}</td>
-                    <td class="text-center">Internal</td>
+                    <td class="text-center">${purchase_request_code || "Internal"}</td>
                     <td>${reason || "-"}</td>
                     <td>
                         <div class="text-center">

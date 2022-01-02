@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header bg-dark text-white py-2">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">View Stock In</h4>
+                        <h4 class="mb-0">View Stock In (<?= $data['code'] ?>)</h4>
                         <a href="<?= base_url('admin/stock_in') ?>"
                             class="btn btn-primary">Back</a>
                     </div>

@@ -25,12 +25,18 @@ class Purchase_request extends CI_Controller {
         $this->load->view("admin/template/footer");
     }
 
+    public function getPurchaseRequest()
+    {
+        $purchaseRequestID = $this->input->post("purchaseRequestID");
+        echo json_encode($this->purchaserequest->getPurchaseRequest($purchaseRequestID));
+    }
+
     public function view() 
     {
-        $stockInID = $this->input->get("id");
+        $purchaseRequestID = $this->input->get("id");
         $data = [
             "title" => "View Purchase Request",
-            "data"  => $this->purchaserequest->getPurchaseRequest($stockInID),
+            "data"  => $this->purchaserequest->getPurchaseRequest($purchaseRequestID),
         ];
         $this->load->view("admin/template/header", $data);
         $this->load->view("admin/purchase_request/view", $data);
@@ -39,15 +45,14 @@ class Purchase_request extends CI_Controller {
 
     public function savePurchaseRequest()
     {
-        $purchase_request_id = $this->input->post("purchase_request_id");
-        $reason              = $this->input->post("reason");
-        $medicine            = $this->input->post("medicine");
-        $careEquipment       = $this->input->post("careEquipment");
-        $officeSupply        = $this->input->post("officeSupply");
+        $reason        = $this->input->post("reason");
+        $medicine      = $this->input->post("medicine");
+        $careEquipment = $this->input->post("careEquipment");
+        $officeSupply  = $this->input->post("officeSupply");
 
         $data = [
-            "purchase_request_id" => $purchase_request_id,
-            "reason"              => $reason,
+            "reason" => $reason,
+            "status" => 0
         ];
 
         $savePurchaseRequest = $this->purchaserequest->savePurchaseRequest($data, $medicine, $careEquipment, $officeSupply);

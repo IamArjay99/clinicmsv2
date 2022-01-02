@@ -191,25 +191,18 @@
                 </td>
                 <td>
                     <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
+                        <input type="number"
+                            class="form-control text-right validate"
+                            name="unit_cost"
                             minlength="1"
                             maxlength="100"
+                            min="0"
+                            max="999999"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
+                <td class="text-right total_cost">-</td>
             </tr>`;
             return html;
         }
@@ -227,8 +220,8 @@
                                 <th>Unit</th>
                                 <th>Measurement</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
+                                <th>Unit Cost <code>*</code></th>
+                                <th>Total Cost</th>
                             </tr>
                         </thead>
                         <tbody id="tableMedicineTbody">
@@ -236,7 +229,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="8" class="">
+                                <td colspan="8">
                                     <button class="btn btn-outline-primary btnAdd"
                                         table="medicine">
                                         <i class="fas fa-plus"></i> Add Row
@@ -304,25 +297,18 @@
                 </td>
                 <td>
                     <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
+                        <input type="number"
+                            class="form-control text-right validate"
+                            name="unit_cost"
                             minlength="1"
                             maxlength="100"
+                            min="0"
+                            max="999999"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
+                <td class="text-right total_cost">-</td>
             </tr>`;
             return html;
         }
@@ -338,8 +324,8 @@
                                 <th>Name <code>*</code></th>
                                 <th>Unit</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
+                                <th>Unit Cost <code>*</code></th>
+                                <th>Total Cost</th>
                             </tr>
                         </thead>
                         <tbody id="tableCareEquipmentTbody">
@@ -415,25 +401,18 @@
                 </td>
                 <td>
                     <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
+                        <input type="number"
+                            class="form-control text-right validate"
+                            name="unit_cost"
                             minlength="1"
                             maxlength="100"
+                            min="0"
+                            max="999999"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
+                <td class="text-right total_cost">-</td>
             </tr>`;
             return html;
         }
@@ -449,8 +428,8 @@
                                 <th>Name <code>*</code></th>
                                 <th>Unit</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
+                                <th>Unit Cost <code>*</code></th>
+                                <th>Total Cost</th>
                             </tr>
                         </thead>
                         <tbody id="tableOfficeSupplyTbody">
@@ -496,28 +475,6 @@
 
             let html = `
             <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Reference <code>*</code></label>
-                        <select class="form-control validate"
-                            name="purchase_request_id"
-                            required>  
-                            ${getPurchaseRequestOptionDisplay()}  
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label>Reason</label>
-                        <textarea class="form-control validate"
-                            name="reason"
-                            minlength="0"
-                            maxlength="300"
-                            rows="3"
-                            style="resize: none;"></textarea>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
                 <div class="col-12" id="addStockInContent">
                     <div class="card">
                         <div class="card-header">
@@ -536,6 +493,18 @@
                             <h5 class="mb-0">OFFICE SUPPLY</h5>
                         </div>
                         <div class="card-body" id="officeSupplyContent">${officeSupplyContent()}</div>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <div class="form-group">
+                        <label>Purpose</label>
+                        <textarea class="form-control validate"
+                            name="reason"
+                            minlength="0"
+                            maxlength="300"
+                            rows="3"
+                            style="resize: none;"></textarea>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
             </div>
@@ -669,15 +638,31 @@
         // ----- END UNIQUE OFFICE SUPPLY OPTION -----
 
 
-        // ----- GET STOCK IN DATA -----
-        function getStockInData() {
+        // ----- UPDATE GRAND TOTAL -----
+        function updateGrandTotal(tableID = null) {
+            if (tableID) {
+                let grandTotal = 0;
+                $(`#${tableID} tbody tr`).each(function() {
+                    let quantity  = $(`[name="quantity"]`, this).val();
+                    let unitCost  = $(`[name="unit_cost"]`, this).val();
+                    let totalCost = unitCost * quantity;
+                    grandTotal += totalCost;
+                })
+                // $(`#${tableID}GrandTotal`).text(formatAmount(grandTotal, true));
+            }
+        }
+        // ----- END UPDATE GRAND TOTAL -----
+
+
+        // ----- GET PURCHASE REQUEST DATA -----
+        function getPurchaseRequestData() {
             let medicine = [];
             $(`#tableMedicineTbody tr`).each(function() {
                 let temp = {
                     medicine_id: $(`[name="medicine_id"]`, this).val(),
                     quantity:    $(`[name="quantity"]`, this).val(),
-                    batch:       $(`[name="batch"]`, this).val(),
-                    expiration:  $(`[name="expiration"]`, this).val(),
+                    unit_cost:   $(`[name="unit_cost"]`, this).val(),
+                    total_cost:  getNonFormattedAmount($(`.total_cost`, this).text()),
                 }
                 medicine.push(temp);
             })
@@ -687,8 +672,8 @@
                 let temp = {
                     care_equipment_id: $(`[name="care_equipment_id"]`, this).val(),
                     quantity:          $(`[name="quantity"]`, this).val(),
-                    batch:             $(`[name="batch"]`, this).val(),
-                    expiration:        $(`[name="expiration"]`, this).val(),
+                    unit_cost:         $(`[name="unit_cost"]`, this).val(),
+                    total_cost:        getNonFormattedAmount($(`.total_cost`, this).text()),
                 }
                 careEquipment.push(temp);
             })
@@ -698,15 +683,14 @@
                 let temp = {
                     office_supply_id: $(`[name="office_supply_id"]`, this).val(),
                     quantity:         $(`[name="quantity"]`, this).val(),
-                    batch:            $(`[name="batch"]`, this).val(),
-                    expiration:       $(`[name="expiration"]`, this).val(),
+                    unit_cost:        $(`[name="unit_cost"]`, this).val(),
+                    total_cost:       getNonFormattedAmount($(`.total_cost`, this).text()),
                 }
                 officeSupply.push(temp);
             })
 
             let data = {
-                purchase_request_id: $(`[name="purchase_request_id"]`).val(),
-                reason:              $(`[name="reason"]`).val()?.trim(),
+                reason: $(`[name="reason"]`).val()?.trim(),
                 medicine,
                 careEquipment,
                 officeSupply
@@ -714,7 +698,7 @@
 
             return data;
         }
-        // ----- END GET STOCK IN DATA -----
+        // ----- END GET PURCHASE REQUEST DATA -----
 
 
         // ----- BUTTON ADD -----
@@ -798,19 +782,34 @@
         // ----- END SELECT CARE EQUIPMENT -----
 
 
+        // ----- KEYUP QUANTITY/UNIT COST -----
+        $(document).on('keyup', `[name="quantity"], [name="unit_cost"]`, function() {
+            $parent = $(this).closest("tr");
+
+            let tableID   = $(this).closest("table").attr("id");
+            let quantity  = $parent.find(`[name="quantity"]`).val();
+            let unitCost  = $parent.find(`[name="unit_cost"]`).val();
+            let totalCost = quantity * unitCost;
+            $parent.find(`.total_cost`).text(formatAmount(totalCost, true));
+
+            updateGrandTotal(tableID);
+        })
+        // ----- END KEYUP QUANTITY/UNIT COST -----
+
+
         // ----- BUTTON SAVE -----
         $(document).on("click", "#btnSave", function() {
             let validate = validateForm("pageContent");
             let hasData  = $(`tbody`).text().trim().length != 0;
             if (!hasData) {
-                showNotification("warning", "You must have at lease one item to stock in")
+                showNotification("warning", "You must have at lease one item to purchase request")
             } else {
                 if (validate) {
-                    let data = getStockInData();
+                    let data = getPurchaseRequestData();
                     
                     Swal.fire({
-                        title: "SAVE STOCK IN", 
-                        text: "Are you sure you want to save this stock in?",
+                        title: "SAVE PURCHASE REQUEST", 
+                        text: "Are you sure you want to save this purchase request?",
                         imageUrl: `${base_url}assets/images/modal/add.svg`,
                         imageWidth: 200,
                         imageHeight: 200,
@@ -825,7 +824,7 @@
                             $("#loader").show();
                             $.ajax({
                                 method: "POST",
-                                url: `${base_url}admin/stock_in/saveStockIn`,
+                                url: `${base_url}admin/purchase_request/savePurchaseRequest`,
                                 data,
                                 dataType: "json",
                                 async: false,
@@ -841,7 +840,7 @@
                                                 showConfirmButton: false,
                                                 timer: 2000
                                             }).then(function() {
-                                                window.location.replace(`${base_url}admin/stock_in`);
+                                                window.location.replace(`${base_url}admin/purchase_request`);
                                             })
                                         }
 
@@ -859,8 +858,8 @@
         // ----- BUTTON CANCEL -----
         $(document).on("click", "#btnCancel", function() {
             Swal.fire({
-                title: "CANCEL STOCK IN", 
-                text: "Are you sure you want to cancel this stock in?",
+                title: "CANCEL PURCHASE REQUEST", 
+                text: "Are you sure you want to cancel this purchase request?",
                 imageUrl: `${base_url}assets/images/modal/delete.svg`,
                 imageWidth: 200,
                 imageHeight: 200,
@@ -872,7 +871,7 @@
                 confirmButtonText: 'Yes',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.replace(`${base_url}admin/stock_in`);
+                    window.location.replace(`${base_url}admin/purchase_request`);
                 } 
             });
         })

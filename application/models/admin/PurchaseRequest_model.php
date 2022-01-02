@@ -13,34 +13,34 @@ class PurchaseRequest_model extends CI_Model {
         $query = $this->db->insert("purchase_request", $data);
         if ($query) 
         {
-            $stockInID = $this->db->insert_id();
-            $code = generateCode("PR", $stockInID);
-            $this->db->update("purchase_request", ["code" => $code], ["purchase_request_id" => $stockInID]);
+            $purchaseRequestID = $this->db->insert_id();
+            $code = generateCode("PR", $purchaseRequestID);
+            $this->db->update("purchase_request", ["code" => $code], ["purchase_request_id" => $purchaseRequestID]);
 
             if ($medicine && !empty($medicine))
             {
-                foreach ($medicine as $key => $m) $medicine[$key]["purchase_request_id"] = $stockInID;
+                foreach ($medicine as $key => $m) $medicine[$key]["purchase_request_id"] = $purchaseRequestID;
                 $this->db->insert_batch("purchase_request_medicine", $medicine);
             }
 
             if ($careEquipment && !empty($careEquipment))
             {
-                foreach ($careEquipment as $key => $ce) $careEquipment[$key]["purchase_request_id"] = $stockInID;
+                foreach ($careEquipment as $key => $ce) $careEquipment[$key]["purchase_request_id"] = $purchaseRequestID;
                 $this->db->insert_batch("purchase_request_care_equipment", $careEquipment);
             }
 
             if ($officeSupply && !empty($officeSupply))
             {
-                foreach ($officeSupply as $key => $os) $officeSupply[$key]["purchase_request_id"] = $stockInID;
+                foreach ($officeSupply as $key => $os) $officeSupply[$key]["purchase_request_id"] = $purchaseRequestID;
                 $this->db->insert_batch("purchase_request_office_supply", $officeSupply);
             }
 
-            return "true|Stock in saved successfully!";
+            return "true|Purchase request saved successfully!";
         }
-        return "false|There was an error saving stock in.";
+        return "false|There was an error saving purchase request.";
     }
 
-    public function getPurchaseRequestMedicine($stockInID = 0)
+    public function getPurchaseRequestMedicine($purchaseRequestID = 0)
     {
         $sql = "
         SELECT 
@@ -49,12 +49,12 @@ class PurchaseRequest_model extends CI_Model {
             LEFT JOIN medicines AS m USING(medicine_id)
             LEFT JOIN units AS u ON m.unit_id = u.unit_id
             LEFT JOIN measurements AS m2 ON m.measurement_id = m2.measurement_id 
-        WHERE sim.purchase_request_id = $stockInID";
+        WHERE sim.purchase_request_id = $purchaseRequestID";
         $query = $this->db->query($sql);
         return $query ? $query->result_array() : [];
     }
 
-    public function getPurchaseRequestCareEquipment($stockInID = 0)
+    public function getPurchaseRequestCareEquipment($purchaseRequestID = 0)
     {
         $sql = "
         SELECT 
@@ -62,12 +62,12 @@ class PurchaseRequest_model extends CI_Model {
         FROM purchase_request_care_equipment AS sice 
             LEFT JOIN care_equipments AS ce USING(care_equipment_id)
             LEFT JOIN units AS u ON ce.unit_id = u.unit_id
-        WHERE sice.purchase_request_id = $stockInID";
+        WHERE sice.purchase_request_id = $purchaseRequestID";
         $query = $this->db->query($sql);
         return $query ? $query->result_array() : [];
     }
 
-    public function getPurchaseRequestOfficeSupply($stockInID = 0)
+    public function getPurchaseRequestOfficeSupply($purchaseRequestID = 0)
     {
         $sql = "
         SELECT 
@@ -75,16 +75,16 @@ class PurchaseRequest_model extends CI_Model {
         FROM purchase_request_office_supply AS sios 
             LEFT JOIN office_supply AS os USING(office_supply_id)
             LEFT JOIN units AS u ON os.unit_id = u.unit_id
-        WHERE sios.purchase_request_id = $stockInID";
+        WHERE sios.purchase_request_id = $purchaseRequestID";
         $query = $this->db->query($sql);
         return $query ? $query->result_array() : [];
     }
 
-    public function getPurchaseRequest($stockInID = 0)
+    public function getPurchaseRequest($purchaseRequestID = 0)
     {
         $data = [];
         
-        $sql    = "SELECT * FROM purchase_request WHERE purchase_request_id = $stockInID";
+        $sql    = "SELECT * FROM purchase_request WHERE purchase_request_id = $purchaseRequestID";
         $query  = $this->db->query($sql);
         $result = $query ? $query->row() : null;
         if ($result) 
@@ -93,9 +93,9 @@ class PurchaseRequest_model extends CI_Model {
                 'purchase_request_id' => $result->purchase_request_id,
                 'code'                => $result->code,
                 'reason'              => $result->reason,
-                'medicine'            => $this->getPurchaseRequestMedicine($stockInID),
-                'care_equipment'      => $this->getPurchaseRequestCareEquipment($stockInID),
-                'office_supply'       => $this->getPurchaseRequestOfficeSupply($stockInID),
+                'medicine'            => $this->getPurchaseRequestMedicine($purchaseRequestID),
+                'care_equipment'      => $this->getPurchaseRequestCareEquipment($purchaseRequestID),
+                'office_supply'       => $this->getPurchaseRequestOfficeSupply($purchaseRequestID),
             ];
         }
         return $data;

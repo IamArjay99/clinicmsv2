@@ -42,7 +42,7 @@
                 LEFT JOIN units AS u USING(unit_id)
             WHERE os.is_deleted = 0`,
             `os.*, u.name AS unit_name`);
-        let purchaseRequestList = getTableData(`purchase_request WHERE is_deleted = 0 AND status = 0`)
+        let purchaseRequestList = getTableData(`purchase_request WHERE is_deleted = 0 AND status = 1`) // APPROVED PR
         // ----- END GLOBAL VARIABLES -----
 
 
@@ -156,9 +156,30 @@
             return html;
         }
 
-        function getMedicineRow() {
+        function getMedicineRow(data = false) {
+            let {
+                purchase_request_medicine_id,
+                medicine_id,
+                medicine_name,
+                medicine_brand,
+                unit_name,
+                measurement_name,
+                quantity
+            } = data;
+
+            let nameHTML = data ? `
+            <input type="hidden" name="medicine_id" value="${medicine_id}"><div>${medicine_name}</div>` :
+            `<div class="form-group mb-0">
+                <select class="form-control validate"
+                    name="medicine_id"
+                    required>
+                    ${getMedicineOptionDisplay(medicine_id)}    
+                </select>
+                <div class="d-block invalid-feedback"></div>
+            </div>`;
+
             let html = `
-            <tr>
+            <tr purchase_request_medicine_id="${purchase_request_medicine_id}">
                 <td class="text-center">
                     <button class="btn btn-danger btnDelete"
                         title="Delete">
@@ -166,18 +187,11 @@
                     </button>
                 </td>
                 <td>
-                    <div class="form-group mb-0">
-                        <select class="form-control validate"
-                            name="medicine_id"
-                            required>
-                            ${getMedicineOptionDisplay()}    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
+                    ${nameHTML}
                 </td>
-                <td class="brand">-</td>
-                <td class="unit">-</td>
-                <td class="measurement">-</td>
+                <td class="brand">${medicine_brand || "-"}</td>
+                <td class="unit">${unit_name || "-"}</td>
+                <td class="measurement">${measurement_name || "-"}</td>
                 <td>
                     <div class="form-group mb-0">
                         <input type="number"
@@ -185,6 +199,7 @@
                             name="quantity"
                             min="1"
                             max="999999"
+                            value="${quantity || ""}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -214,7 +229,16 @@
             return html;
         }
 
-        function medicineContent() {
+        function medicineContent(data = [], hasReference = false) {
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map((item) => {
+                    tbodyHTML += getMedicineRow(item);
+                })
+            } else {
+                tbodyHTML = !hasReference ? getMedicineRow() : '';
+            }
+
             let html = `
             <div class="row">
                 <div class="col-12" id="tableMedicineParent">
@@ -232,7 +256,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableMedicineTbody">
-                            ${getMedicineRow()}
+                            ${tbodyHTML}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -271,9 +295,28 @@
             return html;
         }
 
-        function getCareEquipmentRow() {
+        function getCareEquipmentRow(data = false) {
+            let {
+                purchase_request_care_equipment_id,
+                care_equipment_id,
+                care_equipment_name,
+                unit_name,
+                quantity,
+            } = data;
+
+            let nameHTML = data ? `
+            <input type="hidden" name="care_equipment_id" value="${care_equipment_id}"><div>${care_equipment_name}</div>` :
+            `<div class="form-group mb-0">
+                <select class="form-control validate"
+                    name="care_equipment_id"
+                    required>
+                    ${getCareEquipmentOptionDisplay(care_equipment_id)}    
+                </select>
+                <div class="d-block invalid-feedback"></div>
+            </div>`;
+
             let html = `
-            <tr>
+            <tr purchase_request_care_equipment_id="${purchase_request_care_equipment_id}">
                 <td class="text-center">
                     <button class="btn btn-danger btnDelete"
                         title="Delete">
@@ -281,14 +324,7 @@
                     </button>
                 </td>
                 <td>
-                    <div class="form-group mb-0">
-                        <select class="form-control validate"
-                            name="care_equipment_id"
-                            required>
-                            ${getCareEquipmentOptionDisplay()}    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
+                    ${nameHTML}
                 </td>
                 <td class="unit">-</td>
                 <td>
@@ -297,7 +333,8 @@
                             class="form-control validate"
                             name="quantity"
                             min="1"
-                            max="999999"
+                            max="${quantity || "999999"}"
+                            value="${quantity || ""}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -327,7 +364,16 @@
             return html;
         }
 
-        function careEquipmentContent() {
+        function careEquipmentContent(data = [], hasReference = false) {
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map(item => {
+                    tbodyHTML += getCareEquipmentRow(item);
+                })
+            } else {
+                tbodyHTML = !hasReference ? getCareEquipmentRow() : '';
+            }
+
             let html = `
             <div class="row">
                 <div class="col-12" id="tableCareEquipmentParent">
@@ -343,7 +389,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableCareEquipmentTbody">
-                            ${getCareEquipmentRow()}
+                            ${tbodyHTML}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -382,7 +428,26 @@
             return html;
         }
 
-        function getOfficeSupplyRow() {
+        function getOfficeSupplyRow(data = false) {
+            let {
+                purchase_request_office_supply_id,
+                office_supply_id,
+                office_supply_name,
+                unit_name,
+                quantity
+            } = data;
+
+            let nameHTML = data ? `
+            <input type="hidden" name="office_supply_id" value="${office_supply_id}"><div>${office_supply_name}</div>` :
+            `<div class="form-group mb-0">
+                <select class="form-control validate"
+                    name="office_supply_id"
+                    required>
+                    ${getOfficeSupplyOptionDisplay(office_supply_id)}    
+                </select>
+                <div class="d-block invalid-feedback"></div>
+            </div>`;
+
             let html = `
             <tr>
                 <td class="text-center">
@@ -392,23 +457,17 @@
                     </button>
                 </td>
                 <td>
-                    <div class="form-group mb-0">
-                        <select class="form-control validate"
-                            name="office_supply_id"
-                            required>
-                            ${getOfficeSupplyOptionDisplay()}    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
+                    ${nameHTML}
                 </td>
-                <td class="unit">-</td>
+                <td class="unit">${unit_name || "-"}</td>
                 <td>
                     <div class="form-group mb-0">
                         <input type="number"
                             class="form-control validate"
                             name="quantity"
                             min="1"
-                            max="999999"
+                            max="${quantity || "999999"}"
+                            value="${quantity || ""}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -438,7 +497,16 @@
             return html;
         }
 
-        function officeSupplyContent() {
+        function officeSupplyContent(data = [], hasReference = false) {
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map(item => {
+                    tbodyHTML += getOfficeSupplyRow(item);
+                })
+            } else {
+                tbodyHTML = !hasReference ? getOfficeSupplyRow() : '';
+            }
+
             let html = `
             <div class="row">
                 <div class="col-12" id="tableOfficeSupplyParent">
@@ -454,7 +522,7 @@
                             </tr>
                         </thead>
                         <tbody id="tableOfficeSupplyTbody">
-                            ${getOfficeSupplyRow()}
+                            ${tbodyHTML}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -717,6 +785,64 @@
         // ----- END GET STOCK IN DATA -----
 
 
+        // ----- GET PURCHASE REQUEST DATA -----
+        function getPurchaseRequest(purchaseRequestID = 0) {
+            let result = null;
+            $.ajax({
+                method: "POST",
+                url: `${base_url}admin/purchase_request/getPurchaseRequest`,
+                data: { purchaseRequestID },
+                async: false,
+                dataType: 'json',
+                success: function(data) {
+                    result = data;
+                }
+            })
+            return result;
+        }
+        // ----- END GET PURCHASE REQUEST DATA -----
+
+
+        // ----- SELECT REFERENCE -----
+        $(document).on("change", `[name="purchase_request_id"]`, function() {
+            let purchaseRequestID = $(this).val();
+            $(`#medicineContent, #careEquipmentContent, #officeSupplyContent`).html(preloader);
+            let medicineContentHTML      = medicineContent();
+            let careEquipmentContentHTML = careEquipmentContent();
+            let officeSupplyContentHTML  = officeSupplyContent();
+
+            let flag = false;
+
+            if (purchaseRequestID != '0') {
+                let data = getPurchaseRequest(purchaseRequestID);
+                medicineContentHTML      = medicineContent(data.medicine, true);
+                careEquipmentContentHTML = careEquipmentContent(data.care_equipment, true);
+                officeSupplyContentHTML  = officeSupplyContent(data.office_supply, true);
+
+                flag = true;
+            } 
+
+            setTimeout(function() {
+                
+                $(`#medicineContent`).html(medicineContentHTML);
+                $(`#careEquipmentContent`).html(careEquipmentContentHTML);
+                $(`#officeSupplyContent`).html(officeSupplyContentHTML);
+                initDataTables();
+
+                // uniqueMedicineOption();
+                // uniqueCareEquipmentOption();
+                // uniqueOfficeSupplyOption();
+                $(`table select`).trigger("change");
+
+                if (flag) {
+                    $(`table select`).attr("disabled", true).trigger("change");
+                    $(`.btnAdd`).remove();
+                }
+            }, 100)
+        })
+        // ----- END SELECT REFERENCE -----
+
+
         // ----- BUTTON ADD -----
         $(document).on("click", ".btnAdd", function() {
             let table        = $(this).attr("table");
@@ -800,11 +926,11 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", "#btnSave", function() {
-            let validate = validateForm("pageContent");
-            let hasData  = $(`tbody`).text().trim().length != 0;
+            let hasData  = document.querySelectorAll(`[name="medicine_id"]`).length + document.querySelectorAll(`[name="care_equipment_id"]`).length + document.querySelectorAll(`[name="office_supply_id"]`).length != 0;
             if (!hasData) {
                 showNotification("warning", "You must have at lease one item to stock in")
             } else {
+                let validate = validateForm("addStockInContent");
                 if (validate) {
                     let data = getStockInData();
                     

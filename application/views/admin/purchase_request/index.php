@@ -46,6 +46,7 @@
                         { targets: 1, width: '100px' },
                         { targets: 2, width: '250px' },
                         { targets: 3, width: '100px' },
+                        { targets: 4, width: '100px' },
                     ],
                 });
         }
@@ -55,6 +56,12 @@
         // ----- TABLE CONTENT -----
         function tableContent() {
 
+            const getStatusStyle = (status = 0) => {
+                if (status == 0) return `<span class="badge badge-info">Pending</span>`;
+                else if (status == 1) return `<span class="badge badge-success">Approved</span>`;
+                else return `<span class="badge badge-danger">Cancelled</span>`;
+            }
+
             let tbodyHTML = '';
             let data = getTableData(`purchase_request WHERE is_deleted = 0`);
             data.map((item, index) => {
@@ -62,6 +69,7 @@
                     purchase_request_id = "",
                     code                = "",
                     reason              = "",
+                    status              = "",
                 } = item;
 
                 tbodyHTML += `
@@ -69,11 +77,16 @@
                     <td class="text-center">${index+1}</td>
                     <td class="text-center">${code || "-"}</td>
                     <td>${reason || "-"}</td>
+                    <td class="text-center">${getStatusStyle(status)}</td>
                     <td>
                         <div class="text-center">
+                            <button class="btn btn-outline-info btnEdit"
+                                purchaseRequestID="${purchase_request_id}">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
                             <a class="btn btn-outline-primary btnView"
                                 href="${base_url}admin/purchase_request/view?id=${purchase_request_id}"
-                                stockInID="${purchase_request_id}"><i class="fas fa-eye"></i> View</a>
+                                purchaseRequestID="${purchase_request_id}"><i class="fas fa-eye"></i></a>
                         </div>
                     </td>
                 </tr>`;
@@ -85,7 +98,8 @@
                     <tr class="text-center">
                         <th>No.</th>
                         <th>Code</th>
-                        <th>Reason</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -137,6 +151,70 @@
         }
         pageContent();
         // ----- END PAGE CONTENT -----
+
+
+        // ----- BUTTON EDIT -----
+        $(document).on('click', '.btnEdit', function() {
+            let purchaseRequestID = $(this).attr("purchaseRequestID");
+            $("#modal").modal("show");
+            $("#modal .page-title").text("EDIT PURCHASE REQUEST");
+            $("#modal_content").html(preloader);
+            setTimeout(function() {
+                let data = getTableData(`purchase_request WHERE purchase_request_id=${purchaseRequestID}`);
+
+                if (data && data.length) {
+                    let { purchase_request_id, status } = data && data[0];
+
+                    let html = `
+                    <div class="row p-3">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control validate"
+                                    name="status"
+                                    id="status"
+                                    required>
+                                    <option value="0" ${status == "0" ? "selected" : ""}>Pending</option>
+                                    <option value="1" ${status == "1" ? "selected" : ""}>Approved</option>
+                                    <option value="2" ${status == "2" ? "selected" : ""}>Cancelled</option>
+                                </select>
+                                <div class="d-block invalid-feedback" id="invalid-status"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" 
+                            id="btnUpdate"
+                            purchaseRequestID="${purchase_request_id}">Update</button>
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>`;
+                    $("#modal_content").html(html);
+                } else {
+                    $("#modal").modal("hide");
+                }
+            }, 100)
+        })
+        // ----- END BUTTON EDIT -----
+
+
+        // ----- BUTTON UPDATE -----
+        $(document).on("click", `#btnUpdate`, function() {
+            let purchaseRequestID = $(this).attr("purchaseRequestID");
+            
+            let validate = validateForm("modal");
+            if (validate) {
+                $("#modal").modal("hide");
+
+                let data = getFormData("modal");
+                    data["tableName"]   = "purchase_request";
+                    data["feedback"]    = `Pruchase Request`;
+                    data["method"]      = "update";
+                    data["whereFilter"] = `purchase_request_id=${purchaseRequestID}`;
+    
+                sweetAlertConfirmation("update", "Purchase Request", "modal", null, data, true, refreshTableContent);
+            }
+        })
+        // ----- END BUTTON UPDATE -----
 
     })
 
