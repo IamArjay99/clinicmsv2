@@ -31,6 +31,27 @@ const getElement = (element = null, defaultElement = null) => {
 // ---- END GET DOM ELEMENT -----
 
 
+// ----- FORMAT AMOUNT -----
+function formatAmount(amount = 0, pesoSign = false, parentheses = false) {
+	var currency = new Intl.NumberFormat("tl-PH", {
+		style: "currency",
+		currency: "PHP",
+	}).format(amount);
+	currency = currency.replace("₱", "");
+	let result = !pesoSign ? currency : `₱ ${currency}`;
+		result = parentheses ? `(${result})` : result;
+	return result;
+};
+// ----- END FORMAT AMOUNT -----
+
+
+// ----- GET NON-FORMATTED AMOUNT -----
+function getNonFormattedAmount(amount = "₱0.00") {
+	return +amount.replaceAll(",", "").replaceAll("₱", "")?.trim();
+}
+// ----- END GET NON-FORMATTED AMOUNT -----
+
+
 // ----- INIT DATERANGE -----
 function initDateRangePicker(element = null, otherOption = false) {
 	let elem = getElement(element, ".daterange");
@@ -360,3 +381,11 @@ const getFormData = (formID = null, object = true) => {
 	return !object ? formData : output;
 };
 // ----- END GET FORM DATA -----
+
+
+// ----- KEYUP NUMBER -----
+$(document).on("keypress", `[type="number"]`, function(e) {
+	let key = e.which;
+	if(key < 48 || key > 57) e.preventDefault();
+})
+// ----- END KEYUP NUMBER -----

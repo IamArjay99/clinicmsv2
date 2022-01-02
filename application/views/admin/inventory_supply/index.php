@@ -44,9 +44,14 @@
                     columnDefs: [
                         { targets: 0, width: '50px'  },
                         { targets: 1, width: '250px' },
-                        { targets: 2, width: '250px' },
-                        { targets: 3, width: '250px' },
-                        { targets: 4, width: '250px' },
+                        { targets: 2, width: '120px' },
+                        { targets: 3, width: '120px' },
+                        { targets: 4, width: '100px' },
+                        { targets: 5, width: '100px' },
+                        { targets: 6, width: '100px' },
+                        { targets: 7, width: '100px' },
+                        { targets: 8, width: '100px' },
+                        { targets: 9, width: '100px' },
                     ],
                 });
         }
@@ -125,14 +130,17 @@
                             <tr class="text-center">
                                 <th>No.</th>
                                 <th>Percentage</th>
-                                <th>Name</th>
                                 <th>Brand</th>
+                                <th>Name</th>
+                                <th>Unit</th>
+                                <th>Measurement</th>
                                 <th>Quantity</th>
+                                <th>Batch No.</th>
+                                <th>Expiration Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="tableMedicineTbody">
-                            ${tbodyHTML}
                         </tbody>
                     </table>
                 </div>
@@ -152,7 +160,7 @@
                 <div class="card-body" id="medicineContent">${medicineContent()}</div>
             </div>
             <div class="card my-5">
-                <div class="card-body" id="careEquipmentContent">${medicineContent()}</div>
+                <div class="card-body" id="careEquipmentContent">TEST</div>
             </div>`;
 
             setTimeout(() => {
