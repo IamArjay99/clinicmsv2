@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$environment = $_SERVER["HTTP_HOST"] == "localhost" ? "development" : "production";
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,9 +25,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = 'http://localhost/clinicmsv2/';
-$config['base_url'] = 'https://'.$_SERVER["HTTP_HOST"];
-$config['base_url'] .= preg_replace("@/+$@", "", dirname($_SERVER['SCRIPT_NAME'])).'/';
+if ($environment == "development") {
+    $config['base_url'] = 'http://localhost/clinicmsv2/';
+} else {
+    $config['base_url'] = 'https://'.$_SERVER["HTTP_HOST"];
+    $config['base_url'] .= preg_replace("@/+$@", "", dirname($_SERVER['SCRIPT_NAME'])).'/';
+}
 
 /*
 |--------------------------------------------------------------------------
