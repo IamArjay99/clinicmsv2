@@ -14,7 +14,7 @@
                 <div class="modal-dialog modal-md mt-5" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-light">
-                            <h4 class="page-title font-weight-bold"></h5>
+                            <h4 class="page-title font-weight-bold text-white"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span class="text-light" aria-hidden="true">&times;</span>
                             </button>
