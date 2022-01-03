@@ -7,11 +7,265 @@
                     <h4 class="mb-0">Supply</h4>
                 </div>
                 <div class="card-body" id="pageContent">     
-                    <div class="jumping-dots-loader my-5">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>     
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">MEDICINE</h5>
+                        </div>
+                        <div class="card-body" id="medicineContent">
+                            <div class="row">
+                                <div class="col-12" id="tableMedicineParent">
+                                    <table class="table table-hover table-bordered" id="tableMedicine">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>No.</th>
+                                                <th>Percentage</th>
+                                                <th>Name</th>
+                                                <th>Brand</th>
+                                                <th>Unit</th>
+                                                <th>Measurement</th>
+                                                <th>Quantity</th>
+                                                <th>Batch No.</th>
+                                                <th>Expiration Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableMedicineTbody">
+
+                                        <?php if ($medicines && !empty($medicines)): ?>
+                                        <?php 
+                                            foreach($medicines as $index => $med): 
+                                            $items = $med['items'] ?? [];
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= ($index + 1) ?></td>
+                                                <td></td>
+                                                <td><?= $med['name'] ?></td>
+                                                <td><?= $med['brand'] ?></td>
+                                                <td><?= $med['unit_name'] ?></td>
+                                                <td><?= $med['measurement_name'] ?></td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['remaining'] ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['batch'] ?? '-' ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= date("F d, Y", strtotime($item['expiration'])) ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="#"
+                                                        class="btn btn-outline-info btnView"
+                                                        medicineID="<?= $med['medicine_id'] ?>">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card my-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">CARE EQUIPMENTS</h5>
+                        </div>
+                        <div class="card-body" id="careEquipmentContent">
+                            <div class="row">
+                                <div class="col-12" id="tableCareEquipmentParent">
+                                    <table class="table table-hover table-bordered" id="tableCareEquipment">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>No.</th>
+                                                <th>Percentage</th>
+                                                <th>Name</th>
+                                                <th>Unit</th>
+                                                <th>Quantity</th>
+                                                <th>Batch No.</th>
+                                                <th>Expiration Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableCareEquipmentTbody">
+
+                                        <?php if ($care_equipments && !empty($care_equipments)): ?>
+                                        <?php 
+                                            foreach($care_equipments as $index => $ce): 
+                                            $items = $ce['items'] ?? [];
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= ($index + 1) ?></td>
+                                                <td></td>
+                                                <td><?= $ce['name'] ?></td>
+                                                <td><?= $ce['unit_name'] ?></td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['remaining'] ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['batch'] ?? '-' ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= date("F d, Y", strtotime($item['expiration'])) ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="#"
+                                                        class="btn btn-outline-info btnView"
+                                                        careEquipmentID="<?= $ce['care_equipment_id'] ?>">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">OFFICE SUPPLY</h5>
+                        </div>
+                        <div class="card-body" id="officeSupplyContent">
+                            <div class="row">
+                                <div class="col-12" id="tableOfficeSupplyParent">
+                                    <table class="table table-hover table-bordered" id="tableOfficeSupply">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>No.</th>
+                                                <th>Percentage</th>
+                                                <th>Name</th>
+                                                <th>Unit</th>
+                                                <th>Quantity</th>
+                                                <th>Batch No.</th>
+                                                <th>Expiration Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableOfficeSupplyTbody">
+
+                                        <?php if ($office_supply && !empty($office_supply)): ?>
+                                        <?php 
+                                            foreach($office_supply as $index => $os): 
+                                            $items = $os['items'] ?? [];
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= ($index + 1) ?></td>
+                                                <td></td>
+                                                <td><?= $os['name'] ?></td>
+                                                <td><?= $os['unit_name'] ?></td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['remaining'] ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= $item['batch'] ?? '-' ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        if ($items && !empty($items)): 
+                                                        foreach ($items as $item): 
+                                                    ?>
+                                                        <div><?= date("F d, Y", strtotime($item['expiration'])) ?></div>
+                                                    <?php 
+                                                        endforeach; 
+                                                        endif; 
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="#"
+                                                        class="btn btn-outline-info btnView"
+                                                        officeSupplyID="<?= $os['office_supply_id'] ?>">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -54,7 +308,58 @@
                         { targets: 9, width: '100px' },
                     ],
                 });
+
+            if ($.fn.DataTable.isDataTable("#tableCareEquipment")) {
+                $("#tableCareEquipment").DataTable().destroy();
+            }
+            
+            var table = $("#tableCareEquipment")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX:        true,
+                    sorting:        [],
+                    scrollCollapse: true,
+                    columnDefs: [
+                        { targets: 0, width: '50px'  },
+                        { targets: 1, width: '250px' },
+                        { targets: 2, width: '120px' },
+                        { targets: 3, width: '120px' },
+                        { targets: 4, width: '100px' },
+                        { targets: 5, width: '100px' },
+                        { targets: 6, width: '100px' },
+                        { targets: 7, width: '100px' },
+                    ],
+                });
+
+            if ($.fn.DataTable.isDataTable("#tableOfficeSupply")) {
+                $("#tableOfficeSupply").DataTable().destroy();
+            }
+            
+            var table = $("#tableOfficeSupply")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX:        true,
+                    sorting:        [],
+                    scrollCollapse: true,
+                    columnDefs: [
+                        { targets: 0, width: '50px'  },
+                        { targets: 1, width: '250px' },
+                        { targets: 2, width: '120px' },
+                        { targets: 3, width: '120px' },
+                        { targets: 4, width: '100px' },
+                        { targets: 5, width: '100px' },
+                        { targets: 6, width: '100px' },
+                        { targets: 7, width: '100px' },
+                    ],
+                });
         }
+        initDataTables();
         // ----- END DATATABLES -----
 
 
@@ -168,7 +473,7 @@
                 initDataTables();
             }, 100);
         }
-        pageContent();
+        // pageContent();
         // ----- END PAGE CONTENT -----
 
 

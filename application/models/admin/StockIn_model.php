@@ -19,19 +19,31 @@ class StockIn_model extends CI_Model {
 
             if ($medicine && !empty($medicine))
             {
-                foreach ($medicine as $key => $m) $medicine[$key]["stock_in_id"] = $stockInID;
+                foreach ($medicine as $key => $m) 
+                {
+                    $medicine[$key]["stock_in_id"] = $stockInID;
+                    $medicine[$key]["remaining"]   = $m['quantity'];
+                } 
                 $this->db->insert_batch("stock_in_medicine", $medicine);
             }
 
             if ($careEquipment && !empty($careEquipment))
             {
-                foreach ($careEquipment as $key => $ce) $careEquipment[$key]["stock_in_id"] = $stockInID;
+                foreach ($careEquipment as $key => $ce)
+                {
+                    $careEquipment[$key]["stock_in_id"] = $stockInID;
+                    $careEquipment[$key]["remaining"]   = $ce['quantity'];
+                } 
                 $this->db->insert_batch("stock_in_care_equipment", $careEquipment);
             }
 
             if ($officeSupply && !empty($officeSupply))
             {
-                foreach ($officeSupply as $key => $os) $officeSupply[$key]["stock_in_id"] = $stockInID;
+                foreach ($officeSupply as $key => $os)
+                {
+                    $officeSupply[$key]["stock_in_id"] = $stockInID;
+                    $officeSupply[$key]["remaining"]   = $os['quantity'];
+                } 
                 $this->db->insert_batch("stock_in_office_supply", $officeSupply);
             }
 

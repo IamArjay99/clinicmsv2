@@ -829,9 +829,6 @@
                 $(`#officeSupplyContent`).html(officeSupplyContentHTML);
                 initDataTables();
 
-                // uniqueMedicineOption();
-                // uniqueCareEquipmentOption();
-                // uniqueOfficeSupplyOption();
                 $(`table select`).trigger("change");
 
                 if (flag) {

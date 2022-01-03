@@ -22,7 +22,6 @@ class Survey_model extends CI_Model {
 
     public function saveSurvey($surveyID = 0, $data = [])
     {
-        // return $data;
         if ($surveyID && !empty($data))
         {
             $query = $this->db->update("surveys", $data, "survey_id=$surveyID");
