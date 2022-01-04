@@ -24,8 +24,6 @@
 
     $(document).ready(function() {
 
-        alert("LOL");
-
         // ----- GLOBAL VARIABLE -----
         let getPercentage = (value = 0, divider = 0) => (value / divider) * 100;
         // ----- END GLOBAL VARIABLE -----
