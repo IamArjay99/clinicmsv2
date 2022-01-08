@@ -60,6 +60,8 @@
     <script src="<?= base_url('assets/js/daterangepicker.js') ?>"></script>
     <script src="<?= base_url('assets/vendors/fullcalendar/fullcalendar.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/jquery.redirect.js') ?>"></script>
+    <script src="<?= base_url('assets/vendors/inputmask/jquery.inputmask.bundle.js') ?>"></script>
+    <script src="<?= base_url('assets/js/inputmask.js') ?>"></script>
     <!-- endinject -->
 
     <!-- DataTables -->
@@ -71,6 +73,7 @@
     <script defer src="<?= base_url('assets/js/brands.js') ?>"></script>
     <script defer src="<?= base_url('assets/js/solid.js') ?>"></script>
     <script defer src="<?= base_url('assets/js/fontawesome.js') ?>"></script>
+    <!-- End Font Awesome -->
 
     <script src="<?= base_url('assets/js/system-operations.js') ?>"></script>
     <script src="<?= base_url('assets/js/custom-general.js') ?>"></script>

@@ -32,6 +32,9 @@ class Checkup_form extends CI_Controller {
         $medicine              = $this->input->post("medicine");             
         $recommendation       = $this->input->post("recommendation");       
 
+        echo json_encode($_POST);
+        exit;
+
         $data = [
             'clinic_appointment_id' => $clinic_appointment_id,
             'service_id'            => $service_id,

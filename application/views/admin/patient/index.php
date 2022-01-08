@@ -27,7 +27,9 @@
 
         // ----- GLOBAL VARIABLES -----
         let courseList      = getTableData(`courses WHERE is_deleted = 0`);
+        let yearList        = getTableData(`years WHERE is_deleted = 0`);
         let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
+        let patientIDList   = [];
         // ----- END GLOBAL VARIABLES -----
 
 
@@ -92,6 +94,25 @@
         // ----- END COURSE OPTIONS DISPLAY -----
 
 
+        // ----- YEAR OPTIONS DISPLAY -----
+        function getYearOptionDisplay(courseID = 0, yearID = 0) {
+            let html = `<option value="" selected>Select year</option>`;
+            yearList.filter(yr => yr.course_id == courseID)
+            .map(year => {
+                let {
+                    year_id,
+                    name
+                } = year;
+
+                html += `
+                <option value="${year_id}"
+                    ${year_id == yearID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+        // ----- END YEAR OPTIONS DISPLAY -----
+
+
         // ----- TABLE CONTENT -----
         function tableContent(patientTypeID = 0) {
             let wherePatientType = patientTypeID == 0 ? '1=1' : `p.patient_type_id=${patientTypeID}`;
@@ -100,25 +121,28 @@
                 `patients AS p 
                     LEFT JOIN patient_type AS pt USING(patient_type_id)
                     LEFT JOIN courses AS c USING(course_id)
+                    LEFT JOIN years AS y ON p.year_id = y.year_id
                 WHERE p.is_deleted = 0 AND ${wherePatientType}`,
-                `p.*, pt.name AS pt_name, c.name AS c_name`);
+                `p.*, pt.name AS pt_name, c.name AS course_name, y.name AS year_name`);
             data.map(item => {
                 let {
                     patient_id   = "",
                     patient_code = "",
                     pt_name      = "",
-                    c_name       = "",
+                    course_name  = "",
                     email        = "",
                     password     = "",
                     firstname    = "",
                     middlename   = "",
                     lastname     = "",
                     suffix       = "",
-                    year         = "",
+                    year_name      = "",
                     section      = "",
                     age          = "",
                     gender       = "",
                 } = item;
+
+                patientIDList.push({patient_id, patient_code});
 
                 tbodyHTML += `
                 <tr>
@@ -128,15 +152,15 @@
                     <td>${email}</td>
                     <td>${age}</td>
                     <td>${gender}</td>
-                    <td>${c_name || "-"}</td>
-                    <td>${year || "-"}</td>
+                    <td>${course_name || "-"}</td>
+                    <td>${year_name || "-"}</td>
                     <td>${section || "-"}</td>
                     <td>
                         <div class="text-center">
-                            <a class="btn btn-outline-primary btnView"
+                            <!-- <a class="btn btn-outline-primary btnView"
                                 href="patient/profile?id=${patient_id}"
                                 target="_blank"
-                                patientID="${patient_id}"><i class="fas fa-eye"></i></a>
+                                patientID="${patient_id}"><i class="fas fa-eye"></i></a> -->
                             <button class="btn btn-outline-info btnEdit"
                                 patientID="${patient_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"
@@ -206,8 +230,6 @@
                         <div class="col-md-8 col-sm-12 text-right">
                             <button class="btn btn-primary"
                                 id="btnAdd"><i class="fas fa-plus"></i> Add Patient</button>
-                            <!-- <button class="btn btn-warning"
-                                id="btnImport"><i class="fas fa-file-import"></i> Import Patient CSV</button> -->
                         </div>
                     </div>
                 </div>
@@ -230,6 +252,7 @@
                 patient_code    = "",
                 patient_type_id = "",
                 course_id       = "",
+                year_id         = "",
                 email           = "",
                 password        = "",
                 firstname       = "",
@@ -238,7 +261,6 @@
                 suffix          = "",
                 age             = "",
                 gender          = "",
-                year            = "",
                 section         = "",
             } = data && data[0];
 
@@ -256,10 +278,11 @@
                     <div class="form-group">
                         <label>Patient ID <code>*</code></label>
                         <input type="text" 
-                            class="form-control validate"
+                            class="form-control validate inputmask"
                             name="patient_code"
                             minlength="2"
                             maxlength="20"
+                            data-inputmask-alias="99-9999"
                             value="${patient_code}"
                             required>
                         <div class="d-block invalid-feedback"></div>
@@ -401,8 +424,8 @@
                         <label>Course</label>
                         <select class="form-control validate"
                             name="course_id"
-                            ${course_id && course_id == 2 ? "" : "disabled"}
-                            ${course_id && course_id == 2 ? "" : "required"}>
+                            ${course_id && patient_type_id == 2 ? "" : "disabled"}
+                            ${course_id && patient_type_id == 2 ? "" : "required"}>
                             ${getCourseOptionDisplay(course_id)}
                         </select>
                         <div class="d-block invalid-feedback"></div>
@@ -411,14 +434,12 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="form-group">
                         <label>Year</label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="year"
-                            minlength="1"
-                            maxlength="50"
-                            value="${age}"
-                            ${course_id && course_id == 2 ? "" : "disabled"}
-                            ${course_id && course_id == 2 ? "" : "required"}>
+                        <select class="form-control validate"
+                            name="year_id"
+                            ${course_id && patient_type_id == 2 ? "" : "disabled"}
+                            ${course_id && patient_type_id == 2 ? "" : "required"}>
+                            ${getYearOptionDisplay(course_id, year_id)}
+                        </select>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
@@ -430,9 +451,9 @@
                             name="section"
                             minlength="1"
                             maxlength="50"
-                            value="${age}"
-                            ${course_id && course_id == 2 ? "" : "disabled"}
-                            ${course_id && course_id == 2 ? "" : "required"}>
+                            value="${section}"
+                            ${course_id && patient_type_id == 2 ? "" : "disabled"}
+                            ${course_id && patient_type_id == 2 ? "" : "required"}>
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
@@ -447,6 +468,18 @@
         // ----- END FORM CONTENT -----
 
 
+        // ----- VALIDATE PATIENT ID -----
+        function validatePatientID(patientID = 0, patientCode = '') {
+            let arr = patientIDList.filter(id => id.patient_id != patientID && id.patient_code == patientCode);
+            let flag = arr.length ? false : true;
+            if (!flag) {
+                showNotification('danger', 'Patient ID is already exists!');
+            }
+            return flag;
+        }
+        // ----- END VALIDATE PATIENT ID -----
+
+
         // ----- BUTTON ADD -----
         $(document).on("click", "#btnAdd", function() {
             let html = formContent();
@@ -455,6 +488,10 @@
             $("#modal .page-title").text("ADD PATIENT");
             $("#modal").modal('show');
             generateInputsID("#modal");
+            $(`[name="patient_code"]`).inputmask({
+                mask:        "99-9999",
+                placeholder: "00-0000"
+            });
         });
         // ----- END BUTTON ADD -----
 
@@ -473,6 +510,10 @@
                 let html = formContent(data, true);
                 $("#modal_content").html(html);
                 generateInputsID("#modal");
+                $(`[name="patient_code"]`).inputmask({
+                    mask:        "99-9999",
+                    placeholder: "00-0000"
+                });
             }, 100);
         });
         // ----- END BUTTON EDIT -----
@@ -482,21 +523,36 @@
         $(document).on("change", `[name="patient_type_id"]`, function() {
             let patientType = $(this).val();
 
-            $(`[name="course_id"]`).val('0');
-            $(`[name="year"]`).val('');
+            $(`[name="course_id"]`).val('').trigger('change');
+            $(`[name="year_id"]`).val('').trigger('change');
             $(`[name="section"]`).val('');
 
             if (patientType && patientType == 2) {
                 $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
-                $(`[name="year"]`).removeAttr("disabled").attr("required", true);
+                $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
                 $(`[name="section"]`).removeAttr("disabled").attr("required", true);
             } else {
                 $(`[name="course_id"]`).attr("disabled", true);
-                $(`[name="year"]`).attr("disabled", true);
+                $(`[name="year_id"]`).attr("disabled", true);
                 $(`[name="section"]`).attr("disabled", true);
+                $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
             }
         })
         // ----- END CHANGE PATIENT TYPE -----
+
+
+        // ----- CHANGE COURSE -----
+        $(document).on("change", `[name="course_id"]`, function() {
+            let courseID = $(this).val();
+            let options  = getYearOptionDisplay(courseID);
+            $(`[name="year_id"]`).html(options);
+        })
+        // ----- END CHANGE COURSE -----
 
 
         // ----- TOGGLE PASSWORD -----
@@ -516,10 +572,13 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
-            let patientID = $(this).attr("patientID");
+            let patientID   = $(this).attr("patientID");
+            let patientCode = $(`[name="patient_code"]`).val();
             
-            let validate = validateForm("modal");
-            if (validate) {
+            let validate       = validateForm("modal");
+            let checkPatientID = validatePatientID(patientID, patientCode);
+
+            if (validate && checkPatientID) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
@@ -535,10 +594,13 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnUpdate`, function() {
-            let patientID = $(this).attr("patientID");
+            let patientID   = $(this).attr("patientID");
+            let patientCode = $(`[name="patient_code"]`).val();
             
-            let validate = validateForm("modal");
-            if (validate) {
+            let validate       = validateForm("modal");
+            let checkPatientID = validatePatientID(patientID, patientCode);
+            
+            if (validate && checkPatientID) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");

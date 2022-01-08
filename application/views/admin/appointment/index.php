@@ -66,7 +66,8 @@
                 clinic_appointments AS ca
                     LEFT JOIN patients AS p USING(patient_id) 
                     LEFT JOIN services AS s USING(service_id) 
-                WHERE ca.is_deleted = 0`,
+                WHERE ca.is_deleted = 0
+                ORDER BY date_appointment DESC`,
                 `ca.*, p.firstname AS p_firstname, p.middlename AS p_middlename, p.lastname AS p_lastname, p.suffix AS p_suffix, s.name AS s_name`);
             data.map((item, index) => {
                 let {
