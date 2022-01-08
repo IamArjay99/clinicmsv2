@@ -28,6 +28,7 @@
         // ----- GLOBAL VARIABLES -----
         let unitList        = getTableData(`units WHERE is_deleted = 0`);
         let measurementList = getTableData(`measurements WHERE is_deleted = 0`);
+        let categoryList    = getTableData(`category WHERE is_deleted = 0`);
         // ----- END GLOBAL VARIABLES -----
 
 
@@ -48,11 +49,12 @@
                     scrollCollapse: true,
                     columnDefs: [
                         { targets: 0, width: '50px'  },
-                        { targets: 1, width: '250px' },
-                        { targets: 2, width: '250px' },
-                        { targets: 3, width: '150px' },
-                        { targets: 4, width: '150px' },
+                        { targets: 1, width: '100px' },
+                        { targets: 2, width: '100px' },
+                        { targets: 3, width: '100px' },
+                        { targets: 4, width: '100px' },
                         { targets: 5, width: '100px' },
+                        { targets: 6, width: '100px' },
                     ],
                 });
         }
@@ -95,6 +97,24 @@
         // ----- END MEASUREMENT OPTIONS DISPLAY -----
 
 
+        // ----- CATEGORY OPTIONS DISPLAY -----
+        function getCategoryOptionDisplay(categoryID = 0) {
+            let html = `<option value="" selected>Select category</option>`;
+            categoryList.map(category => {
+                let {
+                    category_id,
+                    name
+                } = category;
+
+                html += `
+                <option value="${category_id}"
+                    ${category_id == categoryID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+        // ----- END CATEGORY OPTIONS DISPLAY -----
+
+
         // ----- TABLE CONTENT -----
         function tableContent() {
 
@@ -103,8 +123,9 @@
                 `medicines AS m
                     LEFT JOIN units AS u USING(unit_id)
                     LEFT JOIN measurements AS m2 USING(measurement_id) 
+                    LEFT JOIN category AS c USING(category_id)
                 WHERE m.is_deleted = 0`,
-                `m.*, u.name AS unit_name, m2.name AS measurement_name`);
+                `m.*, u.name AS unit_name, m2.name AS measurement_name, c.name AS category_name`);
             data.map((item, index) => {
                 let {
                     medicine_id      = "",
@@ -112,15 +133,17 @@
                     name             = "",
                     unit_name        = "",
                     measurement_name = "",
+                    category_name    = "",
                 } = item;
 
                 tbodyHTML += `
                 <tr>
                     <td class="text-center">${index+1}</td>
-                    <td>${brand || "-"}</td>
                     <td>${name || "-"}</td>
+                    <td>${brand || "-"}</td>
                     <td>${unit_name || "-"}</td>
                     <td>${measurement_name || "-"}</td>
+                    <td>${category_name || "-"}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
@@ -137,10 +160,11 @@
                 <thead>
                     <tr class="text-center">
                         <th>No.</th>
-                        <th>Brand</th>
                         <th>Name</th>
+                        <th>Brand</th>
                         <th>Unit</th>
                         <th>Measurement</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -202,6 +226,9 @@
                 name           = "",
                 unit_id        = "",
                 measurement_id = "",
+                category_id    = "",
+                reorder        = "",
+                capacity       = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
@@ -261,6 +288,43 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label>Category <code>*</code></label>
+                        <select class="form-control validate"
+                            name="category_id"
+                            required>
+                            ${getCategoryOptionDisplay(category_id)}    
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Re-order <code>*</code></label>
+                        <input type="number" 
+                            class="form-control validate"
+                            name="reorder"
+                            minlength="1"
+                            maxlength="100"
+                            value="${reorder}">
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Maximum Capacity <code>*</code></label>
+                        <input type="number" 
+                            class="form-control validate"
+                            name="capacity"
+                            minlength="1"
+                            maxlength="100"
+                            value="${capacity}">
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 ${buttonSaveUpdate}

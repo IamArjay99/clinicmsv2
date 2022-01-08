@@ -233,6 +233,7 @@
                             <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/section') ?>">Section</a></li> -->
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/unit') ?>">Unit</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/measurement') ?>">Measurement</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/category') ?>">Category</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/medicine') ?>">Medicine</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/care_equipment') ?>">Care Equipment</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/office_supply') ?>">Office Supply</a></li>

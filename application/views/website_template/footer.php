@@ -462,7 +462,7 @@ $(document).ready(function(){
             let tableData   =   getTableData("system_setup");
             if(message && name && email && subject ){
                 e.preventDefault();
-                window.location.href = `mailto:${tableData[0]["systemEmail"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
+                window.location.href = `mailto:${tableData[0]["email"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
             }
         });
     })

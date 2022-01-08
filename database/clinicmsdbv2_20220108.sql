@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `clinicmsdbv2` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `clinicmsdbv2`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: clinicmsdbv2
@@ -55,6 +57,8 @@ CREATE TABLE `care_equipments` (
   `name` varchar(100) DEFAULT NULL,
   `unit_id` bigint(20) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
+  `reorder` int(11) DEFAULT NULL,
+  `capacity` int(11) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -68,8 +72,35 @@ CREATE TABLE `care_equipments` (
 
 LOCK TABLES `care_equipments` WRITE;
 /*!40000 ALTER TABLE `care_equipments` DISABLE KEYS */;
-INSERT INTO `care_equipments` VALUES (1,'Elastic Bandage',5,NULL,0,'2022-01-01 13:52:20','2022-01-01 13:52:20'),(2,'Gauze Pad',5,NULL,0,'2022-01-01 13:52:33','2022-01-01 13:52:33'),(3,'Lysol Disinfectant Spray',4,NULL,0,'2022-01-01 13:52:50','2022-01-01 13:52:50'),(4,'Alcohol',4,NULL,0,'2022-01-01 13:53:06','2022-01-01 13:53:06'),(5,'Gloves',1,NULL,0,'2022-01-01 13:53:13','2022-01-01 13:53:13');
+INSERT INTO `care_equipments` VALUES (1,'Elastic Bandage',5,NULL,10,1000,0,'2022-01-01 13:52:20','2022-01-08 06:23:44'),(2,'Gauze Pad',5,NULL,NULL,NULL,0,'2022-01-01 13:52:33','2022-01-01 13:52:33'),(3,'Lysol Disinfectant Spray',4,NULL,NULL,NULL,0,'2022-01-01 13:52:50','2022-01-01 13:52:50'),(4,'Alcohol',4,NULL,NULL,NULL,0,'2022-01-01 13:53:06','2022-01-01 13:53:06'),(5,'Gloves',1,NULL,NULL,NULL,0,'2022-01-01 13:53:13','2022-01-01 13:53:13');
 /*!40000 ALTER TABLE `care_equipments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `category_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'test2',1,'2022-01-08 05:54:50','2022-01-08 05:55:04'),(2,'test',0,'2022-01-08 05:55:00','2022-01-08 05:55:00');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -193,7 +224,7 @@ CREATE TABLE `clinic_appointments` (
 
 LOCK TABLES `clinic_appointments` WRITE;
 /*!40000 ALTER TABLE `clinic_appointments` DISABLE KEYS */;
-INSERT INTO `clinic_appointments` VALUES (1,1,2,'TEST','2021-12-15',1,0,'2021-12-05 05:35:10','2021-12-05 11:49:53'),(2,1,2,'test','2021-12-03',0,1,'2021-12-05 11:49:28','2021-12-05 11:49:36');
+INSERT INTO `clinic_appointments` VALUES (1,1,2,'TEST','2021-12-13',1,0,'2021-12-05 05:35:10','2022-01-05 12:35:31'),(2,1,2,'test','2021-12-03',0,1,'2021-12-05 11:49:28','2021-12-05 11:49:36');
 /*!40000 ALTER TABLE `clinic_appointments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,12 +391,15 @@ CREATE TABLE `medicines` (
   `brand` varchar(100) DEFAULT NULL,
   `unit_id` bigint(20) DEFAULT NULL,
   `measurement_id` bigint(20) DEFAULT NULL,
+  `category_id` bigint(20) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
+  `reorder` int(11) DEFAULT NULL,
+  `capacity` int(11) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`medicine_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +408,7 @@ CREATE TABLE `medicines` (
 
 LOCK TABLES `medicines` WRITE;
 /*!40000 ALTER TABLE `medicines` DISABLE KEYS */;
-INSERT INTO `medicines` VALUES (1,'Biogesic','',5,4,NULL,0,'2022-01-01 13:50:42','2022-01-01 13:50:42'),(2,'Neosep','',5,4,NULL,0,'2022-01-01 13:50:56','2022-01-01 13:50:56'),(3,'Buscupan','',5,4,NULL,0,'2022-01-01 13:51:09','2022-01-01 13:51:09'),(4,'Syndex Forte','',5,4,NULL,0,'2022-01-01 13:51:25','2022-01-01 13:51:25'),(5,'Mefinamic Acid','',4,4,NULL,0,'2022-01-01 13:51:40','2022-01-01 13:51:40');
+INSERT INTO `medicines` VALUES (1,'Biogesic','',5,4,2,NULL,10,100,0,'2022-01-01 13:50:42','2022-01-08 06:27:18'),(2,'Neosep','',5,4,NULL,NULL,NULL,NULL,0,'2022-01-01 13:50:56','2022-01-01 13:50:56'),(3,'Buscupan','',5,4,2,NULL,NULL,NULL,0,'2022-01-01 13:51:09','2022-01-08 05:58:38'),(4,'Syndex Forte','',5,4,NULL,NULL,NULL,NULL,0,'2022-01-01 13:51:25','2022-01-01 13:51:25'),(5,'Mefinamic Acid','',4,4,NULL,NULL,NULL,NULL,0,'2022-01-01 13:51:40','2022-01-01 13:51:40'),(6,'test2','test',1,3,2,NULL,NULL,NULL,1,'2022-01-08 06:01:28','2022-01-08 06:01:44');
 /*!40000 ALTER TABLE `medicines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -390,6 +424,8 @@ CREATE TABLE `office_supply` (
   `name` varchar(100) DEFAULT NULL,
   `unit_id` bigint(20) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
+  `reorder` int(11) DEFAULT NULL,
+  `capacity` int(11) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -403,7 +439,7 @@ CREATE TABLE `office_supply` (
 
 LOCK TABLES `office_supply` WRITE;
 /*!40000 ALTER TABLE `office_supply` DISABLE KEYS */;
-INSERT INTO `office_supply` VALUES (1,'Coupon Bond A4',1,NULL,0,'2022-01-01 13:53:38','2022-01-01 13:53:58'),(2,'Coupon Bond Long',1,NULL,0,'2022-01-01 13:53:52','2022-01-01 13:53:52'),(3,'Floder Long',1,NULL,0,'2022-01-01 13:54:07','2022-01-01 13:54:07'),(4,'Envelop Long',1,NULL,0,'2022-01-01 13:54:19','2022-01-01 13:54:19');
+INSERT INTO `office_supply` VALUES (1,'Coupon Bond A4',1,NULL,NULL,NULL,0,'2022-01-01 13:53:38','2022-01-01 13:53:58'),(2,'Coupon Bond Long',1,NULL,NULL,NULL,0,'2022-01-01 13:53:52','2022-01-01 13:53:52'),(3,'Floder Long',1,NULL,NULL,NULL,0,'2022-01-01 13:54:07','2022-01-01 13:54:07'),(4,'Envelop Long',1,NULL,NULL,NULL,0,'2022-01-01 13:54:19','2022-01-01 13:54:19');
 /*!40000 ALTER TABLE `office_supply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -695,7 +731,7 @@ CREATE TABLE `stock_in` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -704,7 +740,7 @@ CREATE TABLE `stock_in` (
 
 LOCK TABLES `stock_in` WRITE;
 /*!40000 ALTER TABLE `stock_in` DISABLE KEYS */;
-INSERT INTO `stock_in` VALUES (1,0,'SI-00001','already have',0,'2022-01-01 13:56:30','2022-01-01 14:11:09'),(2,1,'SI-00002','test',0,'2022-01-02 08:20:54','2022-01-02 08:20:54'),(3,2,'SI-00003','test',0,'2022-01-02 10:42:45','2022-01-02 10:42:45');
+INSERT INTO `stock_in` VALUES (1,0,'SI-00001','already have',0,'2022-01-01 13:56:30','2022-01-01 14:11:09'),(2,1,'SI-00002','test',0,'2022-01-02 08:20:54','2022-01-02 08:20:54'),(3,2,'SI-00003','test',0,'2022-01-02 10:42:45','2022-01-02 10:42:45'),(4,0,'SI-00004','test',0,'2022-01-08 02:07:29','2022-01-08 02:07:30'),(5,2,'SI-00005','',0,'2022-01-08 05:46:24','2022-01-08 05:46:25');
 /*!40000 ALTER TABLE `stock_in` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -727,7 +763,7 @@ CREATE TABLE `stock_in_care_equipment` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_care_equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -736,7 +772,7 @@ CREATE TABLE `stock_in_care_equipment` (
 
 LOCK TABLES `stock_in_care_equipment` WRITE;
 /*!40000 ALTER TABLE `stock_in_care_equipment` DISABLE KEYS */;
-INSERT INTO `stock_in_care_equipment` VALUES (1,1,1,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(2,1,2,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(3,1,3,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(4,1,4,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(5,1,5,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(6,2,1,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55'),(7,2,2,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55'),(8,2,3,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55');
+INSERT INTO `stock_in_care_equipment` VALUES (1,1,1,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(2,1,2,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(3,1,3,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(4,1,4,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(5,1,5,100,NULL,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-01 13:56:30'),(6,2,1,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55'),(7,2,2,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55'),(8,2,3,10,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55'),(9,4,1,100,100,'1','2022-01-20',0,'2022-01-08 02:07:30','2022-01-08 02:07:30');
 /*!40000 ALTER TABLE `stock_in_care_equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -759,7 +795,7 @@ CREATE TABLE `stock_in_medicine` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_medicine_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -768,7 +804,7 @@ CREATE TABLE `stock_in_medicine` (
 
 LOCK TABLES `stock_in_medicine` WRITE;
 /*!40000 ALTER TABLE `stock_in_medicine` DISABLE KEYS */;
-INSERT INTO `stock_in_medicine` VALUES (1,1,1,100,100,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(2,1,2,100,100,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(3,1,3,100,100,'1','2022-01-27',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(4,1,4,100,100,'1','2022-01-20',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(5,1,5,100,100,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(6,2,1,1,0,'2','2022-01-21',0,'2022-01-02 08:20:54','2022-01-03 11:16:19'),(7,2,2,10,10,'2','0000-00-00',0,'2022-01-02 08:20:54','2022-01-03 11:16:19'),(8,3,1,5,5,'2','2022-01-21',0,'2022-01-02 10:42:45','2022-01-03 11:16:19');
+INSERT INTO `stock_in_medicine` VALUES (1,1,1,100,0,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-08 04:03:16'),(2,1,2,100,100,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(3,1,3,100,100,'1','2022-01-27',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(4,1,4,100,100,'1','2022-01-20',0,'2022-01-01 13:56:30','2022-01-03 10:35:27'),(5,1,5,100,50,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-08 04:47:19'),(6,2,1,1,0,'2','2022-01-21',0,'2022-01-02 08:20:54','2022-01-03 11:16:19'),(7,2,2,10,10,'2','0000-00-00',0,'2022-01-02 08:20:54','2022-01-03 11:16:19'),(8,3,1,5,0,'2','2022-01-23',0,'2022-01-02 10:42:45','2022-01-08 04:35:26'),(9,5,1,50,50,'1','0000-00-00',0,'2022-01-08 05:46:25','2022-01-08 05:46:25');
 /*!40000 ALTER TABLE `stock_in_medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -802,6 +838,131 @@ LOCK TABLES `stock_in_office_supply` WRITE;
 /*!40000 ALTER TABLE `stock_in_office_supply` DISABLE KEYS */;
 INSERT INTO `stock_in_office_supply` VALUES (1,1,2,100,NULL,'1','2022-01-29',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(2,1,3,100,NULL,'1','2022-01-07',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(3,1,4,100,NULL,'1','2022-01-27',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(4,1,1,100,NULL,'1','2022-01-28',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(5,2,1,100,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55');
 /*!40000 ALTER TABLE `stock_in_office_supply` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_out`
+--
+
+DROP TABLE IF EXISTS `stock_out`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock_out` (
+  `stock_out_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) DEFAULT NULL,
+  `reason` text DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`stock_out_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock_out`
+--
+
+LOCK TABLES `stock_out` WRITE;
+/*!40000 ALTER TABLE `stock_out` DISABLE KEYS */;
+INSERT INTO `stock_out` VALUES (1,'SO-00001','',0,'2022-01-07 21:02:39','2022-01-08 04:02:39'),(2,'SO-00002','test',0,'2022-01-07 21:03:16','2022-01-08 04:03:16'),(3,'SO-00003','remove biogesic',0,'2022-01-07 21:35:25','2022-01-08 04:35:26'),(4,'SO-00004','mefenamic acid',0,'2022-01-07 21:47:19','2022-01-08 04:47:19');
+/*!40000 ALTER TABLE `stock_out` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_out_care_equipment`
+--
+
+DROP TABLE IF EXISTS `stock_out_care_equipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock_out_care_equipment` (
+  `stock_out_care_equipment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stock_out_id` bigint(20) DEFAULT NULL,
+  `stock_in_care_equipment_id` bigint(20) DEFAULT NULL,
+  `care_equipment_id` bigint(20) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `remaining` int(11) DEFAULT NULL,
+  `batch` varchar(100) DEFAULT NULL,
+  `expiration` date DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`stock_out_care_equipment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock_out_care_equipment`
+--
+
+LOCK TABLES `stock_out_care_equipment` WRITE;
+/*!40000 ALTER TABLE `stock_out_care_equipment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_out_care_equipment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_out_medicine`
+--
+
+DROP TABLE IF EXISTS `stock_out_medicine`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock_out_medicine` (
+  `stock_out_medicine_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stock_out_id` bigint(20) DEFAULT NULL,
+  `stock_in_medicine_id` bigint(20) DEFAULT NULL,
+  `medicine_id` bigint(20) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `remaining` int(11) DEFAULT NULL,
+  `batch` varchar(100) DEFAULT NULL,
+  `expiration` date DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`stock_out_medicine_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock_out_medicine`
+--
+
+LOCK TABLES `stock_out_medicine` WRITE;
+/*!40000 ALTER TABLE `stock_out_medicine` DISABLE KEYS */;
+INSERT INTO `stock_out_medicine` VALUES (1,2,NULL,1,100,100,NULL,NULL,0,'2022-01-08 04:03:16','2022-01-08 04:03:16'),(2,3,NULL,1,5,5,NULL,NULL,0,'2022-01-08 04:35:26','2022-01-08 04:35:26'),(3,4,NULL,5,50,50,NULL,NULL,0,'2022-01-08 04:47:19','2022-01-08 04:47:19');
+/*!40000 ALTER TABLE `stock_out_medicine` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_out_office_supply`
+--
+
+DROP TABLE IF EXISTS `stock_out_office_supply`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock_out_office_supply` (
+  `stock_out_office_supply_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stock_out_id` bigint(20) DEFAULT NULL,
+  `stock_in_office_supply_id` bigint(20) DEFAULT NULL,
+  `office_supply_id` bigint(20) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `remaining` int(11) DEFAULT NULL,
+  `batch` varchar(100) DEFAULT NULL,
+  `expiration` date DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`stock_out_office_supply_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock_out_office_supply`
+--
+
+LOCK TABLES `stock_out_office_supply` WRITE;
+/*!40000 ALTER TABLE `stock_out_office_supply` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_out_office_supply` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -851,9 +1012,12 @@ DROP TABLE IF EXISTS `system_setup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `system_setup` (
-  `systemSetupID` int(11) NOT NULL AUTO_INCREMENT,
-  `systemEmail` text NOT NULL,
-  PRIMARY KEY (`systemSetupID`)
+  `system_setup_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `email` varchar(200) NOT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`system_setup_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -863,7 +1027,7 @@ CREATE TABLE `system_setup` (
 
 LOCK TABLES `system_setup` WRITE;
 /*!40000 ALTER TABLE `system_setup` DISABLE KEYS */;
-INSERT INTO `system_setup` VALUES (1,'arjaydiangzon@gmail.com');
+INSERT INTO `system_setup` VALUES (1,'arjaydiangzon@gmail.com',0,'2022-01-08 08:28:10','2022-01-08 08:28:10');
 /*!40000 ALTER TABLE `system_setup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -976,4 +1140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-03 19:33:06
+-- Dump completed on 2022-01-08 16:36:10

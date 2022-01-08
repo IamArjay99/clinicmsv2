@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Add Stock In</h4>
+                    <h4 class="mb-0">Add Stock Out</h4>
                 </div>
                 <div class="card-body" id="pageContent">     
                     <div class="jumping-dots-loader my-5">
@@ -31,17 +31,20 @@
                 LEFT JOIN units AS u USING(unit_id)
                 LEFT JOIN measurements AS m2 USING(measurement_id)
             WHERE m.is_deleted = 0`,
-            `m.*, u.name AS unit_name, m2.name AS measurement_name`);
+            `m.*, u.name AS unit_name, m2.name AS measurement_name,
+            (SELECT SUM(remaining) FROM stock_in_medicine WHERE medicine_id = m.medicine_id) AS remaining`);
         let careEquipmentList = getTableData(
             `care_equipments AS ce
                 LEFT JOIN units AS u USING(unit_id) 
             WHERE ce.is_deleted = 0`,
-            `ce.*, u.name AS unit_name`);
+            `ce.*, u.name AS unit_name,
+            (SELECT SUM(remaining) FROM stock_in_care_equipment WHERE care_equipment_id = ce.care_equipment_id) AS remaining`);
         let officeSupplyList = getTableData(
             `office_supply AS os
                 LEFT JOIN units AS u USING(unit_id)
             WHERE os.is_deleted = 0`,
-            `os.*, u.name AS unit_name`);
+            `os.*, u.name AS unit_name,
+            (SELECT SUM(remaining) FROM stock_in_office_supply WHERE office_supply_id = os.office_supply_id) AS remaining`);
         let purchaseRequestList = getTableData(`purchase_request WHERE is_deleted = 0 AND status = 1`) // APPROVED PR
         // ----- END GLOBAL VARIABLES -----
 
@@ -73,7 +76,6 @@
                         { targets: 4, width: '100px' },
                         { targets: 5, width: '100px' },
                         { targets: 6, width: '100px' },
-                        { targets: 7, width: '100px' },
                     ],
                 });
 
@@ -100,7 +102,6 @@
                         { targets: 2, width: '100px' },
                         { targets: 3, width: '100px' },
                         { targets: 4, width: '100px' },
-                        { targets: 5, width: '100px' },
                     ],
                 });
 
@@ -127,7 +128,6 @@
                         { targets: 2, width: '100px' },
                         { targets: 3, width: '100px' },
                         { targets: 4, width: '100px' },
-                        { targets: 5, width: '100px' },
                     ],
                 });
         }
@@ -144,6 +144,7 @@
                     brand,
                     unit_name,
                     measurement_name,
+                    remaining,
                 } = medicine;
 
                 html += `
@@ -151,6 +152,7 @@
                     brand="${brand}"
                     unit_name="${unit_name}"
                     measurement_name="${measurement_name}"
+                    remaining="${remaining || 0}"
                     ${medicineID == medicine_id ? "selected" : ""}>${name}</option>`;
             })
             return html;
@@ -189,9 +191,10 @@
                 <td>
                     ${nameHTML}
                 </td>
-                <td class="brand">${medicine_brand || "-"}</td>
-                <td class="unit">${unit_name || "-"}</td>
-                <td class="measurement">${measurement_name || "-"}</td>
+                <td class="brand">-</td>
+                <td class="unit">-</td>
+                <td class="measurement">-</td>
+                <td class="text-center remaining">-</td>
                 <td>
                     <div class="form-group mb-0">
                         <input type="number"
@@ -200,27 +203,6 @@
                             min="1"
                             max="999999"
                             value="${quantity || ""}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
-                            minlength="1"
-                            maxlength="100"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -250,9 +232,8 @@
                                 <th>Brand</th>
                                 <th>Unit</th>
                                 <th>Measurement</th>
+                                <th>Remaining</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
                             </tr>
                         </thead>
                         <tbody id="tableMedicineTbody">
@@ -260,7 +241,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="8" class="">
+                                <td colspan="7" class="">
                                     <button class="btn btn-outline-primary btnAdd"
                                         table="medicine">
                                         <i class="fas fa-plus"></i> Add Row
@@ -285,11 +266,13 @@
                     care_equipment_id,
                     name,
                     unit_name,
+                    remaining,
                 } = care_equipment;
 
                 html += `
                 <option value="${care_equipment_id}"
                     unit_name="${unit_name}"
+                    remaining="${remaining || 0}"
                     ${careEquipmentID == care_equipment_id ? "selected" : ""}>${name}</option>`;
             })
             return html;
@@ -327,6 +310,7 @@
                     ${nameHTML}
                 </td>
                 <td class="unit">-</td>
+                <td class="text-center remaining">-</td>
                 <td>
                     <div class="form-group mb-0">
                         <input type="number"
@@ -335,27 +319,6 @@
                             min="1"
                             max="${quantity || "999999"}"
                             value="${quantity || ""}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
-                            minlength="1"
-                            maxlength="100"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -383,9 +346,8 @@
                                 <th>&nbsp;</th>
                                 <th>Name <code>*</code></th>
                                 <th>Unit</th>
+                                <th>Remaining</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
                             </tr>
                         </thead>
                         <tbody id="tableCareEquipmentTbody">
@@ -393,7 +355,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6" class="">
+                                <td colspan="5" class="">
                                     <button class="btn btn-outline-primary btnAdd"
                                         table="care_equipment">
                                         <i class="fas fa-plus"></i> Add Row
@@ -418,11 +380,13 @@
                     office_supply_id,
                     name,
                     unit_name,
+                    remaining,
                 } = office_supply;
 
                 html += `
                 <option value="${office_supply_id}"
                     unit_name="${unit_name}"
+                    remaining="${remaining || 0}"
                     ${officeSupplyID == office_supply_id ? "selected" : ""}>${name}</option>`;
             })
             return html;
@@ -459,7 +423,8 @@
                 <td>
                     ${nameHTML}
                 </td>
-                <td class="unit">${unit_name || "-"}</td>
+                <td class="unit">-</td>
+                <td class="text-center remaining">-</td>
                 <td>
                     <div class="form-group mb-0">
                         <input type="number"
@@ -468,27 +433,6 @@
                             min="1"
                             max="${quantity || "999999"}"
                             value="${quantity || ""}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="text"
-                            class="form-control validate"
-                            name="batch"
-                            minlength="1"
-                            maxlength="100"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-0">
-                        <input type="date"
-                            class="form-control validate"
-                            name="expiration"
-                            min="${moment().format("YYYY-MM-DD")}"
                             required>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -516,9 +460,8 @@
                                 <th>&nbsp;</th>
                                 <th>Name <code>*</code></th>
                                 <th>Unit</th>
+                                <th>Remaining</th>
                                 <th>Quantity <code>*</code></th>
-                                <th>Batch No. <code>*</code></th>
-                                <th>Expiration Date <code>*</code></th>
                             </tr>
                         </thead>
                         <tbody id="tableOfficeSupplyTbody">
@@ -526,7 +469,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6" class="">
+                                <td colspan="5" class="">
                                     <button class="btn btn-outline-primary btnAdd"
                                         table="office_supply">
                                         <i class="fas fa-plus"></i> Add Row
@@ -564,16 +507,6 @@
 
             let html = `
             <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Reference <code>*</code></label>
-                        <select class="form-control validate"
-                            name="purchase_request_id"
-                            required>  
-                            ${getPurchaseRequestOptionDisplay()}  
-                        </select>
-                    </div>
-                </div>
                 <div class="col-12">
                     <div class="form-group">
                         <label>Reason</label>
@@ -586,7 +519,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-12" id="addStockInContent">
+                <div class="col-12" id="addStockOutContent">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">MEDICINE</h5>
@@ -655,6 +588,7 @@
                         brand,
                         unit_name,
                         measurement_name,
+                        remaining,
                     } = item;
 
                     html += `
@@ -662,6 +596,7 @@
                         brand="${brand}"
                         unit_name="${unit_name}"
                         measurement_name="${measurement_name}"
+                        remaining="${remaining || 0}"
                         ${itemIDArr[index] == medicine_id ? "selected" : ""}>${name}</option>`;
                  })
 
@@ -690,11 +625,13 @@
                         care_equipment_id,
                         name,
                         unit_name,
+                        remaining,
                     } = item;
 
                     html += `
                     <option value="${care_equipment_id}"
                         unit_name="${unit_name}"
+                        remaining="${remaining || 0}"
                         ${itemIDArr[index] == care_equipment_id ? "selected" : ""}>${name}</option>`;
                  })
 
@@ -723,11 +660,13 @@
                         office_supply_id,
                         name,
                         unit_name,
+                        remaining,
                     } = item;
 
                     html += `
                     <option value="${office_supply_id}"
                         unit_name="${unit_name}"
+                        remaining="${remaining || 0}"
                         ${itemIDArr[index] == office_supply_id ? "selected" : ""}>${name}</option>`;
                  })
 
@@ -737,15 +676,13 @@
         // ----- END UNIQUE OFFICE SUPPLY OPTION -----
 
 
-        // ----- GET STOCK IN DATA -----
-        function getStockInData() {
+        // ----- GET STOCK OUT DATA -----
+        function getStockOutData() {
             let medicine = [];
             $(`#tableMedicineTbody tr`).each(function() {
                 let temp = {
                     medicine_id: $(`[name="medicine_id"]`, this).val(),
                     quantity:    $(`[name="quantity"]`, this).val(),
-                    batch:       $(`[name="batch"]`, this).val(),
-                    expiration:  $(`[name="expiration"]`, this).val(),
                 }
                 medicine.push(temp);
             })
@@ -755,8 +692,6 @@
                 let temp = {
                     care_equipment_id: $(`[name="care_equipment_id"]`, this).val(),
                     quantity:          $(`[name="quantity"]`, this).val(),
-                    batch:             $(`[name="batch"]`, this).val(),
-                    expiration:        $(`[name="expiration"]`, this).val(),
                 }
                 careEquipment.push(temp);
             })
@@ -766,15 +701,12 @@
                 let temp = {
                     office_supply_id: $(`[name="office_supply_id"]`, this).val(),
                     quantity:         $(`[name="quantity"]`, this).val(),
-                    batch:            $(`[name="batch"]`, this).val(),
-                    expiration:       $(`[name="expiration"]`, this).val(),
                 }
                 officeSupply.push(temp);
             })
 
             let data = {
-                purchase_request_id: $(`[name="purchase_request_id"]`).val(),
-                reason:              $(`[name="reason"]`).val()?.trim(),
+                reason: $(`[name="reason"]`).val()?.trim(),
                 medicine,
                 careEquipment,
                 officeSupply
@@ -782,62 +714,32 @@
 
             return data;
         }
-        // ----- END GET STOCK IN DATA -----
+        // ----- END GET STOCK OUT DATA -----
 
 
-        // ----- GET PURCHASE REQUEST DATA -----
-        function getPurchaseRequest(purchaseRequestID = 0) {
-            let result = null;
-            $.ajax({
-                method: "POST",
-                url: `${base_url}admin/purchase_request/getPurchaseRequest`,
-                data: { purchaseRequestID },
-                async: false,
-                dataType: 'json',
-                success: function(data) {
-                    result = data;
+        // ----- VALIDATE ITEMS -----
+        function validateItems() {
+            let element = [];
+            let flag = true;
+            $(`[name="quantity"]`).each(function() {
+                $parent = $(this).closest("tr");
+                let name      = $parent.find(`select option:selected`).text().trim();
+                let remaining = +$parent.find(`select option:selected`).attr("remaining");
+                let quantity  = $(this).val();
+                if (quantity > remaining) {
+                    showNotification("warning", `${name} - Insufficient supply.`);
+                    element.push(`#${this.id}`);
+                    flag = false;
                 }
             })
-            return result;
+
+            if (!flag && element.length) {
+                $(`${element[0]}`).focus();
+            }
+
+            return flag;
         }
-        // ----- END GET PURCHASE REQUEST DATA -----
-
-
-        // ----- SELECT REFERENCE -----
-        $(document).on("change", `[name="purchase_request_id"]`, function() {
-            let purchaseRequestID = $(this).val();
-            $(`#medicineContent, #careEquipmentContent, #officeSupplyContent`).html(preloader);
-            let medicineContentHTML      = medicineContent();
-            let careEquipmentContentHTML = careEquipmentContent();
-            let officeSupplyContentHTML  = officeSupplyContent();
-
-            let flag = false;
-
-            if (purchaseRequestID != '0') {
-                let data = getPurchaseRequest(purchaseRequestID);
-                medicineContentHTML      = medicineContent(data.medicine, true);
-                careEquipmentContentHTML = careEquipmentContent(data.care_equipment, true);
-                officeSupplyContentHTML  = officeSupplyContent(data.office_supply, true);
-
-                flag = true;
-            } 
-
-            setTimeout(function() {
-                
-                $(`#medicineContent`).html(medicineContentHTML);
-                $(`#careEquipmentContent`).html(careEquipmentContentHTML);
-                $(`#officeSupplyContent`).html(officeSupplyContentHTML);
-                initDataTables();
-
-                $(`table select`).trigger("change");
-
-                if (flag) {
-                    $(`table select`).attr("disabled", true).trigger("change");
-                    $(`.btnAdd`).remove();
-                }
-            }, 100)
-        })
-        // ----- END SELECT REFERENCE -----
+        // ----- END VALIDATE ITEMS -----
 
 
         // ----- BUTTON ADD -----
@@ -885,10 +787,12 @@
             let brand       = $(`option:selected`, this).attr("brand") || "-"; 
             let unit        = $(`option:selected`, this).attr("unit_name") || "-"; 
             let measurement = $(`option:selected`, this).attr("measurement_name") || "-";
+            let remaining   = $(`option:selected`, this).attr("remaining") || "0";
             
             $parent.find(`.brand`).text(brand);
             $parent.find(`.unit`).text(unit);
             $parent.find(`.measurement`).text(measurement);
+            $parent.find(`.remaining`).text(remaining);
 
             uniqueMedicineOption();
         })
@@ -900,8 +804,11 @@
             $parent = $(this).closest("tr");
             let elementID = $(this).attr("id");
 
-            let unit = $(`option:selected`, this).attr("unit_name") || "-";
+            let unit      = $(`option:selected`, this).attr("unit_name") || "-";
+            let remaining = $(`option:selected`, this).attr("remaining") || "0";
+
             $parent.find(`.unit`).text(unit);
+            $parent.find(`.remaining`).text(remaining);
 
             uniqueCareEquipmentOption();
         })
@@ -913,8 +820,11 @@
             $parent = $(this).closest("tr");
             let elementID = $(this).attr("id");
 
-            let unit = $(`option:selected`, this).attr("unit_name") || "-";
+            let unit      = $(`option:selected`, this).attr("unit_name") || "-";
+            let remaining = $(`option:selected`, this).attr("remaining") || "0";
+
             $parent.find(`.unit`).text(unit);
+            $parent.find(`.remaining`).text(remaining);
 
             uniqueOfficeSupplyOption();
         })
@@ -925,54 +835,56 @@
         $(document).on("click", "#btnSave", function() {
             let hasData  = document.querySelectorAll(`[name="medicine_id"]`).length + document.querySelectorAll(`[name="care_equipment_id"]`).length + document.querySelectorAll(`[name="office_supply_id"]`).length != 0;
             if (!hasData) {
-                showNotification("warning", "You must have atleast one item to stock in")
+                showNotification("warning", "You must have atleast one item to stock out")
             } else {
-                let validate = validateForm("addStockInContent");
+                let validate = validateForm("addStockOutContent");
                 if (validate) {
-                    let data = getStockInData();
-                    
-                    Swal.fire({
-                        title: "SAVE STOCK IN", 
-                        text: "Are you sure you want to save this stock in?",
-                        imageUrl: `${base_url}assets/images/modal/add.svg`,
-                        imageWidth: 200,
-                        imageHeight: 200,
-                        imageAlt: 'Custom image',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
-                        cancelButtonColor: '#1a1a1a',
-                        cancelButtonText: 'No',
-                        confirmButtonText: 'Yes',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $("#loader").show();
-                            $.ajax({
-                                method: "POST",
-                                url: `${base_url}admin/stock_in/saveStockIn`,
-                                data,
-                                dataType: "json",
-                                async: false,
-                                success: function(data) {
-                                    setTimeout(() => {
-                                        $("#loader").hide();
+                    if (validateItems()) {
+                        let data = getStockOutData();
+                        
+                        Swal.fire({
+                            title: "SAVE STOCK OUT", 
+                            text: "Are you sure you want to save this stock out?",
+                            imageUrl: `${base_url}assets/images/modal/add.svg`,
+                            imageWidth: 200,
+                            imageHeight: 200,
+                            imageAlt: 'Custom image',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#1a1a1a',
+                            cancelButtonText: 'No',
+                            confirmButtonText: 'Yes',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#loader").show();
+                                $.ajax({
+                                    method: "POST",
+                                    url: `${base_url}admin/stock_out/saveStockOut`,
+                                    data,
+                                    dataType: "json",
+                                    async: false,
+                                    success: function(data) {
+                                        setTimeout(() => {
+                                            $("#loader").hide();
 
-                                        let result = data?.split("|") || false;
-                                        if (result && result[0]) {
-                                            Swal.fire({
-                                                title: "Stock In saved successfully!",
-                                                icon: "success",
-                                                showConfirmButton: false,
-                                                timer: 2000
-                                            }).then(function() {
-                                                window.location.replace(`${base_url}admin/stock_in`);
-                                            })
-                                        }
+                                            let result = data?.split("|") || false;
+                                            if (result && result[0]) {
+                                                Swal.fire({
+                                                    title: "Stock Out saved successfully!",
+                                                    icon: "success",
+                                                    showConfirmButton: false,
+                                                    timer: 2000
+                                                }).then(function() {
+                                                    window.location.replace(`${base_url}admin/stock_out`);
+                                                })
+                                            }
 
-                                    }, 100);
-                                }
-                            })
-                        } 
-                    });
+                                        }, 100);
+                                    }
+                                })
+                            } 
+                        });
+                    }
                 }
             }
         })
@@ -982,8 +894,8 @@
         // ----- BUTTON CANCEL -----
         $(document).on("click", "#btnCancel", function() {
             Swal.fire({
-                title: "CANCEL STOCK IN", 
-                text: "Are you sure you want to cancel this stock in?",
+                title: "CANCEL STOCK OUT", 
+                text: "Are you sure you want to cancel this stock out?",
                 imageUrl: `${base_url}assets/images/modal/delete.svg`,
                 imageWidth: 200,
                 imageHeight: 200,
@@ -995,7 +907,7 @@
                 confirmButtonText: 'Yes',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.replace(`${base_url}admin/stock_in`);
+                    window.location.replace(`${base_url}admin/stock_out`);
                 } 
             });
         })
