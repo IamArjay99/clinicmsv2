@@ -31,7 +31,7 @@
         // ----- GLOBAL VARIABLES -----
         let startDate = moment().format("YYYY-MM-DD 00:00:00");
         let endDate   = moment().format("YYYY-MM-DD 23:59:59");
-        let patientList = getTableData(
+        let appointmentPatientList = getTableData(
             `clinic_appointments AS ca 
                 LEFT JOIN patients AS p USING(patient_id)
                 LEFT JOIN courses AS c ON p.course_id = c.course_id
@@ -41,8 +41,13 @@
                 AND p.is_deleted = 0
             GROUP BY ca.patient_id`,
             `p.*, clinic_appointment_id, service_id, c.name AS course_name, y.name AS year_name,
-            (SELECT medical_history_id FROM medical_history WHERE patient_id = p.patient_id) AS medical_history_id`);
-
+            (SELECT medical_history_id FROM medical_history WHERE patient_id = ca.patient_id) AS medical_history_id`);
+        let patientList = getTableData(
+            `patients AS p
+                LEFT JOIN courses AS c ON p.course_id = c.course_id
+                LEFT JOIN years AS y ON p.year_id = y.year_id
+            WHERE p.is_deleted = 0`, 
+            `p.*, c.name AS course_name, y.name AS year_name`);
         let serviceList = getTableData(`services WHERE is_deleted = 0`);
         let medicineList = getTableData(
             `medicines AS m
@@ -234,44 +239,82 @@
         // ----- PATIENT OPTION DISPLAY -----
         function getPatientOptionDisplay(serviceID = 0, patientID = 0) {
             let html = `<option value="" selected disabled>Select patient name</option>`;
-            patientList.map(patient => {
-                let {
-                    clinic_appointment_id = "",
-                    patient_id            = "",
-                    patient_code          = "",
-                    patient_type_id       = "",
-                    course_id             = "",
-                    email                 = "",
-                    password              = "",
-                    firstname             = "",
-                    middlename            = "",
-                    lastname              = "",
-                    suffix                = "",
-                    age                   = "",
-                    gender                = "",
-                    year_name             = "",
-                    section               = "",
-                    course_name           = "",
-                    service_id            = "",
-                    medical_history_id    = "",
-                } = patient;
 
-                let fullname = `${firstname} ${middlename} ${lastname} ${suffix}`;
-
-                if (serviceID == service_id) {
+            if (serviceID == 1) { // MEDICAL
+                appointmentPatientList.map(patient => {
+                    let {
+                        clinic_appointment_id = "",
+                        patient_id            = "",
+                        patient_code          = "",
+                        patient_type_id       = "",
+                        course_id             = "",
+                        email                 = "",
+                        password              = "",
+                        firstname             = "",
+                        middlename            = "",
+                        lastname              = "",
+                        suffix                = "",
+                        age                   = "",
+                        gender                = "",
+                        year_name             = "",
+                        section               = "",
+                        course_name           = "",
+                        service_id            = "",
+                        medical_history_id    = "",
+                    } = patient;
+    
+                    let fullname = `${firstname} ${middlename} ${lastname} ${suffix}`;
+    
+                    if (serviceID == service_id) {
+                        html += `
+                        <option value="${patient_id}"
+                            clinic_appointment_id = "${clinic_appointment_id}"
+                            course_id   = "${course_id}"
+                            age         = "${age}"
+                            gender      = "${gender}"
+                            year_name   = "${year_name || ""}"
+                            section     = "${section}"
+                            course_name = "${course_name || ""}"
+                            medical_history_id = "${medical_history_id || ""}"
+                            type        = "medicine"
+                            ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
+                    }
+                });
+            } else if (serviceID == 3) { // DISPENSING MEDICINE
+                patientList.map(patient => {
+                    let {
+                        patient_id            = "",
+                        patient_code          = "",
+                        patient_type_id       = "",
+                        course_id             = "",
+                        email                 = "",
+                        password              = "",
+                        firstname             = "",
+                        middlename            = "",
+                        lastname              = "",
+                        suffix                = "",
+                        age                   = "",
+                        gender                = "",
+                        year_name             = "",
+                        section               = "",
+                        course_name           = "",
+                    } = patient;
+    
+                    let fullname = `${firstname} ${middlename} ${lastname} ${suffix}`;
+    
                     html += `
                     <option value="${patient_id}"
-                        clinic_appointment_id = "${clinic_appointment_id}"
                         course_id   = "${course_id}"
                         age         = "${age}"
                         gender      = "${gender}"
-                        year_name   = "${year_name}"
+                        year_name   = "${year_name || ""}"
                         section     = "${section}"
                         course_name = "${course_name || ""}"
-                        medical_history_id = "${medical_history_id || ""}"
+                        type        = "dispensing medicine"
                         ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
-                }
-            });
+                });
+            }
+
 
             return html;
         }
@@ -1600,6 +1643,8 @@
                 } else {
                     $(`#medicalHistoryContent`).empty();
                 }
+            } else {
+                $(`#medicalHistoryContent`).empty();
             }
         })
         // ----- END SELECT PATIENT NAME -----
@@ -1765,7 +1810,7 @@
                     const getHospitalizationInputData = () => {
                         let data = [];
                         if ($(`#tableHospitalizationTbody tr`).length) {
-                            $(`#tableSurgeryTbody tr`).each(function() {
+                            $(`#tableHospitalizationTbody tr`).each(function() {
                                 data.push({
                                     year:     $(`[name="year"]`, this).val(),
                                     reason:   $(`[name="reason"]`, this).val(),
@@ -1779,7 +1824,7 @@
                     const getPrescribeDrugInputData = () => {
                         let data = [];
                         if ($(`#tablePrescribeDrugTbody tr`).length) {
-                            $(`#tableSurgeryTbody tr`).each(function() {
+                            $(`#tablePrescribeDrugTbody tr`).each(function() {
                                 data.push({
                                     name:             $(`[name="name"]`, this).val(),
                                     strength:         $(`[name="strength"]`, this).val(),
@@ -1793,7 +1838,7 @@
                     const getAllergyMedicationInputData = () => {
                         let data = [];
                         if ($(`#tableAllergyMedicationTbody tr`).length) {
-                            $(`#tableSurgeryTbody tr`).each(function() {
+                            $(`#tableAllergyMedicationTbody tr`).each(function() {
                                 data.push({
                                     name:     $(`[name="name"]`, this).val(),
                                     reaction: $(`[name="reaction"]`, this).val(),
@@ -1823,13 +1868,22 @@
                 }
             }
 
+            const getClinicalCaseInputData = () => {
+                let health_complaint = $(`#clinicalCaseRecordContent [name="health_complaint"]`).val();
+                let treatment        = $(`#clinicalCaseRecordContent [name="treatment"]`).val();
+                let schedule         = $(`#clinicalCaseRecordContent [name="schedule"]`).val();
+                if (health_complaint && treatment && schedule) {
+                    return { health_complaint, treatment, schedule };
+                }
+            }
+
             if (validate && validateMedicine && validateCareEquipment) {
                 if (validateItems()) {
                     let data = {
                         service_id:            $(`[name="service_id"]`).val(),
-                        clinic_appointment_id: $(`[name="patient_id"] option:selected`).attr("clinic_appointment_id"),
+                        clinic_appointment_id: $(`[name="patient_id"] option:selected`).attr("clinic_appointment_id") ?? 0,
                         patient_id:            $(`[name="patient_id"]`).val(),
-                        temperature:           $(`[name="temperature"]`).val(),
+                        temperature:           $(`[name="temperature"]`).val() ?? 0,
                         pulse_rate:            $(`[name="pulse_rate"]`).val(),
                         respiratory_rate:      $(`[name="respiratory_rate"]`).val(),
                         blood_pressure:        $(`[name="blood_pressure"]`).val(),
@@ -1838,7 +1892,8 @@
                         medicine:              getMedicineInputData(),
                         care_equipment:        getCareEquipmentInputData(),
                         recommendation:        $(`[name="recommendation"]`).val().trim(),
-                        medical_history:       getMedicalHistoryInputData()
+                        medical_history:       getMedicalHistoryInputData(),
+                        clinical_case_record:  getClinicalCaseInputData()
                     };
     
                     sweetAlertConfirmation("add", "Check-up Form", "", "", data);
@@ -1906,6 +1961,7 @@
                     confirmButtonText: 'Yes',
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        $("#loader").show();
                         let swalTitle = success_title.toUpperCase();
 
                         if (condition != "cancel") {
@@ -1926,6 +1982,7 @@
                                                 timer: 2000
                                             }).then(function() {
                                                 pageContent();
+                                                $("#loader").hide();
                                             });
                                         } 
                                     }
@@ -1937,6 +1994,8 @@
                                 title: swalTitle,
                                 showConfirmButton: false,
                                 timer: 2000
+                            }).then(function() {
+                                $("#loader").hide();
                             });
                         }
                     } else {
