@@ -116,6 +116,48 @@
                     ],
                 });
 
+            if ($.fn.DataTable.isDataTable("#tableMedicineRecord")) {
+                $("#tableMedicineRecord").DataTable().destroy();
+            }
+            var table = $("#tableMedicineRecord")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX:        true,
+                    sorting:        [],
+                    scrollCollapse: true,
+                    columnDefs: [
+                        { targets: 0, width: "50px"  },	
+                        { targets: 1, width: "150px" },	
+                        { targets: 2, width: "100px" },	
+                        { targets: 3, width: "100px" },	
+                        { targets: 4, width: "100px" },	
+                        { targets: 5, width: "100px" },	
+                    ],
+                });
+
+            if ($.fn.DataTable.isDataTable("#tableCareEquipmentRecord")) {
+                $("#tableCareEquipmentRecord").DataTable().destroy();
+            }
+            var table = $("#tableCareEquipmentRecord")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX:        true,
+                    sorting:        [],
+                    scrollCollapse: true,
+                    columnDefs: [
+                        { targets: 0, width: "50px"  },	
+                        { targets: 1, width: "150px" },	
+                        { targets: 2, width: "100px" },	
+                        { targets: 3, width: "100px" },	
+                    ],
+                });
+
         }
         // ----- END DATATABLES -----
 
@@ -410,32 +452,30 @@
         function getMedicineRecordContent()
         {
             let data = getTableData(
-                `clinic_appointments AS ca
-                    LEFT JOIN patients AS p USING(patient_id)
-                    LEFT JOIN patient_type AS pt ON p.patient_type_id = pt.patient_type_id
-                    LEFT JOIN services AS s USING(service_id)
-                WHERE ca.is_deleted = 0
-                ORDER BY ca.date_appointment DESC`,
-                `ca.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname, s.name AS service_name, pt.name AS patient_type`
-            );
+                `medicines AS m 
+                    LEFT JOIN category AS c USING(category_id)
+                    LEFT JOIN units AS u USING(unit_id)
+                    LEFT JOIN measurements AS m2 USING(measurement_id)
+                WHERE m.is_deleted = 0`,
+                `m.*, c.name AS category_name, u.name AS unit_name, m2.name AS measurement_name`);
 
             let tbodyHTML = '';
             if (data && data.length) {
                 data.map((item, index) => {
-                    let status = item.is_done == 0 ? `
-                    <span class="badge badge-warning">Pending</span>` : item.is_done == 1 ? `
-                    <span class="badge badge-success">Completed</span>` : 
-                    `<span class="badge badge-danger">Cancelled</span>`;
 
                     tbodyHTML += `
                     <tr>
                         <td class="text-center">${index + 1}</td>
-                        <td>${item.fullname}</td>
-                        <td>${item.patient_type}</td>
-                        <td>${item.date_appointment ? moment(item.date_appointment).format("MMMM DD, YYYY") : "-"}</td>
-                        <td>${item.service_name || "-"}</td>
-                        <td>${item.purpose || "-"}</td>
-                        <td class="text-center">${status}</td>
+                        <td>${item.name}</td>
+                        <td>${item.category_name}</td>
+                        <td>${item.unit_name}</td>
+                        <td>${item.measurement_name}</td>
+                        <td class="text-center">
+                            <a href="${base_url}admin/record/view_medicine?id=${item.medicine_id}"
+                                class="btn btn-outline-info">
+                                <i class="fas fa-eye"></i> View    
+                            </a>
+                        </td>
                     </tr>`;
                 })
             }
@@ -443,18 +483,17 @@
             let html = `
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Appointment Record</h4>
+                    <h4 class="mb-0">Medicine Record</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-hover" id="tableAppointmentRecord">
+                    <table class="table table-bordered table-hover" id="tableMedicineRecord">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Patient Name</th>
-                                <th>Patient Type</th>
-                                <th>Date Appointment</th>
-                                <th>Appointment Type</th>
-                                <th>Purpose</th>
+                                <th>Medicine</th>
+                                <th>Category</th>
+                                <th>Unit</th>
+                                <th>Measurement</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -467,6 +506,60 @@
             return html;
         }
         // ----- END MEDICINE RECORD CONTENT -----
+
+
+        // ----- CARE EQUIPMENT RECORD CONTENT -----
+        function getCareEquipmentRecordContent()
+        {
+            let data = getTableData(
+                `care_equipments AS ce
+                    LEFT JOIN units AS u USING(unit_id)
+                WHERE ce.is_deleted = 0`,
+                `ce.*, u.name AS unit_name`);
+
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map((item, index) => {
+
+                    tbodyHTML += `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.unit_name}</td>
+                        <td class="text-center">
+                            <a href="${base_url}admin/record/view_care_equipment?id=${item.medicine_id}"
+                                class="btn btn-outline-info">
+                                <i class="fas fa-eye"></i> View    
+                            </a>
+                        </td>
+                    </tr>`;
+                })
+            }
+
+            let html = `
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Care Equipment Record</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-hover" id="tableCareEquipmentRecord">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Equipment Name</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tbodyHTML}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+            return html;
+        }
+        // ----- END CARE EQUIPMENT RECORD CONTENT -----
 
 
         // ----- SELECT RECORD -----
@@ -500,6 +593,10 @@
             else if (record == 5) // MEDICINE
             {
                 html = getMedicineRecordContent();
+            }
+            else if (record == 6) // CARE EQUIPMENT
+            {
+                html = getCareEquipmentRecordContent();
             }
 
             setTimeout(() => {
