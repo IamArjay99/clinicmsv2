@@ -32,7 +32,7 @@ CREATE TABLE `allergy_medication_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`allergy_medication_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `allergy_medication_history` (
 
 LOCK TABLES `allergy_medication_history` WRITE;
 /*!40000 ALTER TABLE `allergy_medication_history` DISABLE KEYS */;
-INSERT INTO `allergy_medication_history` VALUES (1,1,2,'test',NULL,0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(2,1,2,'test',NULL,0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(3,2,4,'test','test',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `allergy_medication_history` VALUES (1,1,1,'dasdsa','dsadas',0,'2022-01-09 06:44:49','2022-01-09 06:44:49');
 /*!40000 ALTER TABLE `allergy_medication_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `announcements` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`announcement_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +70,7 @@ CREATE TABLE `announcements` (
 
 LOCK TABLES `announcements` WRITE;
 /*!40000 ALTER TABLE `announcements` DISABLE KEYS */;
+INSERT INTO `announcements` VALUES (1,'TEST','This is a test description','2022-01-18',0,'2022-01-09 10:53:14','2022-01-09 10:53:14');
 /*!40000 ALTER TABLE `announcements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,12 +144,12 @@ CREATE TABLE `check_up_care_equipments` (
   `check_up_id` bigint(20) DEFAULT NULL,
   `patient_id` bigint(20) DEFAULT NULL,
   `care_equipment_id` bigint(20) DEFAULT NULL,
-  `quantity` decimal(15,2) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`check_up_care_equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +158,7 @@ CREATE TABLE `check_up_care_equipments` (
 
 LOCK TABLES `check_up_care_equipments` WRITE;
 /*!40000 ALTER TABLE `check_up_care_equipments` DISABLE KEYS */;
-INSERT INTO `check_up_care_equipments` VALUES (1,8,2,2,50.00,0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(2,9,4,2,5.00,0,'2022-01-09 02:55:49','2022-01-09 02:55:49');
+INSERT INTO `check_up_care_equipments` VALUES (1,1,1,2,10,0,'2022-01-09 06:44:48','2022-01-09 06:44:48');
 /*!40000 ALTER TABLE `check_up_care_equipments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +174,7 @@ CREATE TABLE `check_up_medicines` (
   `check_up_id` bigint(20) DEFAULT NULL,
   `patient_id` bigint(20) DEFAULT NULL,
   `medicine_id` bigint(20) DEFAULT NULL,
-  `quantity` decimal(15,2) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -187,7 +188,7 @@ CREATE TABLE `check_up_medicines` (
 
 LOCK TABLES `check_up_medicines` WRITE;
 /*!40000 ALTER TABLE `check_up_medicines` DISABLE KEYS */;
-INSERT INTO `check_up_medicines` VALUES (1,8,2,2,10.00,0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(2,9,4,3,10.00,0,'2022-01-09 02:55:49','2022-01-09 02:55:49'),(3,10,1,2,5.00,0,'2022-01-09 03:44:42','2022-01-09 03:44:42'),(4,10,1,4,5.00,0,'2022-01-09 03:44:42','2022-01-09 03:44:42');
+INSERT INTO `check_up_medicines` VALUES (1,1,1,1,10,0,'2022-01-09 06:44:47','2022-01-09 06:44:47'),(2,1,1,3,1,0,'2022-01-09 06:44:47','2022-01-09 06:44:47'),(3,2,3,3,9,0,'2022-01-09 06:49:26','2022-01-09 06:49:26'),(4,3,1,3,5,0,'2022-01-09 06:55:27','2022-01-09 06:55:27');
 /*!40000 ALTER TABLE `check_up_medicines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +243,7 @@ CREATE TABLE `check_ups` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`check_up_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,7 +252,7 @@ CREATE TABLE `check_ups` (
 
 LOCK TABLES `check_ups` WRITE;
 /*!40000 ALTER TABLE `check_ups` DISABLE KEYS */;
-INSERT INTO `check_ups` VALUES (1,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:38:30','2022-01-09 02:38:30'),(2,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:39:01','2022-01-09 02:39:01'),(3,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:39:28','2022-01-09 02:39:28'),(4,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:39:57','2022-01-09 02:39:57'),(5,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:41:23','2022-01-09 02:41:23'),(6,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:41:45','2022-01-09 02:41:45'),(7,5,1,2,'38.59','test','test','test','test','test','test',0,'2022-01-09 02:43:06','2022-01-09 02:43:06'),(8,5,1,2,'45.00','test','test','test','test','test','test',0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(9,4,1,4,'50.00','test','test','test','test','test','test',0,'2022-01-09 02:55:49','2022-01-09 02:55:49'),(10,0,3,1,'21.00','10','10','10','10','10','test',0,'2022-01-09 03:44:42','2022-01-09 03:44:42');
+INSERT INTO `check_ups` VALUES (1,1,1,1,'45.00','test','test','test','test','test','test',0,'2022-01-09 06:44:47','2022-01-09 06:44:47'),(2,0,3,3,'','','','','','','test',0,'2022-01-09 06:49:26','2022-01-09 06:49:26'),(3,0,3,1,'','','','','','','na',0,'2022-01-09 06:55:27','2022-01-09 06:55:27');
 /*!40000 ALTER TABLE `check_ups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +274,7 @@ CREATE TABLE `clinic_appointments` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`clinic_appointment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +283,7 @@ CREATE TABLE `clinic_appointments` (
 
 LOCK TABLES `clinic_appointments` WRITE;
 /*!40000 ALTER TABLE `clinic_appointments` DISABLE KEYS */;
-INSERT INTO `clinic_appointments` VALUES (1,1,2,'TEST','2021-12-13',1,0,'2021-12-05 05:35:10','2022-01-05 12:35:31'),(2,1,2,'test','2021-12-03',0,1,'2021-12-05 11:49:28','2021-12-05 11:49:36'),(3,2,1,'test','2022-01-08',1,0,'2022-01-08 09:30:51','2022-01-08 09:30:59'),(4,4,1,'test','2022-01-09',1,0,'2022-01-09 00:53:21','2022-01-09 00:53:21'),(5,2,1,'tesst','2022-01-09',2,0,'2022-01-09 01:17:19','2022-01-09 04:24:55'),(6,2,1,'test','2022-01-19',0,1,'2022-01-09 02:43:07','2022-01-09 02:56:45'),(7,2,1,'test','2022-01-19',0,0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(8,4,1,'test','2022-01-10',0,0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `clinic_appointments` VALUES (1,1,1,'test','2022-01-09',1,0,'2022-01-09 06:32:23','2022-01-09 06:44:47'),(2,2,1,'test','2022-01-09',0,0,'2022-01-09 06:37:55','2022-01-09 06:41:33'),(3,2,3,'tezxt','2022-01-10',0,0,'2022-01-09 06:38:59','2022-01-09 06:41:51'),(4,7,1,'test','0000-00-00',0,0,'2022-01-09 11:18:02','2022-01-09 11:18:02');
 /*!40000 ALTER TABLE `clinic_appointments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +305,7 @@ CREATE TABLE `clinical_case_records` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`clinical_case_record_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +314,6 @@ CREATE TABLE `clinical_case_records` (
 
 LOCK TABLES `clinical_case_records` WRITE;
 /*!40000 ALTER TABLE `clinical_case_records` DISABLE KEYS */;
-INSERT INTO `clinical_case_records` VALUES (1,8,2,'test','test','2022-01-19',0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(2,9,4,'test','test','2022-01-10',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
 /*!40000 ALTER TABLE `clinical_case_records` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,7 +366,7 @@ CREATE TABLE `dental_certificates` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`dental_certificate_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,7 +375,6 @@ CREATE TABLE `dental_certificates` (
 
 LOCK TABLES `dental_certificates` WRITE;
 /*!40000 ALTER TABLE `dental_certificates` DISABLE KEYS */;
-INSERT INTO `dental_certificates` VALUES (1,1,'2021-12-07','test','sign3','test','comment3','test','2021-12-16',0,'2021-12-05 05:41:15','2021-12-05 05:41:15');
 /*!40000 ALTER TABLE `dental_certificates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +394,7 @@ CREATE TABLE `first_aid_kits` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`first_aid_kit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +403,6 @@ CREATE TABLE `first_aid_kits` (
 
 LOCK TABLES `first_aid_kits` WRITE;
 /*!40000 ALTER TABLE `first_aid_kits` DISABLE KEYS */;
-INSERT INTO `first_aid_kits` VALUES (1,'test','test',400.00,0,'2021-12-05 06:03:19','2021-12-05 12:50:08'),(2,'TEST','test',10.00,0,'2021-12-05 12:49:39','2021-12-05 12:49:39');
 /*!40000 ALTER TABLE `first_aid_kits` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +424,7 @@ CREATE TABLE `hospitalization_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`hospitalization_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +433,7 @@ CREATE TABLE `hospitalization_history` (
 
 LOCK TABLES `hospitalization_history` WRITE;
 /*!40000 ALTER TABLE `hospitalization_history` DISABLE KEYS */;
-INSERT INTO `hospitalization_history` VALUES (1,1,2,'test','test','test',0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(2,2,4,'test','test','test',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `hospitalization_history` VALUES (1,1,1,'asd','asdsa','dsa',0,'2022-01-09 06:44:49','2022-01-09 06:44:49');
 /*!40000 ALTER TABLE `hospitalization_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +484,7 @@ CREATE TABLE `medical_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`medical_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,7 +493,7 @@ CREATE TABLE `medical_history` (
 
 LOCK TABLES `medical_history` WRITE;
 /*!40000 ALTER TABLE `medical_history` DISABLE KEYS */;
-INSERT INTO `medical_history` VALUES (1,2,'Single','test','2022-02-02','Yes','Yes',0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(2,4,'Single','test','2022-01-06','Yes','Yes',0,'2022-01-09 02:55:49','2022-01-09 02:55:49');
+INSERT INTO `medical_history` VALUES (1,1,'Single','test','2022-01-19','Yes','Yes',0,'2022-01-09 06:44:48','2022-01-09 06:44:48');
 /*!40000 ALTER TABLE `medical_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,7 +515,7 @@ CREATE TABLE `medicine_transactions` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`medicine_transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -526,7 +524,6 @@ CREATE TABLE `medicine_transactions` (
 
 LOCK TABLES `medicine_transactions` WRITE;
 /*!40000 ALTER TABLE `medicine_transactions` DISABLE KEYS */;
-INSERT INTO `medicine_transactions` VALUES (1,1,1,100.00,50.00,50.00,0,'2021-12-05 05:39:20','2021-12-05 05:39:20'),(2,1,2,850.00,800.00,50.00,0,'2021-12-05 05:39:20','2021-12-05 05:39:20');
 /*!40000 ALTER TABLE `medicine_transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -648,7 +645,7 @@ CREATE TABLE `patients` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -657,7 +654,7 @@ CREATE TABLE `patients` (
 
 LOCK TABLES `patients` WRITE;
 /*!40000 ALTER TABLE `patients` DISABLE KEYS */;
-INSERT INTO `patients` VALUES (1,'16-2423',2,1,2,'johndoe@gmail.com','johndoe','John','Verdadero','Mapagmahal','',28,'Male','G',0,'2021-12-05 05:25:15','2022-01-08 09:13:57'),(2,'16-7500',2,1,3,'rjpinca@gmail.com','rjpinca','RJ','','Pinca','',25,'Male','25G',0,'2022-01-08 09:12:36','2022-01-08 09:12:36'),(3,'98-1569',1,0,0,'milesestacio@gmail.com','milesestacio','Miles','','Estacio','II',40,'Female','',0,'2022-01-08 09:14:47','2022-01-08 09:14:47'),(4,'16-2426',3,0,0,'arvingil@gmail.com','arvingil','Arvin','','Gil','',23,'Male','',0,'2022-01-08 09:26:58','2022-01-08 09:26:58');
+INSERT INTO `patients` VALUES (1,'54-1254',2,1,3,'johndoe@gmail.com','johndoe','John','','Doe','I',24,'Male','g',0,'2022-01-09 06:15:46','2022-01-09 06:15:46'),(2,'52-3152',1,0,0,'markrivera@gmail.com','markrivera','Mark','','Rivera','',25,'Others','',0,'2022-01-09 06:16:15','2022-01-09 06:16:15'),(3,'76-2432',3,0,0,'vincety@gmail.com','vincety','Vince','','Ty','',34,'Male','',0,'2022-01-09 06:16:51','2022-01-09 06:16:51'),(4,'71-2361',4,0,0,'robertvelasques@gmail.com','robertvelasques','Robert','','Velasques','',64,'Others','',0,'2022-01-09 06:17:30','2022-01-09 06:17:30'),(5,'12-3612',5,0,0,'marymagdalena@gmail.com','marymagdalena','Mary','','Magdalena','',29,'Female','',0,'2022-01-09 06:18:03','2022-01-09 06:18:03'),(6,'12-3611',2,1,2,'wilsoncabarubias@gmail.com','wilsoncabarubias','Wilson','','Cabarubias','',46,'Male','Gc',0,'2022-01-09 06:18:57','2022-01-09 06:18:57'),(7,'12-3513',4,0,0,'website@gmail.com','webiste','Website','','Test','',100,'Male','null',0,'2022-01-09 11:07:39','2022-01-09 11:08:34');
 /*!40000 ALTER TABLE `patients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -680,7 +677,7 @@ CREATE TABLE `personal_health_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`personal_health_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -689,7 +686,7 @@ CREATE TABLE `personal_health_history` (
 
 LOCK TABLES `personal_health_history` WRITE;
 /*!40000 ALTER TABLE `personal_health_history` DISABLE KEYS */;
-INSERT INTO `personal_health_history` VALUES (1,1,2,'Measles|Chickenpox|Rheumatic Fever','Measles|Chickenpox|Rheumatic Fever|Tetanus|Pheumonia|Hepatatis','test','Yes',0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(2,2,4,'Mumps','Mumps|Pheumonia','test','Yes',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `personal_health_history` VALUES (1,1,1,'Mumps|Rheumatic Fever','Mumps|Rheumatic Fever|Pheumonia|Hepatatis','test','Yes',0,'2022-01-09 06:44:48','2022-01-09 06:44:48');
 /*!40000 ALTER TABLE `personal_health_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -711,7 +708,7 @@ CREATE TABLE `prescribed_drug_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`prescribed_drug_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -720,7 +717,7 @@ CREATE TABLE `prescribed_drug_history` (
 
 LOCK TABLES `prescribed_drug_history` WRITE;
 /*!40000 ALTER TABLE `prescribed_drug_history` DISABLE KEYS */;
-INSERT INTO `prescribed_drug_history` VALUES (1,1,2,'test','test','test',0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(2,1,2,'test','test','test',0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(3,2,4,'test','test','test',0,'2022-01-09 02:55:50','2022-01-09 02:55:50'),(4,2,4,'test','test','test',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `prescribed_drug_history` VALUES (1,1,1,'asdsad','sadsad','dsad',0,'2022-01-09 06:44:49','2022-01-09 06:44:49'),(2,1,1,'dsadas','dsa','dsadsa',0,'2022-01-09 06:44:49','2022-01-09 06:44:49');
 /*!40000 ALTER TABLE `prescribed_drug_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -740,7 +737,7 @@ CREATE TABLE `purchase_request` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`purchase_request_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -749,7 +746,6 @@ CREATE TABLE `purchase_request` (
 
 LOCK TABLES `purchase_request` WRITE;
 /*!40000 ALTER TABLE `purchase_request` DISABLE KEYS */;
-INSERT INTO `purchase_request` VALUES (1,'PR-00001','',2,0,'2022-01-02 05:40:54','2022-01-02 10:24:39'),(2,'PR-00002','test',1,0,'2022-01-02 05:47:04','2022-01-02 10:25:02');
 /*!40000 ALTER TABLE `purchase_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -771,7 +767,7 @@ CREATE TABLE `purchase_request_care_equipment` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`purchase_request_care_equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -780,7 +776,6 @@ CREATE TABLE `purchase_request_care_equipment` (
 
 LOCK TABLES `purchase_request_care_equipment` WRITE;
 /*!40000 ALTER TABLE `purchase_request_care_equipment` DISABLE KEYS */;
-INSERT INTO `purchase_request_care_equipment` VALUES (1,1,1,10,100.00,1000.00,0,'2022-01-02 05:40:54','2022-01-02 05:40:54'),(2,1,2,10,200.00,2000.00,0,'2022-01-02 05:40:54','2022-01-02 05:40:54'),(3,1,3,10,300.00,3000.00,0,'2022-01-02 05:40:54','2022-01-02 05:40:54');
 /*!40000 ALTER TABLE `purchase_request_care_equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -802,7 +797,7 @@ CREATE TABLE `purchase_request_medicine` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`purchase_request_medicine_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -811,7 +806,6 @@ CREATE TABLE `purchase_request_medicine` (
 
 LOCK TABLES `purchase_request_medicine` WRITE;
 /*!40000 ALTER TABLE `purchase_request_medicine` DISABLE KEYS */;
-INSERT INTO `purchase_request_medicine` VALUES (1,1,1,10,500.00,5000.00,0,'2022-01-02 05:40:54','2022-01-02 05:40:54'),(2,1,2,10,600.00,6000.00,0,'2022-01-02 05:40:54','2022-01-02 05:40:54'),(3,2,1,100,500.00,50000.00,0,'2022-01-02 05:47:04','2022-01-02 05:47:04');
 /*!40000 ALTER TABLE `purchase_request_medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -833,7 +827,7 @@ CREATE TABLE `purchase_request_office_supply` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`purchase_request_office_supply_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -842,7 +836,6 @@ CREATE TABLE `purchase_request_office_supply` (
 
 LOCK TABLES `purchase_request_office_supply` WRITE;
 /*!40000 ALTER TABLE `purchase_request_office_supply` DISABLE KEYS */;
-INSERT INTO `purchase_request_office_supply` VALUES (1,1,1,100,50.00,5000.00,0,'2022-01-02 05:40:55','2022-01-02 05:40:55');
 /*!40000 ALTER TABLE `purchase_request_office_supply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -897,7 +890,7 @@ CREATE TABLE `referral_forms` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`referral_form_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -906,7 +899,7 @@ CREATE TABLE `referral_forms` (
 
 LOCK TABLES `referral_forms` WRITE;
 /*!40000 ALTER TABLE `referral_forms` DISABLE KEYS */;
-INSERT INTO `referral_forms` VALUES (1,'2022-01-22','test',2,'test','test','test','test','test','As requested by relatives of patient/patient',0,'2022-01-08 11:52:37','2022-01-08 11:54:32'),(2,'2022-02-04','test',4,'test','test','test','test','test','For further evaluation and management',1,'2022-01-08 11:55:02','2022-01-08 11:55:17');
+INSERT INTO `referral_forms` VALUES (1,'2022-01-13','test',2,'test','test','test','test','test','For further evaluation and management',0,'2022-01-09 06:48:25','2022-01-09 06:48:25');
 /*!40000 ALTER TABLE `referral_forms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1010,7 +1003,7 @@ CREATE TABLE `stock_in` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1019,7 +1012,7 @@ CREATE TABLE `stock_in` (
 
 LOCK TABLES `stock_in` WRITE;
 /*!40000 ALTER TABLE `stock_in` DISABLE KEYS */;
-INSERT INTO `stock_in` VALUES (1,0,'SI-00001','already have',0,'2022-01-01 13:56:30','2022-01-01 14:11:09'),(2,1,'SI-00002','test',0,'2022-01-02 08:20:54','2022-01-02 08:20:54'),(3,2,'SI-00003','test',0,'2022-01-02 10:42:45','2022-01-02 10:42:45'),(4,0,'SI-00004','test',0,'2022-01-08 02:07:29','2022-01-08 02:07:30'),(5,2,'SI-00005','',0,'2022-01-08 05:46:24','2022-01-08 05:46:25');
+INSERT INTO `stock_in` VALUES (1,0,'SI-00001','test',0,'2022-01-09 06:26:10','2022-01-09 06:26:10');
 /*!40000 ALTER TABLE `stock_in` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1042,7 +1035,7 @@ CREATE TABLE `stock_in_care_equipment` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_care_equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1051,7 +1044,7 @@ CREATE TABLE `stock_in_care_equipment` (
 
 LOCK TABLES `stock_in_care_equipment` WRITE;
 /*!40000 ALTER TABLE `stock_in_care_equipment` DISABLE KEYS */;
-INSERT INTO `stock_in_care_equipment` VALUES (1,1,1,100,100,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-09 01:48:54'),(2,1,2,100,5,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-09 02:55:49'),(3,1,3,100,100,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-09 01:48:54'),(4,1,4,100,50,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-09 02:43:07'),(5,1,5,100,100,'1','2022-02-05',0,'2022-01-01 13:56:30','2022-01-09 01:48:54'),(6,2,1,10,10,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-09 01:48:54'),(7,2,2,10,0,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-09 02:39:28'),(8,2,3,10,10,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-09 01:48:54'),(9,4,1,100,100,'1','2022-01-20',0,'2022-01-08 02:07:30','2022-01-08 02:07:30');
+INSERT INTO `stock_in_care_equipment` VALUES (1,1,1,100,100,'1','2022-01-27',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(2,1,2,100,90,'1','2022-01-27',0,'2022-01-09 06:26:10','2022-01-09 06:44:48'),(3,1,3,100,100,'1','2022-02-03',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(4,1,4,100,80,'1','2022-02-02',0,'2022-01-09 06:26:10','2022-01-09 06:28:19'),(5,1,5,100,100,'1','2022-02-01',0,'2022-01-09 06:26:10','2022-01-09 06:26:10');
 /*!40000 ALTER TABLE `stock_in_care_equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1074,7 +1067,7 @@ CREATE TABLE `stock_in_medicine` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_medicine_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1083,7 +1076,7 @@ CREATE TABLE `stock_in_medicine` (
 
 LOCK TABLES `stock_in_medicine` WRITE;
 /*!40000 ALTER TABLE `stock_in_medicine` DISABLE KEYS */;
-INSERT INTO `stock_in_medicine` VALUES (1,1,1,100,0,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-08 04:03:16'),(2,1,2,100,95,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-09 03:44:42'),(3,1,3,100,90,'1','2022-01-27',0,'2022-01-01 13:56:30','2022-01-09 02:55:49'),(4,1,4,100,25,'1','2022-01-20',0,'2022-01-01 13:56:30','2022-01-09 03:44:42'),(5,1,5,100,50,'1','2022-01-21',0,'2022-01-01 13:56:30','2022-01-08 04:47:19'),(6,2,1,1,0,'2','2022-01-21',0,'2022-01-02 08:20:54','2022-01-03 11:16:19'),(7,2,2,10,0,'2','0000-00-00',0,'2022-01-02 08:20:54','2022-01-09 02:51:15'),(8,3,1,5,0,'2','2022-01-23',0,'2022-01-02 10:42:45','2022-01-08 04:35:26'),(9,5,1,50,0,'1','0000-00-00',0,'2022-01-08 05:46:25','2022-01-09 02:39:57');
+INSERT INTO `stock_in_medicine` VALUES (1,1,1,100,70,'1','2022-01-19',0,'2022-01-09 06:26:10','2022-01-09 06:44:48'),(2,1,2,100,100,'1','2022-02-02',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(3,1,3,100,85,'1','2022-01-26',0,'2022-01-09 06:26:10','2022-01-09 06:55:27'),(4,1,4,100,100,'1','2022-02-02',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(5,1,5,100,100,'1','2022-01-18',0,'2022-01-09 06:26:10','2022-01-09 06:26:10');
 /*!40000 ALTER TABLE `stock_in_medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1106,7 +1099,7 @@ CREATE TABLE `stock_in_office_supply` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_in_office_supply_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1115,7 +1108,7 @@ CREATE TABLE `stock_in_office_supply` (
 
 LOCK TABLES `stock_in_office_supply` WRITE;
 /*!40000 ALTER TABLE `stock_in_office_supply` DISABLE KEYS */;
-INSERT INTO `stock_in_office_supply` VALUES (1,1,2,100,NULL,'1','2022-01-29',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(2,1,3,100,NULL,'1','2022-01-07',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(3,1,4,100,NULL,'1','2022-01-27',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(4,1,1,100,NULL,'1','2022-01-28',0,'2022-01-01 13:56:31','2022-01-01 13:56:31'),(5,2,1,100,NULL,'','0000-00-00',0,'2022-01-02 08:20:55','2022-01-02 08:20:55');
+INSERT INTO `stock_in_office_supply` VALUES (1,1,1,100,100,'1','2022-01-28',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(2,1,2,99,90,'1','2022-02-02',0,'2022-01-09 06:26:10','2022-01-09 06:28:19'),(3,1,3,100,100,'1','2022-02-03',0,'2022-01-09 06:26:10','2022-01-09 06:26:10'),(4,1,4,100,100,'1','2022-01-11',0,'2022-01-09 06:26:10','2022-01-09 06:26:10');
 /*!40000 ALTER TABLE `stock_in_office_supply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1134,7 +1127,7 @@ CREATE TABLE `stock_out` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_out_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1143,7 +1136,7 @@ CREATE TABLE `stock_out` (
 
 LOCK TABLES `stock_out` WRITE;
 /*!40000 ALTER TABLE `stock_out` DISABLE KEYS */;
-INSERT INTO `stock_out` VALUES (1,'SO-00001','',0,'2022-01-07 21:02:39','2022-01-08 04:02:39'),(2,'SO-00002','test',0,'2022-01-07 21:03:16','2022-01-08 04:03:16'),(3,'SO-00003','remove biogesic',0,'2022-01-07 21:35:25','2022-01-08 04:35:26'),(4,'SO-00004','mefenamic acid',0,'2022-01-07 21:47:19','2022-01-08 04:47:19'),(5,'SO-00005','biogesic',0,'2022-01-08 18:28:23','2022-01-09 01:28:23');
+INSERT INTO `stock_out` VALUES (1,'SO-00001','test',0,'2022-01-08 23:28:18','2022-01-09 06:28:18');
 /*!40000 ALTER TABLE `stock_out` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1169,7 +1162,7 @@ CREATE TABLE `stock_out_care_equipment` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_out_care_equipment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1178,7 +1171,7 @@ CREATE TABLE `stock_out_care_equipment` (
 
 LOCK TABLES `stock_out_care_equipment` WRITE;
 /*!40000 ALTER TABLE `stock_out_care_equipment` DISABLE KEYS */;
-INSERT INTO `stock_out_care_equipment` VALUES (1,NULL,NULL,5,2,2,10,NULL,NULL,NULL,0,'2022-01-09 02:41:24','2022-01-09 02:41:24'),(2,NULL,NULL,5,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:41:24','2022-01-09 02:41:24'),(3,NULL,NULL,6,2,2,10,NULL,NULL,NULL,0,'2022-01-09 02:41:46','2022-01-09 02:41:46'),(4,NULL,NULL,6,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:41:46','2022-01-09 02:41:46'),(5,NULL,NULL,7,2,2,10,NULL,NULL,NULL,0,'2022-01-09 02:43:07','2022-01-09 02:43:07'),(6,NULL,NULL,7,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:43:07','2022-01-09 02:43:07'),(7,NULL,NULL,8,2,2,50,NULL,NULL,NULL,0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(8,NULL,NULL,9,4,2,5,NULL,NULL,NULL,0,'2022-01-09 02:55:49','2022-01-09 02:55:49');
+INSERT INTO `stock_out_care_equipment` VALUES (1,1,NULL,NULL,NULL,4,10,10,NULL,NULL,0,'2022-01-09 06:28:19','2022-01-09 06:28:19'),(2,NULL,NULL,1,1,2,10,NULL,NULL,NULL,0,'2022-01-09 06:44:48','2022-01-09 06:44:48');
 /*!40000 ALTER TABLE `stock_out_care_equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1203,7 +1196,7 @@ CREATE TABLE `stock_out_medicine` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_out_medicine_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1212,7 +1205,7 @@ CREATE TABLE `stock_out_medicine` (
 
 LOCK TABLES `stock_out_medicine` WRITE;
 /*!40000 ALTER TABLE `stock_out_medicine` DISABLE KEYS */;
-INSERT INTO `stock_out_medicine` VALUES (1,2,NULL,NULL,1,100,100,NULL,NULL,0,'2022-01-08 04:03:16','2022-01-08 04:03:16'),(2,3,NULL,NULL,1,5,5,NULL,NULL,0,'2022-01-08 04:35:26','2022-01-08 04:35:26'),(3,4,NULL,NULL,5,50,50,NULL,NULL,0,'2022-01-08 04:47:19','2022-01-08 04:47:19'),(4,5,NULL,NULL,1,10,10,NULL,NULL,0,'2022-01-09 01:28:24','2022-01-09 01:28:24'),(5,NULL,1,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:38:31','2022-01-09 02:38:31'),(6,NULL,1,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:38:31','2022-01-09 02:38:31'),(7,NULL,2,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:39:02','2022-01-09 02:39:02'),(8,NULL,2,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:39:02','2022-01-09 02:39:02'),(9,NULL,3,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:39:28','2022-01-09 02:39:28'),(10,NULL,3,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:39:28','2022-01-09 02:39:28'),(11,NULL,4,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:39:57','2022-01-09 02:39:57'),(12,NULL,4,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:39:57','2022-01-09 02:39:57'),(13,NULL,5,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:41:24','2022-01-09 02:41:24'),(14,NULL,5,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:41:24','2022-01-09 02:41:24'),(15,NULL,6,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:41:45','2022-01-09 02:41:45'),(16,NULL,6,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:41:45','2022-01-09 02:41:45'),(17,NULL,7,2,1,10,NULL,NULL,NULL,0,'2022-01-09 02:43:07','2022-01-09 02:43:07'),(18,NULL,7,2,4,10,NULL,NULL,NULL,0,'2022-01-09 02:43:07','2022-01-09 02:43:07'),(19,NULL,8,2,2,10,NULL,NULL,NULL,0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(20,NULL,9,4,3,10,NULL,NULL,NULL,0,'2022-01-09 02:55:49','2022-01-09 02:55:49'),(21,NULL,10,1,2,5,NULL,NULL,NULL,0,'2022-01-09 03:44:42','2022-01-09 03:44:42'),(22,NULL,10,1,4,5,NULL,NULL,NULL,0,'2022-01-09 03:44:42','2022-01-09 03:44:42');
+INSERT INTO `stock_out_medicine` VALUES (1,1,NULL,NULL,1,10,10,NULL,NULL,0,'2022-01-09 06:28:18','2022-01-09 06:28:18'),(2,NULL,1,1,1,10,NULL,NULL,NULL,0,'2022-01-09 06:44:48','2022-01-09 06:44:48'),(3,NULL,1,1,3,1,NULL,NULL,NULL,0,'2022-01-09 06:44:48','2022-01-09 06:44:48'),(4,NULL,2,3,3,9,NULL,NULL,NULL,0,'2022-01-09 06:49:26','2022-01-09 06:49:26'),(5,NULL,3,1,3,5,NULL,NULL,NULL,0,'2022-01-09 06:55:27','2022-01-09 06:55:27');
 /*!40000 ALTER TABLE `stock_out_medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1236,7 +1229,7 @@ CREATE TABLE `stock_out_office_supply` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`stock_out_office_supply_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1245,6 +1238,7 @@ CREATE TABLE `stock_out_office_supply` (
 
 LOCK TABLES `stock_out_office_supply` WRITE;
 /*!40000 ALTER TABLE `stock_out_office_supply` DISABLE KEYS */;
+INSERT INTO `stock_out_office_supply` VALUES (1,1,NULL,2,9,9,NULL,NULL,0,'2022-01-09 06:28:19','2022-01-09 06:28:19');
 /*!40000 ALTER TABLE `stock_out_office_supply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1266,7 +1260,7 @@ CREATE TABLE `surgery_history` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`surgery_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1275,7 +1269,7 @@ CREATE TABLE `surgery_history` (
 
 LOCK TABLES `surgery_history` WRITE;
 /*!40000 ALTER TABLE `surgery_history` DISABLE KEYS */;
-INSERT INTO `surgery_history` VALUES (1,1,2,'test','test','test',0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(2,1,2,'test','test','test',0,'2022-01-09 02:51:15','2022-01-09 02:51:15'),(3,2,4,'test','test','test',0,'2022-01-09 02:55:50','2022-01-09 02:55:50');
+INSERT INTO `surgery_history` VALUES (1,1,1,'test','test','test',0,'2022-01-09 06:44:49','2022-01-09 06:44:49'),(2,1,1,'test','test','test',0,'2022-01-09 06:44:49','2022-01-09 06:44:49');
 /*!40000 ALTER TABLE `surgery_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1306,7 +1300,7 @@ CREATE TABLE `surveys` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`survey_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1315,7 +1309,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES (1,1,1,1,5,4,3,2,1,2,3,4,5,4,NULL,0,'2021-12-05 05:39:20','2021-12-05 05:57:46'),(2,2,1,1,1,1,2,1,2,1,1,1,1,4,NULL,0,'2021-08-05 05:39:20','2021-12-05 11:35:43'),(3,7,2,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 02:43:07','2022-01-09 02:43:07'),(4,8,2,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 02:51:16','2022-01-09 02:51:16'),(5,9,4,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 02:55:50','2022-01-09 02:55:50'),(6,10,1,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 03:44:42','2022-01-09 03:44:42');
+INSERT INTO `surveys` VALUES (1,1,1,1,3,4,4,5,5,5,5,4,4,5,NULL,0,'2022-01-09 06:44:49','2022-01-09 06:45:21'),(2,2,3,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 06:49:26','2022-01-09 06:49:26'),(3,3,1,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'2022-01-09 06:55:27','2022-01-09 06:55:27'),(4,1,2,1,5,5,5,5,5,5,5,5,5,5,NULL,0,'2022-01-09 06:44:49','2022-01-09 12:58:11');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1342,7 +1336,7 @@ CREATE TABLE `system_setup` (
 
 LOCK TABLES `system_setup` WRITE;
 /*!40000 ALTER TABLE `system_setup` DISABLE KEYS */;
-INSERT INTO `system_setup` VALUES (1,'clinic@gmail.com',0,'2022-01-08 08:28:10','2022-01-09 00:51:29');
+INSERT INTO `system_setup` VALUES (1,'clinicbsua@gmail.com',0,'2022-01-08 08:28:10','2022-01-09 10:57:43');
 /*!40000 ALTER TABLE `system_setup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1406,7 +1400,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'US-000001',1,'Akosin','','Admin','','Female','20','admin@gmail.com','admin',0,'2021-12-02 06:18:25','2021-12-04 15:32:32'),(2,NULL,NULL,'TEST','','Admin','','Male','18','test@gmail.com','test',1,'2021-12-04 11:33:02','2021-12-04 11:34:21');
+INSERT INTO `users` VALUES (1,'US-000001',1,'Clinic','','Administrator','','Female','20','admin@gmail.com','admin',0,'2021-12-02 06:18:25','2022-01-09 10:55:37'),(2,NULL,NULL,'TEST','','Admin','','Male','18','test@gmail.com','test',1,'2021-12-04 11:33:02','2021-12-04 11:34:21');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1455,4 +1449,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-09 12:30:42
+-- Dump completed on 2022-01-09 21:21:50
