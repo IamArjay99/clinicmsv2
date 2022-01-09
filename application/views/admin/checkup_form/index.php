@@ -1973,6 +1973,8 @@
                                     async: true,
                                     data,
                                     success: function(data) {
+                                        $("#loader").hide();
+                                        
                                         let result = data.split("|");
                                         if (result[0] == "true") {
                                             Swal.fire({
@@ -1982,7 +1984,6 @@
                                                 timer: 2000
                                             }).then(function() {
                                                 pageContent();
-                                                $("#loader").hide();
                                             });
                                         } 
                                     }
