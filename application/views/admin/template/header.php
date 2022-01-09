@@ -225,6 +225,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#report-menu" aria-expanded="false" aria-controls="report-menu">
+                            <i class="fas fa-folder-open"></i>
+                            <span class="menu-title ml-3"> Report</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="report-menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/quarterly_report') ?>">Quarterly Report</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/survey_report') ?>">Survey Report</a></li>
+                        </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#masterlist-menu" aria-expanded="false" aria-controls="masterlist-menu">
                             <i class="fas fa-file"></i>
                             <span class="menu-title ml-3"> Master List</span>
