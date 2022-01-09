@@ -294,7 +294,7 @@
             let html = `
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Medical Record</h4>
+                    <h4 class="mb-0">Dispensing Medicine Record</h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover" id="tableMedicalRecord">
