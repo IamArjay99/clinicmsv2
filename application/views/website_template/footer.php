@@ -45,9 +45,9 @@
 <p style="line-height: 1.6;">There are many variations of passages of Lorem Ipsum available be the majority.</p>
 
 <div class="footer-social pt-30">
-<a href="../../sai4ull.html"><i class="fab fa-facebook"></i></a>
+<a href="https://www.facebook.com/CBSUAOFFICIALPAGE"><i class="fab fa-facebook"></i></a>
 <a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<!-- <a href="#"><i class="fab fa-linkedin-in"></i></a> -->
 <a href="#"><i class="fab fa-youtube"></i></a>
 </div>
 </div>
@@ -63,20 +63,21 @@
 <div class="footer-tittle mb-30">
 <h4>PHONE</h4>
 <ul>
-<li>+3 (986)-383-2293</li>
+<li>0948-518-9064</li>
 </ul>
 </div>
 <div class="footer-tittle mb-30">
 <h4>WORKING TIME</h4>
 <ul>
-<li>09:00 AM – 08:00 PM</li>
+<li>08:00 AM – 05:00 PM</li>
 <li>Saturday Offlinea</li>
+<li>Sunday Offlinea</li>
 </ul>
 </div>
 <div class="footer-tittle mb-30">
 <h4>OUR CLINIC ADDRESS</h4>
 <ul>
-<li>710 Stanford Springs Apt. 185, Lake Molliestad</li>
+<li>Impig Sipocot Camarines Sur, at Central Bicol State University of Agriculture beside BAC OFFICE near AVR./li>
 </ul>
 </div>
 </div>
@@ -218,7 +219,7 @@ $(document).ready(function(){
                             name="patient_code"
                             id="patient_code"
                             minlength="2"
-                            maxlength="20"
+                            maxlength="8"
                             value=""
                             required>
                         <div class="d-block invalid-feedback"></div>

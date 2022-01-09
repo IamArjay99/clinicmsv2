@@ -61,21 +61,21 @@
 <div class="media contact-info">
 <span class="contact-info__icon"><i class="ti-home"></i></span>
 <div class="media-body">
-<h3>Buttonwood, California.</h3>
-<p>Rosemead, CA 91770</p>
+<h3>Impig Sipocot Camarines Sur, at Central Bicol State University of Agriculture </h3>
+<p>beside BAC OFFICE near AVR..</p>
 </div>
 </div>
 <div class="media contact-info">
 <span class="contact-info__icon"><i class="ti-tablet"></i></span>
 <div class="media-body">
-<h3>+1 253 565 2365</h3>
-<p>Mon to Fri 9am to 6pm</p>
+<h3>0948-518-9064</h3>
+<p>Mon to Fri 8am to 5pm</p>
 </div>
 </div>
 <div class="media contact-info">
 <span class="contact-info__icon"><i class="ti-email"></i></span>
 <div class="media-body">
-<h3><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="41323431312e333501222e2d2e332d28236f222e2c">[email&#160;protected]</a></h3>
+<h3><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="41323431312e333501222e2d2e332d28236f222e2c"><?=$setup[0]["email"]?></a></h3>
 <p>Send us your query anytime!</p>
 </div>
 </div>

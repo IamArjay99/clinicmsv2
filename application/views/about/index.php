@@ -29,24 +29,26 @@
 <div class="tailor-details">
 <div class="sinlge-wrapper">
 <div class="single-details wow fadeInUp mb-20" data-wow-duration="1s" data-wow-delay=".3s">
-<h3>Best template for<br> dental specialist</h3>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non mauris nulla tincidunt fermentum. Sagittis pellentesque.</p>
-<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
-<p>Consectetur adipiscing elit. Non mauris nulla tincidunt fermentum. Sagittis pellentesque.</p>
+<h3>Best <br> clinic specialist</h3>
+<p>All Students and faculty of cbsua- sipocot can have a free check-up and free medicine.</p>
+<p>Nurse conduct seminar related to health to make all students and faculty aware of their physical health how they can take care of it and avoid any harm to their body.</p>
 <a href="#" class="btn_01 mt-15 make-appointment">Make an Appointment</a>
 </div>
 <div class="single-details wow fadeInUp mb-20 ml-90" data-wow-duration="2s" data-wow-delay=".3s">
 <div class="address">
 <h5>PHONE</h5>
-<p>+3 (986)-383-2293</p>
+<p>0948-518-9064</p>
 </div>
 <div class="address">
 <h5>WORKING TIME</h5>
-<p>09:00 AM – 08:00 PM<br> Saturday Offline</p>
+<p>08:00 AM – 05:00 PM
+    <br> Saturday Offline
+    <br> Sunday Offline
+</p>
 </div>
 <div class="address">
 <h5>OUR CLINIC ADDRESS</h5>
-<p>710 Stanford Springs Apt. 185, Lake Molliestad</p>
+<p>Impig Sipocot Camarines Sur, at Central Bicol State University of Agriculture beside BAC OFFICE near AVR.</p>
 </div>
 </div>
 </div>
