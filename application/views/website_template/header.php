@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>WEBSITE | CLINIC</title>
+<title><?= $title ?></title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" type="image/x-icon" href="<?=base_url()?>assets/images/favicon.png">
@@ -39,7 +39,7 @@
 <ul id="navigation">
 <li><a href="<?=base_url("welcome")?>">Home</a></li>
 <li><a href="<?=base_url("about")?>">About</a></li>
-<li><a href="<?=base_url("anouncement")?>">Anouncement</a></li>
+<li><a href="<?=base_url("anouncement")?>">Announcement</a></li>
 <!-- <li><a href="c<?=base_url("inquiry")?>">Inquiry</a></li> -->
 <li><a href="<?=base_url("contact")?>">Contact</a></li>
 <!-- <ul class="submenu">

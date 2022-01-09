@@ -109,7 +109,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row">
@@ -192,7 +192,7 @@
 
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
-            $("#modal .page-email").text("EDIT SYSTEM SETUP");
+            $("#modal .page-title").text("EDIT SYSTEM SETUP");
             $("#modal").modal('show');
 
             setTimeout(() => {
