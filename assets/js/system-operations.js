@@ -305,7 +305,7 @@ function sweetAlertConfirmation(
             imageHeight: 200,
             imageAlt: 'Custom image',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545',
+            confirmButtonColor: '#2e6a78',
             cancelButtonColor: '#1a1a1a',
             cancelButtonText: 'No',
             confirmButtonText: 'Yes',

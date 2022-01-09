@@ -6,8 +6,7 @@
                 <div class="card-header bg-dark text-white py-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0"><?= ucwords($type) ?> (<?= $name ?>)</h4>
-                        <a href="<?= base_url('admin/inventory_supply') ?>"
-                            class="btn btn-primary">Back</a>
+                        <button class="btn btn-dark" onclick="window.history.back()">Back</button>
                     </div>
                 </div>
                 <div class="card-body" id="pageContent">     

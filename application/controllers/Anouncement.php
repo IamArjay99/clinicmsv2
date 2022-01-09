@@ -11,7 +11,7 @@ class Anouncement extends CI_Controller {
 
     public function index()
     {
-        $data['title']          = "Anouncement";
+        $data['title']          = "Announcement";
         $data["anouncement"]    =  $this->systemoperations->getTableData("announcements","announcements.*, (SELECT CONCAT(lastname,', ',firstname,' ',middlename) FROM users WHERE user_id = '1' ) as fullname","is_deleted = '0'");
         $this->load->view("website_template/header", $data);
         $this->load->view("anouncement/index",$data);

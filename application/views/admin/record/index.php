@@ -225,7 +225,8 @@
                         <td>${item.created_at ? moment(item.created_at).format("MMMM DD, YYYY") : "-"}</td>
                         <td>${item.fullname}</td>
                         <td class="text-center">
-                            <a href="${base_url}admin/record/view_medical?id=${item.check_up_id}"
+                            <a href="${base_url}admin/record/view_service?id=${item.check_up_id}&type=medical"
+                                target="_blank"
                                 class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> View    
                             </a>
@@ -262,6 +263,62 @@
 
         // ----- DISPENSING MEDICINE RECORD CONTENT -----
         function getDispensingMedicineRecordContent()
+        {
+            let data = getTableData(
+                `check_ups AS cu
+                    LEFT JOIN patients AS p ON cu.patient_id = p.patient_id
+                WHERE cu.is_deleted = 0
+                    AND cu.service_id = 3`,
+                `cu.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname`
+            );
+
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map((item, index) => {
+                    tbodyHTML += `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td>${item.created_at ? moment(item.created_at).format("MMMM DD, YYYY") : "-"}</td>
+                        <td>${item.fullname}</td>
+                        <td class="text-center">
+                            <a href="${base_url}admin/record/view_service?id=${item.check_up_id}&type=dispensing_medicine"
+                                target="_blank"
+                                class="btn btn-outline-info">
+                                <i class="fas fa-eye"></i> View    
+                            </a>
+                        </td>
+                    </tr>`;
+                })
+            }
+
+            let html = `
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Medical Record</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-hover" id="tableMedicalRecord">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>Patient Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tbodyHTML}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+            return html;
+        }
+        // ----- END DISPENSING MEDICINE RECORD CONTENT -----
+
+
+        // ----- DISPENSING MEDICINE RECORD CONTENT -----
+        function getDispensingMedicineRecordContent2()
         {
             let data = getTableData(
                 `check_ups AS cu
@@ -348,6 +405,7 @@
                         <td>${item.year_name || ""} - ${item.section || ""}</td>
                         <td class="text-center">
                             <a href="${base_url}admin/record/view_patient?id=${item.patient_id}"
+                                target="_blank"
                                 class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> View    
                             </a>
@@ -471,7 +529,8 @@
                         <td>${item.unit_name}</td>
                         <td>${item.measurement_name}</td>
                         <td class="text-center">
-                            <a href="${base_url}admin/record/view_medicine?id=${item.medicine_id}"
+                            <a href="${base_url}admin/record/view_inventory?id=${item.medicine_id}&type=medicine"
+                                target="_blank"
                                 class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> View    
                             </a>
@@ -527,7 +586,8 @@
                         <td>${item.name}</td>
                         <td>${item.unit_name}</td>
                         <td class="text-center">
-                            <a href="${base_url}admin/record/view_care_equipment?id=${item.medicine_id}"
+                            <a href="${base_url}admin/record/view_inventory?id=${item.care_equipment_id}&type=care_equipment"
+                                target="_blank"
                                 class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> View    
                             </a>

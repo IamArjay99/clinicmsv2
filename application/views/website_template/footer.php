@@ -2,8 +2,8 @@
 <div class="modal" id="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Login</h5>
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title font-weight-bolder text-white">Login</h5>
         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> -->
@@ -40,9 +40,9 @@
 <div class="single-footer-caption mb-20">
 
 <div class="footer-logo mb-35">
-<a href="index.html"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo2_footer.png.pagespeed.ic.5e6IWwEKNO.png" alt=""></a>
+<a href="#"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo2_footer.png.pagespeed.ic.5e6IWwEKNO.png" alt=""></a>
 </div>
-<p style="line-height: 1.6;">There are many variations of passages of Lorem Ipsum available be the majority.</p>
+<p style="line-height: 1.6;">There are many variations of passages of lorem ipsum available be the majority.</p>
 
 <div class="footer-social pt-30">
 <a href="https://www.facebook.com/CBSUAOFFICIALPAGE"><i class="fab fa-facebook"></i></a>
@@ -70,14 +70,14 @@
 <h4>WORKING TIME</h4>
 <ul>
 <li>08:00 AM – 05:00 PM</li>
-<li>Saturday Offlinea</li>
-<li>Sunday Offlinea</li>
+<li>Saturday Offline</li>
+<li>Sunday Offline</li>
 </ul>
 </div>
 <div class="footer-tittle mb-30">
 <h4>OUR CLINIC ADDRESS</h4>
 <ul>
-<li>Impig Sipocot Camarines Sur, at Central Bicol State University of Agriculture beside BAC OFFICE near AVR./li>
+<li>Impig Sipocot Camarines Sur, at Central Bicol State University of Agriculture beside BAC OFFICE near AVR.</li>
 </ul>
 </div>
 </div>
@@ -117,6 +117,8 @@
 <script src="<?=base_url()?>assets/website/assets/js/vendor/modernizr-3.5.0.min.js"></script>
 <script src="<?=base_url()?>assets/website/assets/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="<?=base_url()?>assets/website/assets/js/popper.min.js bootstrap.min.js.pagespeed.jc.M2u69PhM2B.js"></script><script>eval(mod_pagespeed_yHSzYa$i1N);</script>
+<script src="<?= base_url('assets/vendors/inputmask/jquery.inputmask.bundle.js') ?>"></script>
+    <script src="<?= base_url('assets/js/inputmask.js') ?>"></script>
 <script>eval(mod_pagespeed_AZPrxOHD6w);</script>
 
 <script src="<?=base_url()?>assets/website/assets/js/owl.carousel.min.js slick.min.js.pagespeed.jc.A9wRWS-Olo.js"></script><script>eval(mod_pagespeed_36GbvHB$oz);</script>
@@ -160,6 +162,7 @@
 $(document).ready(function(){
     let content     = loginContent();
     let sessionID   = $("body").attr("sessionid");
+    let yearList    = getTableData(`years WHERE is_deleted = 0`);
     // ----- GLOBAL VARIABLES -----
     let courseList      = getTableData(`courses WHERE is_deleted = 0`);
     let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
@@ -168,7 +171,7 @@ $(document).ready(function(){
     // ----- END GLOBAL VARIABLES -----
     $(document).on("click",".login",function(){
         $(".modal").modal("hide");
-        $(".modal-dialog").removeClass("modal-lg");
+        $(".modal-dialog").removeClass("modal-lg").addClass("modal-md");
         $(".modal-title").text("LOGIN");
         $(".modal-body").html(content);
         setTimeout(() => {
@@ -178,11 +181,15 @@ $(document).ready(function(){
 
     $(document).on("click",".register",function(){
         $(".modal").modal("hide");
-        $(".modal-dialog").addClass("modal-lg");
+        $(".modal-dialog").removeClass("modal-md").addClass("modal-lg");
         let content = registerContent();
 
         $(".modal-title").text("SIGN UP");
         $(".modal-body").html(content);
+        $(`[name="patient_code"]`).inputmask({
+                mask:        "99-9999",
+                placeholder: "00-0000"
+        });
         setTimeout(() => {
             $(".modal").modal("show");
         }, 120);
@@ -192,12 +199,16 @@ $(document).ready(function(){
         let html = `    <form action="${base_url}login/authenticateWebsite" method="POST">
                             <div class="row">
                                 <div class="col-12 my-2">
-                                    <label for="email">Username</label>
-                                    <input class="form-control valid" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
+                                    <div class="form-group">
+                                        <label for="email">Username</label>
+                                        <input class="form-control valid" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
+                                </div>
                                 </div>
                                 <div class="col-12 my-2">
-                                    <label for="password">Password</label>
-                                    <input class="form-control valid" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input class="form-control valid" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
+                                    </div>
                                 </div>
                                 <div class="col-12 my-2">
                                     <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
@@ -215,11 +226,11 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label>Patient ID <code>*</code></label>
                         <input type="text" 
-                            class="form-control validate"
+                            class="form-control validate inputmask"
                             name="patient_code"
-                            id="patient_code"
                             minlength="2"
-                            maxlength="8"
+                            maxlength="20"
+                            data-inputmask-alias="99-9999"
                             value=""
                             required>
                         <div class="d-block invalid-feedback"></div>
@@ -371,13 +382,8 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label>Year</label>
                         <select class="form-control validate"
-                            name="year" id="year">
-                            <option value="" selected>Select year</option>    
-                            <option value="I"  >I</option>
-                            <option value="II" >II</option>
-                            <option value="III" >III</option>
-                            <option value="IV"  >IV</option>
-                            <option value="V"  >V</option>
+                            name="year_id">
+                            ${getYearOptionDisplay()}
                         </select>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -385,15 +391,12 @@ $(document).ready(function(){
                 <div class="col-md-3 col-sm-12">
                     <div class="form-group">
                         <label>Section</label>
-                        <select class="form-control validate"
-                            name="section" id="section" >
-                            <option value="" selected>Select section</option>    
-                            <option value="1" >1</option>
-                            <option value="2" >2</option>
-                            <option value="3" >3</option>
-                            <option value="4" >4</option>
-                            <option value="5" >5</option>
-                        </select>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="section"
+                            minlength="1"
+                            maxlength="50"
+                            value="" >
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
@@ -414,60 +417,26 @@ $(document).ready(function(){
                     data["tableName"] = "patients";
                     data["feedback"]  = $(`[name="patient_code"]`).val();
                     data["method"]    = "add";
+                    data["year"]
 
                 sweetAlertConfirmation("add", "Patient", "modal", null, data, true);
             }
     });
 
-    // ----- PATIENT TYPE OPTIONS DISPLAY -----
-    function getPatientTypeOptionDisplay(patientTypeID = 0, isAll = false) {
-        let html = isAll ? `<option value="0">All</option>` : `<option value="" selected>Select patient type</option>`;
-        patientTypeList.map(type => {
-            let {
-                patient_type_id,
-                name
-            } = type;
 
-            html += `
-            <option value="${patient_type_id}"
-                ${patient_type_id == patientTypeID ? "selected" : ""}>${name}</option>`;
-        })
-        return html;
-    }
-    // ----- END PATIENT TYPE OPTIONS DISPLAY -----
+ 
 
-    // ----- COURSE OPTIONS DISPLAY -----
-    function getCourseOptionDisplay(courseID = 0) {
-        let html = `<option value="" selected>Select course</option>`;
-        courseList.map(course => {
-            let {
-                course_id,
-                name
-            } = course;
-
-            html += `
-            <option value="${course_id}"
-                ${course_id == courseID ? "selected" : ""}>${name}</option>`;
-        })
-        return html;
-    }
-    // ----- END COURSE OPTIONS DISPLAY -----
-
-    // ----- FOR EMAILING -----
-    $(document).ready(function(){
-        $(document).on("click", "#contactForm", function(e){
-            let message = $("#message").val();
-            let name    = $("#name").val();
-            let email   = $("#email").val();
-            let subject = $("#subject").val();
-            let tableData   =   getTableData("system_setup");
-            if(message && name && email && subject ){
-                e.preventDefault();
-                window.location.href = `mailto:${tableData[0]["email"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
-            }
-        });
-    })
-    // ----- FOR EMAILING -----
+    $(document).on("click", "#contactForm", function(e){
+        let message = $("#message").val();
+        let name    = $("#name").val();
+        let email   = $("#email").val();
+        let subject = $("#subject").val();
+        let tableData   =   getTableData("system_setup");
+        if(message && name && email && subject ){
+            e.preventDefault();
+            window.location.href = `mailto:${tableData[0]["email"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
+        }
+    });
 
 
 
@@ -546,7 +515,7 @@ $(document).ready(function(){
                 let data = getFormData("modal");
 
                     data["tableName"] = "clinic_appointments";
-                    data["tableData"]["date_appointment"] = moment($("[name=date_appointment]").val()).format("YYYY-DD-MM");
+                    data["tableData"]["date_appointment"] = moment($("[name=date_appointment]").val()).format("YYYY-MM-DD");
                     data["tableData"]["patient_id"]     = sessionID;
                     data["feedback"]  = "Appointment";
                     data["method"]    = "add";
@@ -594,6 +563,97 @@ $(document).ready(function(){
             return html;
         }
     // ----- END SERVICE OPTION DISPLAY -----
+
+    // ----- PATIENT TYPE OPTIONS DISPLAY -----
+        function getPatientTypeOptionDisplay(patientTypeID = 0, isAll = false) {
+            let html = isAll ? `<option value="0">All</option>` : `<option value="" selected>Select patient type</option>`;
+            patientTypeList.map(type => {
+                let {
+                    patient_type_id,
+                    name
+                } = type;
+
+                html += `
+                <option value="${patient_type_id}"
+                    ${patient_type_id == patientTypeID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+    // ----- END PATIENT TYPE OPTIONS DISPLAY -----
+
+        // ----- COURSE OPTIONS DISPLAY -----
+        function getCourseOptionDisplay(courseID = 0) {
+            let html = `<option value="" selected>Select course</option>`;
+            courseList.map(course => {
+                let {
+                    course_id,
+                    name
+                } = course;
+
+                html += `
+                <option value="${course_id}"
+                    ${course_id == courseID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+    // ----- END COURSE OPTIONS DISPLAY -----
+
+    // ----- YEAR OPTIONS DISPLAY -----
+        function getYearOptionDisplay(courseID = 0, yearID = 0) {
+            let html = `<option value="" selected>Select year</option>`;
+            yearList.filter(yr => yr.course_id == courseID)
+            .map(year => {
+                let {
+                    year_id,
+                    name
+                } = year;
+
+                html += `
+                <option value="${year_id}"
+                    ${year_id == yearID ? "selected" : ""}>${name}</option>`;
+            })
+            return html;
+        }
+    // ----- END YEAR OPTIONS DISPLAY -----
+
+
+
+    // ----- CHANGE PATIENT TYPE -----
+        $(document).on("change", `[name="patient_type_id"]`, function() {
+            let patientType = $(this).val();
+
+            $(`[name="course_id"]`).val('').trigger('change');
+            $(`[name="year_id"]`).val('').trigger('change');
+            $(`[name="section"]`).val('');
+
+            if (patientType && patientType == 2) {
+                $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
+                $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
+                $(`[name="section"]`).removeAttr("disabled").attr("required", true);
+            } else {
+                $(`[name="course_id"]`).attr("disabled", true);
+                $(`[name="year_id"]`).attr("disabled", true);
+                $(`[name="section"]`).attr("disabled", true);
+                $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+            }
+        })
+        // ----- END CHANGE PATIENT TYPE -----
+
+        // ----- CHANGE COURSE -----
+        $(document).on("change", `[name="course_id"]`, function() {
+            let courseID = $(this).val();
+            let options  = getYearOptionDisplay(courseID);
+            $(`[name="year_id"]`).html(options);
+        })
+        // ----- END CHANGE COURSE -----
+
+
+         
 
 
 

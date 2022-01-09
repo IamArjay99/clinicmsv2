@@ -1092,7 +1092,7 @@
 
        // ----- PAGE CONTENT -----
        function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row" id="checkupForm">
@@ -1335,7 +1335,6 @@
             </div>
             <div class="card-footer text-right">
                 <button class="btn btn-primary" id="btnSave">Save</button>
-                <button class="btn btn-danger" id="btnCancel">Cancel</button>
             </div>`;
 
             setTimeout(() => {
@@ -1393,7 +1392,7 @@
                         brand="${brand}"
                         unit_name="${unit_name}"
                         measurement_name="${measurement_name}"
-                        remaining="${remaining}"
+                        remaining="${remaining || 0}"
                         ${itemIDArr[index] == medicine_id ? "selected" : ""}>${name}</option>`;
                  })
 
@@ -1955,7 +1954,7 @@
                     imageHeight: 200,
                     imageAlt: 'Custom image',
                     showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
+                    confirmButtonColor: '#2e6a78',
                     cancelButtonColor: '#1a1a1a',
                     cancelButtonText: 'No',
                     confirmButtonText: 'Yes',

@@ -145,7 +145,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let html = `
             <div class="row">

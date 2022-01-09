@@ -187,8 +187,8 @@ class StockOut_model extends CI_Model {
             {
                 foreach ($officeSupply as $key => $os)
                 {
-                    $officeSupplyID = $ce['office_supply_id'];
-                    $quantity       = $ce['quantity'];
+                    $officeSupplyID = $os['office_supply_id'];
+                    $quantity       = $os['quantity'];
                     $this->updateStockInOfficeSupply($officeSupplyID, $quantity);
 
                     $officeSupply[$key]["stock_out_id"] = $stockOutID;

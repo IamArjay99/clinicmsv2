@@ -376,7 +376,7 @@
 
         // ----- PAGE CONTENT -----
         function pageContent() {
-            $("#pageContent").html(preloader);
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
 
             let data = getDashboardData();
             let {
@@ -490,14 +490,53 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-12 mt-4">
+                <div class="col-md-3 col-sm-12 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Legend</h4>
+                            <table class="table table-hover table-bordered table-striped">
+                                <tr>
+                                    <th>5</th>
+                                    <td>Absolutely Satisfied</td>
+                                </tr>
+                                <tr>
+                                    <th>4</th>
+                                    <td>Highly Satisfied</td>
+                                </tr>
+                                <tr>
+                                    <th>3</th>
+                                    <td>Moderately Satisfied</td>
+                                </tr>
+                                <tr>
+                                    <th>4</th>
+                                    <td>Fairly Satisfied</td>
+                                </tr>
+                                <tr>
+                                    <th>1</th>
+                                    <td>Not Satisfied</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Rater</h4>
+                            <table class="table table-hover table-bordered table-striped">
+                                ${raterHTML}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-6 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Medicine</h4>
                             <canvas id="medicineBarChart"></canvas>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="col-12 mt-4">
                     <div class="card">
@@ -601,36 +640,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-sm-12 mt-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Legend</h4>
-                            <table class="table table-hover table-bordered table-striped">
-                                <tr>
-                                    <th>5</th>
-                                    <td>Absolutely Satisfied</td>
-                                </tr>
-                                <tr>
-                                    <th>4</th>
-                                    <td>Highly Satisfied</td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td>Moderately Satisfied</td>
-                                </tr>
-                                <tr>
-                                    <th>4</th>
-                                    <td>Fairly Satisfied</td>
-                                </tr>
-                                <tr>
-                                    <th>1</th>
-                                    <td>Not Satisfied</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-sm-12 mt-4">
+                <div class="col-lg-6 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Customer Satisfactory</h4>
@@ -638,21 +648,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-sm-12 mt-4">
+                <div class="col-lg-6 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Monthly Survey Result</h4>
                             <canvas id="monthlySurveyResult"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-12 mt-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Rater</h4>
-                            <table class="table table-hover table-bordered table-striped">
-                                ${raterHTML}
-                            </table>
                         </div>
                     </div>
                 </div>
