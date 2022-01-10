@@ -60,6 +60,8 @@
     <script src="<?= base_url('assets/js/daterangepicker.js') ?>"></script>
     <script src="<?= base_url('assets/vendors/fullcalendar/fullcalendar.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/jquery.redirect.js') ?>"></script>
+    <script src="<?= base_url('assets/vendors/inputmask/jquery.inputmask.bundle.js') ?>"></script>
+    <script src="<?= base_url('assets/js/inputmask.js') ?>"></script>
     <!-- endinject -->
 
     <!-- DataTables -->
@@ -71,8 +73,44 @@
     <script defer src="<?= base_url('assets/js/brands.js') ?>"></script>
     <script defer src="<?= base_url('assets/js/solid.js') ?>"></script>
     <script defer src="<?= base_url('assets/js/fontawesome.js') ?>"></script>
+    <!-- End Font Awesome -->
 
     <script src="<?= base_url('assets/js/system-operations.js') ?>"></script>
     <script src="<?= base_url('assets/js/custom-general.js') ?>"></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            let notificationAlert = getTableData(
+                `check_ups AS cu
+                    LEFT JOIN patients AS p USING(patient_id)
+                WHERE CONVERT(cu.temperature, DECIMAL) > 37.2
+                    AND DATE(cu.created_at) = DATE(NOW())`,
+                `cu.patient_id,
+                IF(temperature > 37.2, true, false) AS temperature,
+                temperature,
+                CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname`
+            );
+            if (notificationAlert && notificationAlert.length) {
+                let html = '';
+                notificationAlert.map(notif => {
+                    html += `
+                    <div class="px-3 py-0 mb-0">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div><strong>Warning!</strong> ${notif.fullname} has high temperature. (${notif.temperature} °C)</div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>`;
+                })
+                $("#notificationContent").html(html);
+            }
+
+        })
+
+    </script>
+
 </body>
 </html>

@@ -174,6 +174,8 @@
                 brand            = "",
                 name             = "",
                 unit_id          = "",
+                reorder          = "",
+                capacity         = "",
             } = data && data[0];
 
             let buttonSaveUpdate = !isUpdate ? `
@@ -210,6 +212,32 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
+
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Re-order <code>*</code></label>
+                        <input type="number" 
+                            class="form-control validate"
+                            name="reorder"
+                            minlength="1"
+                            maxlength="100"
+                            value="${reorder}">
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Maximum Capacity <code>*</code></label>
+                        <input type="number" 
+                            class="form-control validate"
+                            name="capacity"
+                            minlength="1"
+                            maxlength="100"
+                            value="${capacity}">
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 ${buttonSaveUpdate}

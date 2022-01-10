@@ -925,7 +925,7 @@
         $(document).on("click", "#btnSave", function() {
             let hasData  = document.querySelectorAll(`[name="medicine_id"]`).length + document.querySelectorAll(`[name="care_equipment_id"]`).length + document.querySelectorAll(`[name="office_supply_id"]`).length != 0;
             if (!hasData) {
-                showNotification("warning", "You must have at lease one item to stock in")
+                showNotification("warning", "You must have atleast one item to stock in")
             } else {
                 let validate = validateForm("addStockInContent");
                 if (validate) {
@@ -939,7 +939,7 @@
                         imageHeight: 200,
                         imageAlt: 'Custom image',
                         showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
+                        confirmButtonColor: '#2e6a78',
                         cancelButtonColor: '#1a1a1a',
                         cancelButtonText: 'No',
                         confirmButtonText: 'Yes',
@@ -989,7 +989,7 @@
                 imageHeight: 200,
                 imageAlt: 'Custom image',
                 showCancelButton: true,
-                confirmButtonColor: '#dc3545',
+                confirmButtonColor: '#2e6a78',
                 cancelButtonColor: '#1a1a1a',
                 cancelButtonText: 'No',
                 confirmButtonText: 'Yes',

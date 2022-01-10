@@ -62,8 +62,12 @@
         <!-- ----- TOP MENU ----- -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center">
-                <a class="navbar-brand brand-logo" href="#">Clinic MS</a>
-                <a class="navbar-brand brand-logo-mini" href="#">CMS</a>
+                <a class="navbar-brand brand-logo" href="<?= base_url('admin/dashboard') ?>">
+                    <img src="<?= base_url('assets/images/modules/login-logo.jpg') ?>" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                </a>
+                <a class="navbar-brand brand-logo-mini" href="<?= base_url('admin/dashboard') ?>">
+                    <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                </a>
                 <!-- <a class="navbar-brand brand-logo" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo.svg" alt="logo"/></a>
                 <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo-mini.svg" alt="logo"/></a> -->
             </div>
@@ -169,7 +173,7 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/checkup_form') ?>">Check-up Form</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/referral_form') ?>">Referral Form</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/dental_certificate') ?>">Dental Certificate</a></li>
+                            <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/dental_certificate') ?>">Dental Certificate</a></li> -->
                         </ul>
                         </div>
                     </li>
@@ -221,6 +225,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#report-menu" aria-expanded="false" aria-controls="report-menu">
+                            <i class="fas fa-folder-open"></i>
+                            <span class="menu-title ml-3"> Report</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="report-menu">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/quarterly_report') ?>">Quarterly Report</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/survey_report') ?>">Survey Report</a></li>
+                        </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#masterlist-menu" aria-expanded="false" aria-controls="masterlist-menu">
                             <i class="fas fa-file"></i>
                             <span class="menu-title ml-3"> Master List</span>
@@ -233,6 +250,7 @@
                             <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/section') ?>">Section</a></li> -->
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/unit') ?>">Unit</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/measurement') ?>">Measurement</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/category') ?>">Category</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/medicine') ?>">Medicine</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/care_equipment') ?>">Care Equipment</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/office_supply') ?>">Office Supply</a></li>
@@ -263,6 +281,8 @@
 
             <!-- ----- MAIN CONTENT ----- -->
             <div class="main-panel">
+                
+                <div class="mt-3" id="notificationContent"></div>
 
                 
         

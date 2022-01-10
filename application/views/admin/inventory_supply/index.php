@@ -36,10 +36,21 @@
                                         <?php 
                                             foreach($medicines as $index => $med): 
                                             $items = $med['items'] ?? [];
+
+                                            $maximumValue  = $med['capacity'] ?? 1000;
+                                            $ariaValue     = $med['remaining'] > $maximumValue ? $maximumValue : $med['remaining'];
+                                            $percentage    = $ariaValue / $maximumValue * 100;
+                                            $ariaBg        = $maximumValue * 0.10 < $med['remaining'] ? "bg-success" : "bg-danger";
+                                            $percentage    = number_format($percentage, 0);
+
                                         ?>
                                             <tr>
                                                 <td class="text-center"><?= ($index + 1) ?></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="progress progress-lg mt-2">
+                                                        <div class="progress-bar <?= $ariaBg ?>" role="progressbar" style="width: <?= $percentage ?>%" aria-valuenow="<?= $ariaValue ?>" aria-valuemin="0" aria-valuemax="<?= $maximumValue ?>"><?= $percentage ?>%</div>
+                                                    </div>
+                                                </td>
                                                 <td><?= $med['name'] ?></td>
                                                 <td><?= $med['brand'] ?></td>
                                                 <td><?= $med['unit_name'] ?></td>
@@ -78,7 +89,7 @@
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="#"
+                                                    <a href="<?= base_url('admin/inventory_supply/view_medicine?id='.$med['medicine_id']).'&name='.$med['name'] ?>"
                                                         class="btn btn-outline-info btnView"
                                                         medicineID="<?= $med['medicine_id'] ?>">
                                                         <i class="fas fa-eye"></i> View
@@ -122,10 +133,20 @@
                                         <?php 
                                             foreach($care_equipments as $index => $ce): 
                                             $items = $ce['items'] ?? [];
+
+                                            $maximumValue  = $ce['capacity'] ?? 1000;
+                                            $ariaValue     = $ce['remaining'] > $maximumValue ? $maximumValue : $ce['remaining'];
+                                            $percentage    = $ariaValue / $maximumValue * 100;
+                                            $ariaBg        = $maximumValue * 0.10 < $ce['remaining'] ? "bg-success" : "bg-danger";
+                                            $percentage    = number_format($percentage, 0);
                                         ?>
                                             <tr>
                                                 <td class="text-center"><?= ($index + 1) ?></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="progress progress-lg mt-2">
+                                                        <div class="progress-bar <?= $ariaBg ?>" role="progressbar" style="width: <?= $percentage ?>%" aria-valuenow="<?= $ariaValue ?>" aria-valuemin="0" aria-valuemax="<?= $maximumValue ?>"><?= $percentage ?>%</div>
+                                                    </div>
+                                                </td>
                                                 <td><?= $ce['name'] ?></td>
                                                 <td><?= $ce['unit_name'] ?></td>
                                                 <td class="text-center">
@@ -162,7 +183,7 @@
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="#"
+                                                    <a href="<?= base_url('admin/inventory_supply/view_care_equipment?id='.$ce['care_equipment_id']).'&name='.$ce['name'] ?>"
                                                         class="btn btn-outline-info btnView"
                                                         careEquipmentID="<?= $ce['care_equipment_id'] ?>">
                                                         <i class="fas fa-eye"></i> View
@@ -206,10 +227,20 @@
                                         <?php 
                                             foreach($office_supply as $index => $os): 
                                             $items = $os['items'] ?? [];
+
+                                            $maximumValue  = $os['capacity'] ?? 1000;
+                                            $ariaValue     = $os['remaining'] > $maximumValue ? $maximumValue : $os['remaining'];
+                                            $percentage    = $ariaValue / $maximumValue * 100;
+                                            $ariaBg        = $maximumValue * 0.10 < $os['remaining'] ? "bg-success" : "bg-danger";
+                                            $percentage    = number_format($percentage, 0);
                                         ?>
                                             <tr>
                                                 <td class="text-center"><?= ($index + 1) ?></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="progress progress-lg mt-2">
+                                                        <div class="progress-bar <?= $ariaBg ?>" role="progressbar" style="width: <?= $percentage ?>%" aria-valuenow="<?= $ariaValue ?>" aria-valuemin="0" aria-valuemax="<?= $maximumValue ?>"><?= $percentage ?>%</div>
+                                                    </div>
+                                                </td>
                                                 <td><?= $os['name'] ?></td>
                                                 <td><?= $os['unit_name'] ?></td>
                                                 <td class="text-center">
@@ -246,7 +277,7 @@
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="#"
+                                                    <a href="<?= base_url('admin/inventory_supply/view_office_supply?id='.$os['office_supply_id']).'&name='.$os['name'] ?>"
                                                         class="btn btn-outline-info btnView"
                                                         officeSupplyID="<?= $os['office_supply_id'] ?>">
                                                         <i class="fas fa-eye"></i> View

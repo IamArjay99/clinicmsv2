@@ -164,7 +164,7 @@
                             class="form-control validate"
                             name="name"
                             minlength="1"
-                            maxlength="50"
+                            maxlength="150"
                             value="${name}"
                             required>
                         <div class="d-block invalid-feedback"></div>

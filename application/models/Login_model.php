@@ -31,7 +31,6 @@ class Login_model extends CI_Model {
             {
                 $patientID = $result->patient_id ?? 0;
                 $this->session->set_userdata('patientID', $patientID);
-                echo $patientID;
                 return true;
             }
         }
