@@ -86,53 +86,55 @@
                 });
     
                 html = `
-                <table class="table table-bordered table-hover" id="tableSurveyReport">
-                    <thead class="text-center">
-                        <tr>
-                            <th rowspan="2">Month</th>
-                            <th colspan="5">Ratings 1 to 5</th>
-                            <th rowspan="2">Other & Suggestions</th>
-                            <th rowspan="2">Number of Respondent</th>
-                        </tr>
-                        <tr>
-                            <th style="display: none;"></th>
-                            <th>
-                                <div>1</div>
-                                <div>Not Satisfied</div>
-                            </th>
-                            <th>
-                                <div>2</div>
-                                <div>Fairly Satisfied</div>
-                            </th>
-                            <th>
-                                <div>3</div>
-                                <div>Moderately Satisfied</div>
-                            </th>
-                            <th>
-                                <div>4</div>
-                                <div>Highly Satisfied</div>
-                            </th>
-                            <th>
-                                <div>5</div>
-                                <div>Absolutely Satisfied</div>
-                            </th>
-                            <th style="display: none;"></th>
-                            <th style="display: none;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>${monthName.toUpperCase()}</td>
-                            <td>${col1}</td>
-                            <td>${col2}</td>
-                            <td>${col3}</td>
-                            <td>${col4}</td>
-                            <td>${col5}</td>
-                            <td></td>
-                            <td>${totalRespondent}</td>
-                        </tr>
-                    </tbody>
-                </table>`;
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tableSurveyReport">
+                        <thead class="text-center">
+                            <tr>
+                                <th rowspan="2">Month</th>
+                                <th colspan="5">Ratings 1 to 5</th>
+                                <th rowspan="2">Other & Suggestions</th>
+                                <th rowspan="2">Number of Respondent</th>
+                            </tr>
+                            <tr>
+                                <th style="display: none;"></th>
+                                <th>
+                                    <div>1</div>
+                                    <div>Not Satisfied</div>
+                                </th>
+                                <th>
+                                    <div>2</div>
+                                    <div>Fairly Satisfied</div>
+                                </th>
+                                <th>
+                                    <div>3</div>
+                                    <div>Moderately Satisfied</div>
+                                </th>
+                                <th>
+                                    <div>4</div>
+                                    <div>Highly Satisfied</div>
+                                </th>
+                                <th>
+                                    <div>5</div>
+                                    <div>Absolutely Satisfied</div>
+                                </th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td>${monthName.toUpperCase()}</td>
+                                <td>${col1}</td>
+                                <td>${col2}</td>
+                                <td>${col3}</td>
+                                <td>${col4}</td>
+                                <td>${col5}</td>
+                                <td></td>
+                                <td>${totalRespondent}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>`;
             }
 
             return html;

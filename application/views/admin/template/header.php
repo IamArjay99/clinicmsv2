@@ -281,6 +281,8 @@
 
             <!-- ----- MAIN CONTENT ----- -->
             <div class="main-panel">
+                
+                <div class="mt-3" id="notificationContent"></div>
 
                 
         
